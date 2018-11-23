@@ -1,0 +1,39 @@
+extends ../home.pug
+block contenido
+		h1 registrar nuevo alumno
+		form(class="form-inline" action="/registro", method="get")
+			label(for="nom" class="mr-sm-2") Nombres:
+			input(type="text" class="form-control mb-2 mr-sm-2" id="nom" placeholder="Nombres")
+			label(for="apep" class="mr-sm-2") Apellido Pat:
+			input(type="text" class="form-control mb-2 mr-sm-2" id="apep" placeholder="Paterno")
+			label(for="apem" class="mr-sm-2") Apellido Mat:
+			input(type="text" class="form-control mb-2 mr-sm-2" id="apem" placeholder="Materno")
+			label(for="ci" class="mr-sm-2") CI:
+			input(type="text" class="form-control mb-2 mr-sm-2" id="ci" placeholder="CI")
+			label(for="dir" class="mr-sm-2") Direccion:
+			input(type="text" class="form-control mb-2 mr-sm-2" id="dir" placeholder="Direccion")
+			label(for="tel" class="mr-sm-2") Telefono:
+			input(type="text" class="form-control mb-2 mr-sm-2" id="tel" placeholder="Telefono")
+			label(for="gen" class="mr-sm-2") Genero:
+			div(class="form-check-inline")
+				label.form-check-label
+					input.form-check-input(name='optradio', type='radio' value="1")
+					| Masculino
+			div(class="form-check-inline")
+				label.form-check-label.mr-sm-2
+					input.form-check-input(name='optradio', type='radio' value="0")
+					| Femenino
+			label(for="fecha" class="mr-sm-2") Fecha Nacimiento:
+			input(type="text" class="form-control mb-2 mr-sm-2" id="fecha" placeholder="fecha Nacimiento")
+			
+			label(for="curso" class="mr-sm-2") Curso:
+			input(type="text" class="form-control mb-2 mr-sm-2" id="curso" placeholder="curso")
+			label(for="ges" class="mr-sm-2") Gestion
+			input(type="text" class="form-control mb-2 mr-sm-2" id="ges" placeholder="gestion")
+			//- linea divisora para asignar usuario y pasword
+			label(for="user" class="mr-sm-2") Usuario
+			input(type="text" class="form-control mb-2 mr-sm-2" id="user" placeholder="usuario")
+			label(for="pass" class="mr-sm-2") Contrasena:
+			input(type="text" class="form-control mb-2 mr-sm-2" id="pass" placeholder="contrasena") 
+			button(type="submit" value="guardar" class="btn btn-success") guardar
+			

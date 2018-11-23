@@ -1,0 +1,27 @@
+doctype html
+html(lang="es")
+	head
+		title proyecto-node
+		meta(charset="utf-8")
+		//-link(href="/public/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet")
+		link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet")
+		link(href="/public/css/app.css" rel="stylesheet")
+	body
+		
+		nav(class="large-padding black white-text")
+			ul
+				li 
+					a(href="/app") Inicio
+				li
+					a(href="/app/imagenes/") Mis imagenes
+				li
+					a(href="/app/imagenes/new") subir imagen
+				li 
+					a(href="/app/chat/nuevo") Chat
+				li 
+					a(href="/transmitir") transmitir
+				li 
+					a(href="/receptor") ver transmision
+		p Nombre de Usuario : #{nombre}
+			
+		block contenido

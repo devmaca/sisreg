@@ -1,0 +1,18 @@
+doctype html
+html(lang="en")
+  head
+    title= inicio
+    script(type='text/javascript').
+      if (foo) bar(1 + 5)
+  body
+    h1 Jade - node template engine (Motor de vista)
+    #container.col
+      if youAreUsingJade
+        p You are amazing
+      else
+        p Get on it!
+      p.
+        Jade is a terse and simple templating language with a
+        strong focus on performance and powerful features.
+    form(action="/login", method="get")
+      input(type="submit",value="iniciar sistema",class="btn btn-info")
