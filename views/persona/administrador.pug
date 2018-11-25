@@ -1,19 +1,20 @@
-extends ../home.pug
+extends ../barra.pug
 block contenido
 		h1 registrar nuevo administrador
-		form(class="form-inline" action="/registro", method="get")
+		form(class="form-inline" action="/registro", method="post")
 			label(for="nom" class="mr-sm-2") Nombres:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="nom" placeholder="Nombres")
+			input(type="text" class="form-control mb-2 mr-sm-2" id="nom" name="nomb"
+			placeholder="Nombres")
 			label(for="apep" class="mr-sm-2") Apellido Pat:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="apep" placeholder="Paterno")
+			input(type="text" class="form-control mb-2 mr-sm-2" id="apep" name="apep" placeholder="Paterno")
 			label(for="apem" class="mr-sm-2") Apellido Mat:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="apem" placeholder="Materno")
+			input(type="text" class="form-control mb-2 mr-sm-2" id="apem" name="apem" placeholder="Materno")
 			label(for="ci" class="mr-sm-2") CI:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="ci" placeholder="CI")
+			input(type="text" class="form-control mb-2 mr-sm-2" id="ci" name="ci" placeholder="CI")
 			label(for="dir" class="mr-sm-2") Direccion:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="dir" placeholder="Direccion")
+			input(type="text" class="form-control mb-2 mr-sm-2" id="dir" name="dir" placeholder="Direccion")
 			label(for="tel" class="mr-sm-2") Telefono:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="tel" placeholder="Telefono")
+			input(type="text" class="form-control mb-2 mr-sm-2" id="tel" name="tel" placeholder="Telefono")
 			label(for="gen" class="mr-sm-2") Genero:
 			div(class="form-check-inline")
 				label.form-check-label
@@ -24,12 +25,19 @@ block contenido
 					input.form-check-input(name='optradio', type='radio' value="0")
 					| Femenino
 			label(for="fecha" class="mr-sm-2") Fecha Nacimiento:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="fecha" placeholder="fecha Nacimiento")
+			input(type="text" class="form-control mb-2 mr-sm-2" id="fecha" name="fecha" placeholder="fecha Nacimiento")
 			
 			//- linea divisora para asignar usuario y pasword
 			label(for="user" class="mr-sm-2") Usuario
-			input(type="text" class="form-control mb-2 mr-sm-2" id="user" placeholder="usuario")
+			input(type="text" class="form-control mb-2 mr-sm-2" id="user" name="user" placeholder="usuario")
 			label(for="pass" class="mr-sm-2") Contrasena:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="pass" placeholder="contrasena") 
+			input(type="text" class="form-control mb-2 mr-sm-2" id="pass" name="pass" placeholder="contrasena")
+			label(for='sel1') Rol 
+			select(id="sel1" class="form-control mb-2 mr-sm-2" name="rol")
+				option(value="") Seleccione una opcion
+				option(value="ADMINISTRADOR") ADMINISTRADOR
+				option(value="DIRECTOR") DIRECTOR
+			//- label(for="rol" class="mr-sm-2") Rol:
+			//- input(type="text" class="form-control mb-2 mr-sm-2" id="rol" name="rol" placeholder="rol")
 			button(type="submit" value="guardar" class="btn btn-success") guardar
 			

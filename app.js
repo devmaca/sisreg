@@ -5,7 +5,7 @@ var con = mysql.createConnection({
 	host: "127.0.0.1",
 	user: "root",
 	password: "",
-	database: "vod"
+	database: "limon"
 });
 var app=express();
 var publicDir = `${__dirname}/public`
@@ -44,7 +44,7 @@ con.connect(function(err){
 		res.render('login');
 	})
 	app.post("/home", function(req,res){
-		var sql = 'Select * from users where user=? and pass=?';
+		var sql = 'Select * from personas where user=? and pass=?';
 	
 		con.query(sql,[req.body.user,req.body.password], function(err, result){
 			if(err){ throw err;}
@@ -62,8 +62,21 @@ con.connect(function(err){
 	app.get("/home2", function(req,res){
 		res.render('home2')
 	})
-	app.get("/registro", function(req,res){
-		res.send('regitrado!')
+	app.post("/registro", function(req,res){
+		var sql2 = 'INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol) VALUES (?,?,?,?,?,?,?,?,?,?,?) ';
+		var rol =req.body.rol;
+		if(rol=="ADMINISTRADOR"){
+		//registrar id en administrador
+		console.log("es administrador");
+			}else{console.log("no es :administrador es "+rol);}
+		// con.query(sql2,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass,req.body.rol], function(err, result){
+		// 	if(err){ throw err;}
+		// 	console.log(result);
+		// 	console.log('number of record...'+result.affectedRows);
+		// });
+		
+		res.send('registrado exitosamente '+ req.body.nomb +" "+req.body.apep+" "+req.body.apem+" "+req.body.ci+" "+req.body.dir+" "+req.body.tel+" "+req.body.optradio+" "+req.body.fecha+" "+req.body.user+" "+req.body.pass);
+
 	})
 
 	app.get("/admin", function(req,res){

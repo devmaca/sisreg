@@ -1,58 +1,44 @@
-CREATE TABLE persona
-(id_persona		NUMBER(12),
+CREATE DATABASE Limon;
+
+CREATE TABLE roles(
+id_rol		int AUTO_INCREMENT,
+rol			VARCHAR(20),
+PRIMARY KEY (id_rol)
+ );
+
+CREATE TABLE personas(
+ id_persona		int AUTO_INCREMENT,
  nombres		VARCHAR(25),
  paterno		VARCHAR(25),
  materno		VARCHAR(20),
- ci 			NUMBER(10),
+ ci 			INT(10),
  direccion		VARCHAR(50),
- telefono		NUMBER(20),
- genero			NUMBER(1),
+ telefono		INT(20),
+ genero			CHAR(1),
  fecha_nac		VARCHAR(10),
+ users			VARCHAR(10),
+ pass			VARCHAR(10),
+ rol			VARCHAR(20),
  PRIMARY KEY (id_persona)
 );
 
-CREATE TABLE users
-(id	 			NUMBER(10) NOT NULL,
- user			VARCHAR(12),
- pass			VARCHAR(12),
- id_persona		NUMBER(12),
- PRIMARY KEY (id),
- FOREIGN KEY (id_persona) REFERENCES persona (id_persona));
+CREATE TABLE cursos(
+ id_curso		int AUTO_INCREMENT,
+ nivel			VARCHAR(12),
+ paralelo		VARCHAR(12),
+ PRIMARY KEY (id_curso)
+ );
+
+CREATE TABLE gestion(
+id_gestion		int AUTO_INCREMENT,
+year			VARCHAR(12),
+PRIMARY KEY (id_gestion)
+ );
 
 
-CREATE TABLE estudiante
-(id_estudiante 		NUMBER(12),
- id_persona		NUMBER(12),
- 
- PRIMARY KEY (id_estudiante),
- FOREIGN KEY (id_persona) REFERENCES persona (id_persona));
+INSERT INTO roles (rol) VALUES ('director');
+INSERT INTO roles (rol) VALUES ('administrador') ;
 
-CREATE TABLE administrador
-(id_administrador	NUMBER(12),
- id_persona		NUMBER(12),
- 
- PRIMARY KEY (id_administrador),
- FOREIGN KEY (id_persona) REFERENCES persona (id_persona));
 
-CREATE TABLE docente
-(id_docente 	NUMBER(12),
- id_persona		NUMBER(12),
- 
- PRIMARY KEY (id_docente),
- FOREIGN KEY (id_persona) REFERENCES persona (id_persona));
-
-CREATE TABLE tutor
-(id_tutor 		NUMBER(12),
- id_persona		NUMBER(12),
- 
- PRIMARY KEY (id_tutor),
- FOREIGN KEY (id_persona) REFERENCES persona (id_persona));
-
-CREATE TABLE director
-(id_director 	NUMBER(12),
- id_persona		NUMBER(12),
- 
- PRIMARY KEY (id_director),
- FOREIGN KEY (id_persona) REFERENCES persona (id_persona));
-
-INSERT INTO persona VALUES (1,'Miguel Alfredo','Condori','ALejo',123456789,'Av.libertadores/esq potosi',76824901,'1','09-ENE-1955') ;
+INSERT INTO cursos (nivel,paralelo) VALUES ('primero','A') ;
+INSERT INTO gestion (year) VALUES ('2018') ;
