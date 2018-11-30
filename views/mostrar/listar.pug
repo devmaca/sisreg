@@ -1,0 +1,31 @@
+extends ../home.pug
+block contenido
+		h1 listar datos de administradores 
+		.table-responsive
+			table.table
+				thead
+					tr
+						th nombre
+						th paterno
+						th materno
+						th direccion
+						th telefono
+						th genero
+						th fecha_nac
+						th id administrador
+						th ci
+				tbody
+					for lista in personas
+						tr
+							td #{lista.nombres}
+							td #{lista.paterno}
+							td #{lista.materno}
+							td #{lista.direccion}
+							td #{lista.telefono}
+							td #{lista.genero}
+							td #{lista.fecha_nac}
+							td #{lista.id_administrador}
+							td #{lista.ci}
+
+		//- for lista in personas
+		//- 	h3 datos #{lista.nombres} id: #{lista.id_administrador} ci:#{lista.ci}

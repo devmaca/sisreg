@@ -42,3 +42,5 @@ INSERT INTO roles (rol) VALUES ('administrador') ;
 
 INSERT INTO cursos (nivel,paralelo) VALUES ('primero','A') ;
 INSERT INTO gestion (year) VALUES ('2018') ;
+
+SELECT id_persona,nombres,paterno,materno,id_administrador FROM personas,administrador where personas.ci=administrador.ci
