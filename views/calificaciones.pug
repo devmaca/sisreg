@@ -1,0 +1,13 @@
+extends ./home.pug
+block contenido
+		h1 Ver calificaciones por materias
+		form(class="form-inline" action="/", method="post")
+			label(for="mat" class="mr-sm-2") Seleccione materia: 
+			select(id="mat" class="form-control mb-2 mr-sm-2" name="mat")
+				option(value="") MATEMATICAS
+				option(value="") LENGUAJE
+			label(for="cur" class="mr-sm-2") Seleccione curso: 
+			select(id="cur" class="form-control mb-2 mr-sm-2" name="cur")
+				option(value="") 1ro A
+				option(value="") 4to B
+			button(type="submit" value="guardar" class="btn btn-success") Ver Calificacion

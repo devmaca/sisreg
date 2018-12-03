@@ -2,6 +2,7 @@ extends ../home.pug
 block contenido
 		h1 listar datos de administradores 
 		.table-responsive
+
 			table.table
 				thead
 					tr
@@ -14,6 +15,8 @@ block contenido
 						th fecha_nac
 						th id administrador
 						th ci
+						th mod
+						th eli
 				tbody
 					for lista in personas
 						tr
@@ -26,6 +29,11 @@ block contenido
 							td #{lista.fecha_nac}
 							td #{lista.id_administrador}
 							td #{lista.ci}
+							td 
+								a(href= '/home/mostrar/'+lista.ci+'/' class="btn btn-outline-info btn-sm") editar
+							td 
+								form(action="/home/mostrar/"+lista.ci+"?_method=DELETE", class="",method="POST")
+									input(type="submit", value="Eliminar" class="btn btn-outline-danger btn-sm")
 
 		//- for lista in personas
 		//- 	h3 datos #{lista.nombres} id: #{lista.id_administrador} ci:#{lista.ci}

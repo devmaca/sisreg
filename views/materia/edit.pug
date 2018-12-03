@@ -1,0 +1,15 @@
+extends ../home.pug
+block contenido
+	div(class="col-md-6 remove-float center-block big-top-space")
+		h2 editar materia
+
+		form(action="/home/materias/"+materia[0].id_materia+"?_method=PUT", method="post")
+			
+			div(class="form-group")
+				label(for="title") nombre
+				input(type="text", name="area",placeholder="nombre...",id="area",class="form-control",value= materia[0].area)
+						
+			div(class="row top-space")
+				div(class="col-xs-12 col-sm-6")
+					input(type="submit",value="guardar",class="btn btn-info")
+				

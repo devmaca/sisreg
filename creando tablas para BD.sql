@@ -35,6 +35,12 @@ year			VARCHAR(12),
 PRIMARY KEY (id_gestion)
  );
 
+CREATE TABLE materias(
+id_materia		int AUTO_INCREMENT,
+area			VARCHAR(50),
+PRIMARY KEY (id_materia)
+ );
+
 
 INSERT INTO roles (rol) VALUES ('director');
 INSERT INTO roles (rol) VALUES ('administrador') ;

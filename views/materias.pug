@@ -1,0 +1,29 @@
+extends ./home.pug
+block contenido
+		h1 Nueva materia
+		form(class="form-inline" action="/home/materias", method="post")
+			label(for="area" class="mr-sm-2") Area:
+			input(type="text" class="form-control mb-2 mr-sm-2" id="area" name="area"
+			placeholder="Area")
+			
+			button(type="submit" value="guardar" class="btn btn-success") Agregar
+
+		.table-responsive
+
+			table.table
+				thead
+					tr
+						th id
+						th area
+						th mod
+						th del
+				tbody
+					for lista in materias
+						tr
+							td #{lista.id_materia}
+							td #{lista.area}
+							td 
+								a(href= '/home/materias/'+lista.id_materia+'/edit' class="btn btn-outline-info btn-sm") editar
+							td 
+								form(action="/home/materias/"+lista.id_materia+"?_method=DELETE", class="",method="POST")
+									input(type="submit", value="Eliminar" class="btn btn-outline-danger btn-sm")

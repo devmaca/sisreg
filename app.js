@@ -1,13 +1,9 @@
 var express=require('express');
-var mysql=require('mysql');
+//var mysql=require('mysql');
+var con= require('./conectiondb/connection.js');
 var bodyParser=require('body-parser');
 var router_app =require('./routes_app');
-var con = mysql.createConnection({
-	host: "127.0.0.1",
-	user: "root",
-	password: "",
-	database: "limon"
-});
+
 var app=express();
 var publicDir = `${__dirname}/public`
 
@@ -18,15 +14,15 @@ app.set('views', './views') // specify the views directory
 app.set("view engine", "pug");// register the template engine
 app.use("/public",express.static('public'));
 
-con.connect(function(err){
-	if (err) console.log(err) ;
-	console.log('conectado a Mysql!');
-	// var nuevo= "INSERT INTO users (user, pass) VALUES ('miguel', 'miguel')";	
-	// con.query(nuevo, function (err, result) {
- 	// if (err) throw err;
- 	// console.log("1 record inserted");
- 	// });	
-	});
+// con.connect(function(err){
+// 	if (err) console.log(err) ;
+// 	console.log('conectado a Mysql!');
+// 	// var nuevo= "INSERT INTO users (user, pass) VALUES ('miguel', 'miguel')";	
+// 	// con.query(nuevo, function (err, result) {
+//  	// if (err) throw err;
+//  	// console.log("1 record inserted");
+//  	// });	
+// 	});
 
 	app.get("/", function (req,res) {
 	//res.write('jdsklfjdslkfjldsfjl');
@@ -46,7 +42,7 @@ con.connect(function(err){
 		//res.sendFile(`${publicDir}/login.html`);
 		res.render('login');
 	})
-	app.post("/home", function(req,res){
+	app.post("/session", function(req,res){
 		var sql = 'Select * from personas where user=? and pass=?';
 	
 		con.query(sql,[req.body.user,req.body.password], function(err, result){
@@ -57,7 +53,8 @@ con.connect(function(err){
 			else{ 
 				//res.sendFile(`${publicDir}/home.html`)
 				console.log(result[0].user+" accedio al sistema.");
-				res.render('inicio',{nombre:result[0].user})}
+				// res.render('inicio',{nombre:result[0].user})
+				res.redirect("/home")}
 		
 		});
 		
@@ -107,22 +104,22 @@ con.connect(function(err){
 	app.get("/admin", function(req,res){
 		res.render('persona/administrador');
 	})
-	app.get("/mostrar", function(req,res){
-		var data={nombres:'miguel', apellidos:'condori', eda:23}
-		con.query('SELECT nombres,paterno,materno,direccion,telefono,genero,fecha_nac,administrador.id_administrador,administrador.ci FROM personas,administrador WHERE personas.ci=administrador.ci', function(err, result){
-			if(err){ throw err;}
-			console.log(result);
-			res.render('mostrar/listar',{personas:result});			
-			});
+	// app.get("/mostrar", function(req,res){
+	// 	var data={nombres:'miguel', apellidos:'condori', eda:23}
+	// 	con.query('SELECT nombres,paterno,materno,direccion,telefono,genero,fecha_nac,administrador.id_administrador,administrador.ci FROM personas,administrador WHERE personas.ci=administrador.ci', function(err, result){
+	// 		if(err){ throw err;}
+	// 		console.log(result);
+	// 		res.render('mostrar/listar',{personas:result});			
+	// 		});
 		
-	})
+	// })
 	//falta validar el ingreso del usuario a esta ruta
-	app.get("/estudiante", function(req,res){
-		res.render('persona/estudiante')
-	})
-	app.get("/docente", function(req,res){
-		res.render('persona/docente')
+	
+
+	app.get("/calificacion", function(req,res){
+		res.render('calificaciones')
 	})
 //app.use('/home2',router_app);
+app.use('/home', router_app);
 app.listen(3000,'localhost');
 console.log('el servidor esta corriendo en localhost puerto 3000');
