@@ -12,6 +12,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.15.4",
     "jade": "^1.11.0",
+    "method-override": "^2.3.10",
     "mysql": "^2.16.0",
     "pug": "^2.0.3"
   }

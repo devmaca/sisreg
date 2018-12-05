@@ -1,9 +1,17 @@
 doctype html
 html(lang="en")
   head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
     title= inicio
-    script(type='text/javascript').
-      if (foo) bar(1 + 5)
+    link(rel='stylesheet', href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')
+    link(rel='stylesheet', href='/resources/demos/style.css')
+    script(src='https://code.jquery.com/jquery-1.12.4.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+    script.
+      $( function() {
+      $( "#datepicker" ).datepicker();
+      } );
   body
     h1 Jade - node template engine (Motor de vista)
     #container.col
@@ -18,3 +26,6 @@ html(lang="en")
       input(type="submit",value="iniciar sistema",class="btn btn-info")
     form(action="/home2", method="get")
       input(type="submit",value="ir a home2",class="btn btn-warning")
+    p
+      | Calendar: 
+      input#calendar(type='text')

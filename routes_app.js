@@ -12,19 +12,68 @@ router.get("/", function(req,res){
 	res.render('home');
 })
 
-router.get("/estudiante", function(req,res){
-		res.render('persona/estudiante')
+router.route("/estudiante")
+	.get(function(req,res){
+		var year;
+		con.query('SELECT * FROM gestion',function(err,result2){
+			if(err){ throw err;}
+			year=result2;
+		})
+		con.query('SELECT * FROM cursos',function(err,result){
+			if(err){ throw err;}
+			res.render('persona/estudiante',{cursos:result,gestion:year})
+		})
+		
 	})
-
+	.post(function(req,res){
+		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass) VALUE(?,?,?,?,?,?,?,?,?,?)"
+		var sql2="INSERT INTO estudiantes (ci,id_curso) VALUES(?,?)"
+		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass],function(err,result){
+			if(err){ throw err;}
+			console.log('number of record table persona...'+result.affectedRows);
+		})
+		con.query(sql2,[req.body.ci,req.body.curso],function(err,result){
+			if(err){ throw err;}
+			console.log('number of record table estudiantes...'+result.affectedRows);
+		})
+		res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home/estudiante"><<--volver atras</a></h1>'+req.body.curso)
+	})
+router.get("/lisest", function(req,res){
+	con.query('SELECT nombres,paterno,materno,direccion,telefono,genero,fecha_nac,estudiantes.id_estudiante,estudiantes.ci,cursos.curso FROM personas,estudiantes,cursos WHERE personas.ci=estudiantes.ci && cursos.id_curso=estudiantes.id_curso', function(err, result){
+			if(err){ throw err;}
+			res.render('mostrar/listar_estud',{personas:result});			
+			});
+	//res.send("aqui se visualisara la lista de estudiantees registradors en el sistema");
+})
 router.get("/docente", function(req,res){
 		res.render('persona/docente')
 	})
 router.get("/tutor", function(req,res){
 		res.render('persona/tutor')
 	})
-router.get("/curso", function(req,res){
-		res.render('curso')
+router.route("/curso")
+	.get(function(req,res){
+		var sql="SELECT * FROM cursos"
+		con.query(sql,function(err,result){
+			if(err){ throw err;}
+			res.render('curso',{cursos:result})
+		})
+		
 	})
+	.post(function(req,res){
+		var sql="INSERT INTO cursos (curso) VALUE(?)";
+		var unir= req.body.nivel+" "+req.body.para;
+		con.query(sql,[unir],function(err,result){
+			if(err){throw err;}
+			else{
+				console.log('number of record in table cursos...'+result.affectedRows);
+				res.redirect('/home/curso');
+				}
+		})
+
+	})
+		
+	
 router.get("/materias/:id/edit", function (req,res) {
 	console.log(" la id extraida de la url es :"+req.params.id);
 	var sqlid="SELECT * FROM materias WHERE id_materia=?";
@@ -37,16 +86,26 @@ router.get("/materias/:id/edit", function (req,res) {
 
 router.route("/materias/:id")
 	.get(function(req,res){
-		res.send("la id de materia es :"+req.params.title);
+		res.send("la id de materia es :"+req.params.title+" la materia es"+req.body.area);
 	})
 	.put(function(req,res){
-		
-		var sql3="UPDATE materias SET area=? WHERE id_materia=?"
-		res.send("se modificara la materia con id: "+req.body.title);
+		var sql="UPDATE materias SET area=? WHERE id_materia=?"
+		con.query(sql,[req.body.area,req.params.id],function(err,result){
+			if(err){ throw err;}
+			console.log(result.affectedRows + " record(s) updated");
+			res.redirect('/home/materias')
+		})
+	//	res.send("se modificara la materia con id: "+req.params.id+" la materia "+req.body.area);
 
 	})
 	.delete(function(req,res){
-		res.send("se borrara la materia con id: "+req.params.id);
+		var sql="DELETE FROM materias WHERE id_materia=?"
+		con.query(sql,[req.params.id],function(err,result){
+			if(err){ throw err;}
+			console.log("Numeros de registros borrados: " + result.affectedRows);
+			res.redirect('/home/materias');
+		})
+		//res.send("se borrara la materia con id: "+req.params.id);
 	})
 
 router.route("/materias")
@@ -70,9 +129,25 @@ router.route("/materias")
 			}		
 			});
 	})
-router.get("/gestion", function(req,res){
-		res.render('gestion')
+router.route("/gestion")
+	.get(function(req,res){
+		con.query('Select * from gestion', function(err, result){
+			if(err){ throw err;}
+			console.log(result);
+			 res.render('gestion',{gestion:result});
+			});
 	})
+	.post(function(req,res){
+		var sql = 'INSERT INTO gestion (year) VALUES(?)';
+		con.query(sql,[req.body.ges], function(err, result){
+			if(err){ throw err;}
+			else{
+			console.log('number of record...'+result.affectedRows);
+			res.redirect('gestion');	
+			}		
+			});
+	})
+
 // router.get("/mostrar",function(req,res){
 // 	var data={nombres:'miguel', apellidos:'condori', eda:23}
 // 		con.query('SELECT nombres,paterno,materno,direccion,telefono,genero,fecha_nac,administrador.id_administrador,administrador.ci FROM personas,administrador WHERE personas.ci=administrador.ci', function(err, result){

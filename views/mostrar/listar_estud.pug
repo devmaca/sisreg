@@ -1,0 +1,41 @@
+extends ../home.pug
+block contenido
+		h1 listar datos de estudiantes 
+		.table-responsive
+
+			table.table
+				thead
+					tr
+						th nombre
+						th paterno
+						th materno
+						th direccion
+						th telefono
+						th genero
+						th fecha_nac
+						th id estudiante
+						th ci
+						th curso
+						th mod
+						th eli
+				tbody
+					for lista in personas
+						tr
+							td #{lista.nombres}
+							td #{lista.paterno}
+							td #{lista.materno}
+							td #{lista.direccion}
+							td #{lista.telefono}
+							td #{lista.genero}
+							td #{lista.fecha_nac}
+							td #{lista.id_estudiante}
+							td #{lista.ci}
+							td #{lista.curso}
+							td 
+								a(href= '/home/mostrar/'+lista.ci+'/' class="btn btn-outline-info btn-sm") editar
+							td 
+								form(action="/home/mostrar/"+lista.ci+"?_method=DELETE", class="",method="POST")
+									input(type="submit", value="Eliminar" class="btn btn-outline-danger btn-sm")
+
+		//- for lista in personas
+		//- 	h3 datos #{lista.nombres} id: #{lista.id_administrador} ci:#{lista.ci}

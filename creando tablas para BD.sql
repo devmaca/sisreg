@@ -5,6 +5,16 @@ id_rol		int AUTO_INCREMENT,
 rol			VARCHAR(20),
 PRIMARY KEY (id_rol)
  );
+CREATE TABLE director(
+id_director int AUTO_INCREMENT,
+ci			int(12),
+PRIMARY KEY (id_director)
+ );
+CREATE TABLE administrador(
+id_administrador	int AUTO_INCREMENT,
+ci			int(50),
+PRIMARY KEY (id_administrador)
+ );
 
 CREATE TABLE personas(
  id_persona		int AUTO_INCREMENT,
@@ -40,6 +50,19 @@ id_materia		int AUTO_INCREMENT,
 area			VARCHAR(50),
 PRIMARY KEY (id_materia)
  );
+
+CREATE TABLE estudiantes(
+id_estudiante	int AUTO_INCREMENT,
+ci			int(10),
+id_curso	int(12),
+PRIMARY KEY (id_estudiante)
+ );
+CREATE TABLE docentes(
+id_docente	int AUTO_INCREMENT,
+ci			int(10),
+PRIMARY KEY (id_docente)
+ );
+
 
 
 INSERT INTO roles (rol) VALUES ('director');

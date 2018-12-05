@@ -3,12 +3,15 @@ var express=require('express');
 var con= require('./conectiondb/connection.js');
 var bodyParser=require('body-parser');
 var router_app =require('./routes_app');
-
+var methodOverride = require("method-override");
 var app=express();
 var publicDir = `${__dirname}/public`
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application
+
+//para usar method put y delete
+app.use(methodOverride("_method"));
 
 app.set('views', './views') // specify the views directory
 app.set("view engine", "pug");// register the template engine
