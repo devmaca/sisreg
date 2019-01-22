@@ -15,6 +15,11 @@ id_administrador	int AUTO_INCREMENT,
 ci			int(50),
 PRIMARY KEY (id_administrador)
  );
+CREATE TABLE tutor(
+id_tutor int AUTO_INCREMENT,
+ci		int(20),
+PRIMARY KEY (id_tutor)
+);
 
 CREATE TABLE personas(
  id_persona		int AUTO_INCREMENT,
@@ -52,7 +57,7 @@ PRIMARY KEY (id_materia)
  );
 
 CREATE TABLE estudiantes(
-id_estudiante	int AUTO_INCREMENT,
+id_persona	int(10),
 ci			int(10),
 id_curso	int(12),
 PRIMARY KEY (id_estudiante)
@@ -63,7 +68,16 @@ ci			int(10),
 PRIMARY KEY (id_docente)
  );
 
-
+CREATE TABLE imparte(
+id_imparte int AUTO_INCREMENT,
+id_docente int(10),
+materia1	int(10),
+materia2	int(10),
+materia3	int(10),
+materia4 	int(10),
+materia5 	int(10),
+id_gestion	int(10)
+);
 
 INSERT INTO roles (rol) VALUES ('director');
 INSERT INTO roles (rol) VALUES ('administrador') ;

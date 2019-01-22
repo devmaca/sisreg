@@ -8,6 +8,7 @@ var fs=require('fs');//nos permitira mover el archivo
 // 	});
 
 //sisreg.edu/home2/
+
 router.get("/", function(req,res){
 	res.render('home');
 })
@@ -45,12 +46,43 @@ router.get("/lisest", function(req,res){
 			});
 	//res.send("aqui se visualisara la lista de estudiantees registradors en el sistema");
 })
-router.get("/docente", function(req,res){
+
+router.route("/docente")
+	.get(function(req,res){
 		res.render('persona/docente')
 	})
-router.get("/tutor", function(req,res){
+	.post(function(req,res){
+		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass) VALUE(?,?,?,?,?,?,?,?,?,?)"
+		var sql2="INSERT INTO docentes (ci) VALUES(?)"
+		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass],function(err,result){
+			if(err){ throw err;}
+			console.log('number of record table persona...'+result.affectedRows);
+		})
+		con.query(sql2,[req.body.ci],function(err,result){
+			if(err){ throw err;}
+			console.log('number of record table tutor...'+result.affectedRows);
+		})
+		res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home"><<--volver atras</a></h1>')
+	})
+router.route("/tutor")
+	.get(function(req,res){
 		res.render('persona/tutor')
 	})
+	.post(function(req,res){
+		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass) VALUE(?,?,?,?,?,?,?,?,?,?)"
+		var sql2="INSERT INTO tutor (ci) VALUES(?)"
+		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass],function(err,result){
+			if(err){ throw err;}
+			console.log('number of record table persona...'+result.affectedRows);
+		})
+		con.query(sql2,[req.body.ci],function(err,result){
+			if(err){ throw err;}
+			console.log('number of record table tutor...'+result.affectedRows);
+		})
+		res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home"><<--volver atras</a></h1>')
+	})
+
+
 router.route("/curso")
 	.get(function(req,res){
 		var sql="SELECT * FROM cursos"
@@ -175,5 +207,69 @@ router.route("/mostrar")
 	.delete(function (req,res) {
 		res.send('remove the book');
 	});
+//ruta para aignacion de materias a docente
+router.route("/asigdoc")
+	.get(function(req,res){
+		// con.query('Select area from materias', function(err,result){
+		// 	if(err){ throw err;}
+		// 	res.render('asignacion/asignardoc',{materias:result});
+		// })
+
+		res.render('asignacion/buscardoc');
+	})
+	// .post(function(req,res){
+	// 	var sql='Select * from personas where ci=?';
+	// 	var sql2='Select area from materias';
+	// 	var mat;
+	// 	con.query(sql2, function(err,result2){
+	// 	if(err){ throw err;} 
+	// 	mate=result2;
+	// 	})
+	// 	con.query(sql,[req.body.doc], function(err,result){
+	// 		if(err){ throw err;}
+	// 		res.render('buscar',{docente:result,materias:mate});
+	// 	})
+	// })
+
+router.get("/asigdoc/ci", function(req,res){
+		var sql='Select * from personas where ci=?';
+		var sql2='Select * from materias';
+		var mat;
+		con.query(sql2, function(err,result2){
+		if(err){ throw err;} 
+		mate=result2;
+		})
+		var valor=req.query.doc;
+
+		con.query(sql,[valor], function(err,result){
+			if(err){ throw err;}
+			res.render('buscar',{docente:result,materias:mate});
+		})
+})
+//guardar asignacion
+router.post("/asigdoc/:id/save", function(req,res){
+	res.send('fue asignado exitosamente!...');
+	//realizar un insert en la tabla imparte
+	//var sql='insert id_docente,mat1,mat2,mat3,mat4,mat5,id_gestion into imparte';
+	//con.query(sql)
+	console.log(req.body.seleccionado)
+})
+
+router.get("/materias/:id/edit", function (req,res) {
+	console.log(" la id extraida de la url es :"+req.params.id);
+	var sqlid="SELECT * FROM materias WHERE id_materia=?";
+	con.query(sqlid,[req.params.id], function(err,result){
+		if(err){ throw err;}
+		console.log(result);
+		res.render('materia/edit',{materia:result});	
+	})
+})
+router.route("/asigtut")
+	.get(function(req,res){
+		res.render('asignacion/asignartutor');
+	})
+	.post(function(req,res){
+
+	})
 
 module.exports=router;

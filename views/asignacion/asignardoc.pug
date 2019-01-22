@@ -1,0 +1,41 @@
+extends ../home.pug
+block contenido
+		h1 asignar materia a docente
+
+		label(for="nom" class="mr-sm-2") Docente:
+		input(type="text" class=" mb-2 mr-sm-2" id="doc" name="doc") 
+		h4 MATERIAS
+
+		form(action="#", class="",method="POST")
+			for mat in materias
+				.checkbox
+					label
+						input(type='checkbox', value='')
+						| #{mat.area}
+			input(type="submit", value="Asignar" class="btn btn-primary")
+
+		.table-responsive
+
+			table.table
+				thead
+					tr
+						th nombre
+						th paterno
+						th materno
+						th direccion
+						th telefono
+						th genero
+						th fecha_nac
+						th id administrador
+						th ci
+						th mod
+						th eli
+				tbody
+					
+						tr
+							
+							td 
+								a(href= '/home/mostrar/' class="btn btn-outline-info btn-sm") editar
+							td 
+								form(action="/home/mostrar/?_method=DELETE", class="",method="POST")
+									input(type="submit", value="Eliminar" class="btn btn-outline-danger btn-sm")

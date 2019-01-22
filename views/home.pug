@@ -33,9 +33,16 @@ html
         // Dropdown
         li.nav-item.dropdown
           a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
+            | ASIGNACIONES
+          .dropdown-menu
+            a.dropdown-item(href='/home/asigtut') asignacion de tutores
+            a.dropdown-item(href='/home/asigdoc') asignacion docentes
+        li.nav-item.dropdown
+          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
             | Cursos
           .dropdown-menu
-            a.dropdown-item(href='/home/curso') Agregar curso
+            a.dropdown-item(href
+            ='/home/curso') Agregar curso
             a.dropdown-item(href='#') Ver cursos
         li.nav-item.dropdown
           a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')

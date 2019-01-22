@@ -1,0 +1,55 @@
+extends ../home.pug
+block contenido
+		h1 asignar materia a docente
+
+		|Ingrese el ci del docente para asignar materia
+		form(action='/home/asigdoc/ci', class="",method="GET")
+			label(for="nom" class="mr-sm-2") CI de Docente:
+			input(type="text" class=" mb-2 mr-sm-2" id="doc" name="doc") 
+			input(type="submit", value="BUSCAR" class="btn btn-primary")
+
+		//- .table-responsive
+
+			table.table-bordered
+				
+				tbody
+						tr
+							td 
+								|Nombre :
+							td 
+								|#{docente.nombres}
+						tr
+							td
+								|Paterno :
+							td 
+								|#{docente.paterno}
+						tr
+							td
+								|Materno :
+							td 
+								|#{docente.materno}
+						tr
+							td
+								|Direccion :
+							td 
+								|#{docente.direccion}
+						tr
+							td
+								|CI :
+							td 
+								|#{docente.ci}
+						tr
+							td
+								|Telefono :
+							td 
+								|#{docente.telefono}
+						tr
+							td
+								|Fecha Nac :
+							td 
+								|#{docente.fecha_nac}
+						tr
+							td
+								|Genero :
+							td 
+								|#{docente.genero}
