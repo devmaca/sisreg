@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "bootstrap": "^4.2.1",
     "express": "^4.15.4",
     "jade": "^1.11.0",
     "method-override": "^2.3.10",

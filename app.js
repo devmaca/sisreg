@@ -112,17 +112,18 @@ app.use("/public",express.static('public'));
 	// 	con.query('SELECT nombres,paterno,materno,direccion,telefono,genero,fecha_nac,administrador.id_administrador,administrador.ci FROM personas,administrador WHERE personas.ci=administrador.ci', function(err, result){
 	// 		if(err){ throw err;}
 	// 		console.log(result);
-	// 		res.render('mostrar/listar',{personas:result});			
+	// 		res.render('mostrar/listar',{personas:result});
 	// 		});
-		
+
 	// })
 	//falta validar el ingreso del usuario a esta ruta
-	
+
 
 	app.get("/calificacion", function(req,res){
 		res.render('calificaciones')
 	})
 //app.use('/home2',router_app);
 app.use('/home', router_app);
+app.use('/static', express.static('node_modules'));
 app.listen(3000,'localhost');
 console.log('el servidor esta corriendo en localhost puerto 3000');
