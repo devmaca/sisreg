@@ -1,0 +1,6 @@
+# Paquetes npm
+node_modules/
+package-lock.json
+
+# Configuracion de BD
+conectiondb/connection.js
