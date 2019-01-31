@@ -2,60 +2,42 @@ extends ./home.pug
 block contenido
 		h1 asignar materia a docente
 
-		
-		
-
 		.table-responsive
 
 			table.table-bordered
 				
 				tbody
 						tr
-							td 
-								|Nombre :
-							td 	|#{docente[0].nombres}
+							td Nombre :
+							td |#{docente[0].nombres}
 						tr
-							td
-								|Paterno :
-							td 
-								|#{docente[0].paterno}
+							td Paterno :
+							td |#{docente[0].paterno}
 						tr
-							td
-								|Materno :
-							td 
-								|#{docente[0].materno}
+							td Materno :
+							td |#{docente[0].materno}
 						tr
-							td
-								|Direccion :
-							td 
-								|#{docente[0].direccion}
+							td Direccion :
+							td |#{docente[0].direccion}
 						tr
-							td
-								|CI :
-							td 
-								|#{docente[0].ci}
+							td CI :
+							td |#{docente[0].ci}
 						tr
-							td
-								|Telefono :
-							td 
-								|#{docente[0].telefono}
+							td Telefono :
+							td |#{docente[0].telefono}
 						tr
-							td
-								|Fecha Nac :
-							td 
-								|#{docente[0].fecha_nac}
+							td Fecha Nac :
+							td |#{docente[0].fecha_nac}
 						tr
-							td
-								|Genero :
-							td 
-								|#{docente[0].genero}
+							td Genero :
+							td |#{docente[0].genero}
 
 		h4 SELECCIONE LAS MATERIAS PARA ASIGNAR A DOCENTE
 
-		form(action='/home/asigdoc/'+docente[0].ci+'/save', class="",method="POST")
+		form(action='/home/asigdoc/'+docente[0].id_persona+'/save', class="",method="POST")
 			for mat in materias
 				.checkbox
 					label
-						input(type='checkbox', name='seleccionado[]' value=mat.id_materia)
+						input(type='checkbox', name='selec[]' value=mat.id_materia)
 						| #{mat.area}
 			input(type="submit", value="Asignar" class="btn btn-primary")

@@ -12,7 +12,8 @@ var fs=require('fs');//nos permitira mover el archivo
 router.get("/", function(req,res){
 	res.render('home');
 })
-
+var idPer;
+//registrar estudiante
 router.route("/estudiante")
 	.get(function(req,res){
 		var year;
@@ -22,67 +23,79 @@ router.route("/estudiante")
 		})
 		con.query('SELECT * FROM cursos',function(err,result){
 			if(err){ throw err;}
+			console.log('cursos :');
+			console.log(result);
 			res.render('persona/estudiante',{cursos:result,gestion:year})
 		})
 		
 	})
 	.post(function(req,res){
 		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass) VALUE(?,?,?,?,?,?,?,?,?,?)"
-		var sql2="INSERT INTO estudiantes (ci,id_curso) VALUES(?,?)"
+		var sql2="INSERT INTO estudiantes (id_estudiante,id_curso) VALUES(?,?)"
+		
+		
 		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass],function(err,result){
 			if(err){ throw err;}
-			console.log('number of record table persona...'+result.affectedRows);
-		})
-		con.query(sql2,[req.body.ci,req.body.curso],function(err,result){
+			//console.log('number of record table persona...'+result.affectedRows);
+			idPer=result.insertId;
+			console.log('id asignado a la persona :'+idPer);
+
+			con.query(sql2,[idPer,req.body.curso],function(err,result){
 			if(err){ throw err;}
-			console.log('number of record table estudiantes...'+result.affectedRows);
+			//console.log('number of record table estudiantes...'+result.affectedRows);
+			console.log('number of record table estudiantes...'+result.affectedRows+'Id asignada :'
+				+idPer);
+			})
 		})
+		
+		
 		res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home/estudiante"><<--volver atras</a></h1>'+req.body.curso)
 	})
-router.get("/lisest", function(req,res){
-	con.query('SELECT nombres,paterno,materno,direccion,telefono,genero,fecha_nac,estudiantes.id_estudiante,estudiantes.ci,cursos.curso FROM personas,estudiantes,cursos WHERE personas.ci=estudiantes.ci && cursos.id_curso=estudiantes.id_curso', function(err, result){
-			if(err){ throw err;}
-			res.render('mostrar/listar_estud',{personas:result});			
-			});
-	//res.send("aqui se visualisara la lista de estudiantees registradors en el sistema");
-})
-
+//registrar docentes
 router.route("/docente")
 	.get(function(req,res){
 		res.render('persona/docente')
 	})
 	.post(function(req,res){
 		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass) VALUE(?,?,?,?,?,?,?,?,?,?)"
-		var sql2="INSERT INTO docentes (ci) VALUES(?)"
+		var sql2="INSERT INTO docentes (id_docente) VALUES(?)"
 		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass],function(err,result){
 			if(err){ throw err;}
+			idPer=result.insertId;
 			console.log('number of record table persona...'+result.affectedRows);
-		})
-		con.query(sql2,[req.body.ci],function(err,result){
+
+			con.query(sql2,[idPer],function(err,result){
 			if(err){ throw err;}
-			console.log('number of record table tutor...'+result.affectedRows);
+			console.log('numero de registros en tabla docente...'+result.affectedRows+' Id asignada :'
+				+idPer);
 		})
-		res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home"><<--volver atras</a></h1>')
+		})
+		
+		res.send('<h1>docente registrado exitosamente!</h1> <h1><a href="/home"><<--volver atras</a></h1>')
 	})
+//registrar  tutores
 router.route("/tutor")
 	.get(function(req,res){
 		res.render('persona/tutor')
 	})
 	.post(function(req,res){
 		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass) VALUE(?,?,?,?,?,?,?,?,?,?)"
-		var sql2="INSERT INTO tutor (ci) VALUES(?)"
+		var sql2="INSERT INTO tutor (id_tutor) VALUES(?)"
 		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass],function(err,result){
 			if(err){ throw err;}
+			idPer=result.insertId;
 			console.log('number of record table persona...'+result.affectedRows);
-		})
-		con.query(sql2,[req.body.ci],function(err,result){
+
+			con.query(sql2,[idPer],function(err,result){
 			if(err){ throw err;}
-			console.log('number of record table tutor...'+result.affectedRows);
+			console.log('number of record table tutor...'+result.affectedRows+' Id asignada :'
+				+idPer);
+			})
 		})
+		
 		res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home"><<--volver atras</a></h1>')
 	})
-
-
+//registrar cursos
 router.route("/curso")
 	.get(function(req,res){
 		var sql="SELECT * FROM cursos"
@@ -139,7 +152,7 @@ router.route("/materias/:id")
 		})
 		//res.send("se borrara la materia con id: "+req.params.id);
 	})
-
+//registrar materias
 router.route("/materias")
 	.get(function(req,res){
 		con.query('Select * from materias', function(err, result){
@@ -161,6 +174,7 @@ router.route("/materias")
 			}		
 			});
 	})
+	//registrar gestion
 router.route("/gestion")
 	.get(function(req,res){
 		con.query('Select * from gestion', function(err, result){
@@ -189,11 +203,12 @@ router.route("/gestion")
 // 			});
 // })
 /*REST*/
-router.route("/mostrar")
+//lista de tabla administradores
+router.route("/lisadm")
 	.get(function (req,res) {
-		var data={nombres:'miguel', apellidos:'condori', eda:23}
-		con.query('SELECT nombres,paterno,materno,direccion,telefono,genero,fecha_nac,administrador.id_administrador,administrador.ci FROM personas,administrador WHERE personas.ci=administrador.ci', function(err, result){
+		con.query('SELECT nombres,paterno,materno,direccion,telefono,genero,fecha_nac,administrador.id_administrador FROM personas,administrador WHERE personas.id_persona=administrador.id_administrador', function(err, result){
 			if(err){ throw err;}
+			console.log('*** lista administrador ***:');
 			console.log(result);
 			res.render('mostrar/listar',{personas:result});			
 			});
@@ -207,52 +222,76 @@ router.route("/mostrar")
 	.delete(function (req,res) {
 		res.send('remove the book');
 	});
+//listar tabla estudiantes
+router.get("/lisest", function(req,res){
+	var sql='SELECT id_persona,nombres,paterno,materno,direccion,telefono,genero,fecha_nac,estudiantes.id_estudiante,cursos.curso FROM personas,estudiantes,cursos WHERE personas.id_persona=estudiantes.id_estudiante && cursos.id_curso=estudiantes.id_curso';
+	con.query(sql, function(err, result){
+			if(err){ throw err;}
+			console.log('*** lista estudiante ***:');
+			console.log(result);
+			res.render('mostrar/listar_estud',{personas:result});			
+			});
+	//res.send("aqui se visualisara la lista de estudiantees registradors en el sistema");
+})
+//listar tabla doxentes
+router.get("/lisdoc", function(req,res){
+	var sql='SELECT id_persona,nombres,paterno,materno,direccion,telefono,genero,fecha_nac,ci,docentes.id_docente FROM personas,docentes WHERE personas.id_persona=docentes.id_docente';
+	con.query(sql, function(err, result){
+			if(err){ throw err;}
+			console.log('*** lista docente ***:');
+			console.log(result);
+			res.render('mostrar/listar_doc',{personas:result});			
+			});
+	//res.send("aqui se visualisara la lista de estudiantees registradors en el sistema");
+})
+//listar tabla tutores
+router.get("/listut", function(req,res){
+	var sql='SELECT id_persona,nombres,paterno,materno,direccion,telefono,genero,fecha_nac,tutor.id_tutor FROM personas,tutor WHERE personas.id_persona=tutor.id_tutor';
+	con.query(sql, function(err, result){
+			if(err){ throw err;}
+			console.log('***lista tutor *** :');
+			console.log(result);
+			res.render('mostrar/listar_tut',{personas:result});			
+			});
+	//res.send("aqui se visualisara la lista de estudiantees registradors en el sistema");
+})
 //ruta para aignacion de materias a docente
 router.route("/asigdoc")
 	.get(function(req,res){
-		// con.query('Select area from materias', function(err,result){
-		// 	if(err){ throw err;}
-		// 	res.render('asignacion/asignardoc',{materias:result});
-		// })
-
 		res.render('asignacion/buscardoc');
 	})
-	// .post(function(req,res){
-	// 	var sql='Select * from personas where ci=?';
-	// 	var sql2='Select area from materias';
-	// 	var mat;
-	// 	con.query(sql2, function(err,result2){
-	// 	if(err){ throw err;} 
-	// 	mate=result2;
-	// 	})
-	// 	con.query(sql,[req.body.doc], function(err,result){
-	// 		if(err){ throw err;}
-	// 		res.render('buscar',{docente:result,materias:mate});
-	// 	})
-	// })
-
+	.post(function(req,res){
+	
+	})
+//muestra los valores encontrados en la busqueda de la tabla personas
 router.get("/asigdoc/ci", function(req,res){
 		var sql='Select * from personas where ci=?';
 		var sql2='Select * from materias';
-		var mat;
+		var mate;
+		var valor=req.query.doc;
 		con.query(sql2, function(err,result2){
 		if(err){ throw err;} 
 		mate=result2;
+			con.query(sql,[valor], function(err,result){
+				if(err){ throw err;}
+				res.render('asignacion/asignardoc',{docente:result,materias:mate});
+			})
 		})
-		var valor=req.query.doc;
-
-		con.query(sql,[valor], function(err,result){
-			if(err){ throw err;}
-			res.render('buscar',{docente:result,materias:mate});
-		})
+		
 })
-//guardar asignacion
+//aqui se guardan los datos de las asignaciones de materias a docentes
 router.post("/asigdoc/:id/save", function(req,res){
+	
+	var sql='INSERT INTO imparte (id_docente,materia1,materia2,materia3,materia4,materia5) VALUE(?,?,?,?,?,?)'
+	var mat=req.body.selec;
+
+	con.query(sql,[req.params.id,req.body.selec[0],req.body.selec[1],req.body.selec[2],req.body.selec[3],req.body.selec[4]] ,function(err,result){
+		if(err){ throw err;}
+		console.log(result);
+	})
 	res.send('fue asignado exitosamente!...');
-	//realizar un insert en la tabla imparte
-	//var sql='insert id_docente,mat1,mat2,mat3,mat4,mat5,id_gestion into imparte';
-	//con.query(sql)
-	console.log(req.body.seleccionado)
+	console.log(mat);
+
 })
 
 router.get("/materias/:id/edit", function (req,res) {

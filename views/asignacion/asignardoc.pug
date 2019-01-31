@@ -2,40 +2,46 @@ extends ../home.pug
 block contenido
 		h1 asignar materia a docente
 
-		label(for="nom" class="mr-sm-2") Docente:
-		input(type="text" class=" mb-2 mr-sm-2" id="doc" name="doc") 
-		h4 MATERIAS
+		.table-responsive
 
-		form(action="#", class="",method="POST")
+			table.table-bordered
+				
+				tbody
+						tr
+							td Nombre :
+							td #{docente[0].nombres}
+						tr
+							td Paterno :
+							td #{docente[0].paterno}
+						tr
+							td Materno :
+							td #{docente[0].materno}
+						tr
+							td Direccion :
+							td #{docente[0].direccion}
+						tr
+							td CI :
+							td #{docente[0].ci}
+						tr
+							td Telefono :
+							td #{docente[0].telefono}
+						tr
+							td Fecha Nac :
+							td #{docente[0].fecha_nac}
+						tr
+							td Genero : 
+							if (docente[0].genero==1)
+								td masculino
+							else
+								if (docente[0].genero==0)
+									td femenino
+
+		h4 SELECCIONE LAS MATERIAS PARA ASIGNAR A DOCENTE
+
+		form(action='/home/asigdoc/'+docente[0].id_persona+'/save', class="",method="POST")
 			for mat in materias
 				.checkbox
 					label
-						input(type='checkbox', value='')
+						input(type='checkbox', name='selec[]' value=mat.id_materia)
 						| #{mat.area}
 			input(type="submit", value="Asignar" class="btn btn-primary")
-
-		.table-responsive
-
-			table.table
-				thead
-					tr
-						th nombre
-						th paterno
-						th materno
-						th direccion
-						th telefono
-						th genero
-						th fecha_nac
-						th id administrador
-						th ci
-						th mod
-						th eli
-				tbody
-					
-						tr
-							
-							td 
-								a(href= '/home/mostrar/' class="btn btn-outline-info btn-sm") editar
-							td 
-								form(action="/home/mostrar/?_method=DELETE", class="",method="POST")
-									input(type="submit", value="Eliminar" class="btn btn-outline-danger btn-sm")

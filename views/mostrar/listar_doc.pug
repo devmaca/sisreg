@@ -1,6 +1,6 @@
 extends ../home.pug
 block contenido
-		h1 listar datos de estudiantes 
+		h1 listar docentes 
 		.table-responsive
 
 			table.table
@@ -13,9 +13,8 @@ block contenido
 						th telefono
 						th genero
 						th fecha_nac
-						th id estudiante
+						th id docente
 						th ci
-						th curso
 						th mod
 						th eli
 				tbody
@@ -32,9 +31,8 @@ block contenido
 								if (lista.genero==0)
 									td femenino
 							td #{lista.fecha_nac}
-							td #{lista.id_estudiante}
+							td #{lista.id_docente}
 							td #{lista.ci}
-							td #{lista.curso}
 							td 
 								a(href= '/home/mostrar/'+lista.id_persona+'/' class="btn btn-outline-info btn-sm") editar
 							td 
