@@ -224,7 +224,7 @@ router.route("/lisadm")
 	});
 //listar tabla estudiantes
 router.get("/lisest", function(req,res){
-	var sql='SELECT id_persona,nombres,paterno,materno,direccion,telefono,genero,fecha_nac,estudiantes.id_estudiante,cursos.curso FROM personas,estudiantes,cursos WHERE personas.id_persona=estudiantes.id_estudiante && cursos.id_curso=estudiantes.id_curso';
+	var sql='SELECT id_persona,nombres,paterno,materno,direccion,telefono,genero,fecha_nac,estudiantes.id_estudiante,estudiantes.ci,cursos.curso FROM personas,estudiantes,cursos WHERE personas.id_persona=estudiantes.id_estudiante && cursos.id_curso=estudiantes.id_curso';
 	con.query(sql, function(err, result){
 			if(err){ throw err;}
 			console.log('*** lista estudiante ***:');

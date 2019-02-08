@@ -1,7 +1,7 @@
 extends ./home.pug
 block contenido
 		h1 Ver calificaciones por materias
-		form(class="form-inline" action="/", method="post")
+		form(class="form-inline" action="/calificacion/mostrar", method="get")
 			label(for="mat" class="mr-sm-2") Seleccione materia: 
 			select(id="mat" class="form-control mb-2 mr-sm-2" name="mat")
 				option(value="") MATEMATICAS
@@ -11,3 +11,11 @@ block contenido
 				option(value="") 1ro A
 				option(value="") 4to B
 			button(type="submit" value="guardar" class="btn btn-success") Ver Calificacion
+		h2 Buscar por CI
+		form(action='/calificacion/mostrar', class="",method="GET")
+			.form-group.row
+				label(for="ci" class="col-form-label col-sm-auto") CI de Estudiante:
+				.col-sm-3
+					input(type="text" class=" form-control" id="ci" name="ci")
+				.col-sm-2
+					input(type="submit", value="BUSCAR" class="btn btn-primary")

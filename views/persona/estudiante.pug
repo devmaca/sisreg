@@ -1,43 +1,150 @@
 extends ../home.pug
 block contenido
-		h1 registrar nuevo Estudiante
-		form(class="form-inline" action="/home/estudiante", method="post")
-			label(for="nom" class="mr-sm-2") Nombres:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="nom" name="nomb" placeholder="Nombres")
-			label(for="apep" class="mr-sm-2") Apellido Pat:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="apep" name="apep" placeholder="Paterno")
-			label(for="apem" class="mr-sm-2") Apellido Mat:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="apem" name="apem" placeholder="Materno")
-			label(for="ci" class="mr-sm-2") CI:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="ci" name="ci" placeholder="CI")
-			label(for="dir" class="mr-sm-2") Direccion:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="dir" name="dir" placeholder="Direccion")
-			label(for="tel" class="mr-sm-2") Telefono:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="tel" name="tel" placeholder="Telefono")
-			label(for="gen" class="mr-sm-2") Genero:
-			div(class="form-check-inline")
-				label.form-check-label
-					input.form-check-input(name='optradio', type='radio' value="1")
-					| Masculino
-			div(class="form-check-inline")
-				label.form-check-label.mr-sm-2
-					input.form-check-input(name='optradio', type='radio' value="0")
-					| Femenino
-			label(for="fecha" class="mr-sm-2") Fecha Nacimiento:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="fecha" name="fecha" placeholder="fecha Nacimiento")
+		
+
+		h1 Registrar Nuevo Estudiante
+		form(class="" action="/home/estudiante", method="post")
+			.form-group.row
+				label(for="nom" class="col-form-label col-sm-2") Nombres:
+				.col-sm-10
+					input(type="text" class="form-control" id="nom" name="nomb" placeholder="Nombres")
+			.form-group.row
+				label(for="apep" class="col-form-label col-sm-2") Apellido Pat:
+				.col-sm-10
+					input(type="text" class="form-control" id="apep" name="apep" placeholder="Paterno")
+			.form-group.row
+				label(for="apem" class="col-form-label col-sm-2") Apellido Mat:
+				.col-sm-10
+					input(type="text" class="form-control" id="apem" name="apem" placeholder="Materno")
+			.form-group.row
+				label(for="ci" class="col-form-label col-sm-2") Cedula Identidad:
+				.col-sm-10
+					input(type="text" class="form-control " id="ci" name="ci")
+
+			.form-group.row
+				label(for="dir" class="col-form-label col-sm-2") Direccion:
+				.col-sm-3
+					input(type="text" class="form-control"  id="dir" name="dir" placeholder="Direccion")
 			
-			label(for='curso')  Curso: 
-			select(id="curso" class="form-control mb-2 mr-sm-2" name="curso")
-				for lista in cursos
-					option(value=lista.id_curso) #{lista.curso}
-			label(for="ges" class="mr-sm-2") Gestion
-			select(id="ges" class="form-control mb-2 mr-sm-2" name="ges")
-				for lista2 in gestion
-					option(value=lista2.year) #{lista2.year}
+			.form-group.row
+				label(for="tel" class="col-form-label col-sm-2") Telefono:
+				.col-sm-10
+					input(type="text" class="form-control" id="tel" name="tel" placeholder="Telefono")
+			
+			.form-group.row
+				label(for="gen" class="col-sm-2") Genero:
+				.col-sm-5
+					div(class="form-check-inline")
+						label.form-check-label
+							input.form-check-input(name='optradio', type='radio' value="1")
+							| Masculino
+					div(class="form-check-inline")
+						label.form-check-label.mr-sm-2
+							input.form-check-input(name='optradio', type='radio' value="0")
+							| Femenino
+			.form-group.row
+				label(for="fecha" class="col-form-label col-sm-2") Fecha Nacimiento:
+				.col-sm-1
+					select(id="dia" class="form-control " name="dia")
+						option(value="1") 1
+						option(value="2") 2 
+						option(value="3") 3 
+						option(value="4") 4 
+						option(value="5") 5 
+						option(value="6") 6 
+						option(value="7") 7 
+						option(value="8") 8 
+						option(value="9") 9 
+						option(value="10") 10 
+						option(value="11") 11
+						option(value="12") 12 
+						option(value="13") 13
+						option(value="14") 14
+						option(value="15") 15
+						option(value="16") 16
+						option(value="17") 17
+						option(value="18") 18
+						option(value="19") 19
+						option(value="20") 20
+						option(value="21") 21 
+						option(value="22") 22 
+						option(value="23") 23 
+						option(value="24") 24
+						option(value="25") 25
+						option(value="26") 26
+						option(value="27") 27
+						option(value="28") 28
+						option(value="29") 29
+						option(value="30") 30
+						option(value="31") 31
+				.col-sm-1
+					select(id="mes" class="form-control " name="mes")
+						option(value="1") 1
+						option(value="2") 2 
+						option(value="3") 3 
+						option(value="4") 4 
+						option(value="5") 5 
+						option(value="6") 6 
+						option(value="7") 7 
+						option(value="8") 8 
+						option(value="9") 9 
+						option(value="10") 10 
+						option(value="11") 11
+						option(value="12") 12 
+				.col-sm-2
+					select(id="año" class="form-control " name="año")
+						option(value="1") 1990
+						option(value="2") 1991
+						option(value="3") 1992
+						option(value="4") 1993
+						option(value="5") 1994
+						option(value="6") 1995
+						option(value="7") 1996
+						option(value="8") 1997
+						option(value="9") 1998
+						option(value="10") 2000
+						option(value="11") 2001
+						option(value="12") 2002
+						option(value="13") 2003
+						option(value="14") 2004
+						option(value="15") 2005
+						option(value="16") 2006
+						option(value="17") 2007
+						option(value="18") 2008
+						option(value="19") 2009
+						option(value="20") 2010
+						option(value="21") 2011
+						option(value="22") 2012
+						option(value="23") 2013
+						option(value="24") 2014
+						option(value="25") 2015
+						option(value="26") 2016
+						option(value="27") 2017
+						option(value="28") 2018
+						option(value="29" selected) 2019 
+				.col-sm-2
+					input(type="text" class="form-control" id="fecha" name="fecha" placeholder="fecha Nacimiento")
+			.form-group.row
+				label(for='curso' class="col-form-label col-sm-2")  Curso: 
+				.col-sm-2
+					select(id="curso" class="form-control " name="curso")
+						for lista in cursos
+							option(value=lista.id_curso) #{lista.curso}
+			.form-group.row
+				label(for="ges" class="col-form-label col-sm-2") Gestion
+				.col-sm-2
+					select(id="ges" class="form-control" name="ges")
+						for lista2 in gestion
+							option(value=lista2.year) #{lista2.year}
 			//- linea divisora para asignar usuario y pasword
-			label(for="user" class="mr-sm-2") Usuario
-			input(type="text" class="form-control mb-2 mr-sm-2" id="user" name="user" placeholder="usuario")
-			label(for="pass" class="mr-sm-2") Contrasena:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="pass" name="pass" placeholder="contrasena") 
+			
+			.form-group.row
+				label(for="user" class="col-form-label col-sm-2") Usuario
+				.col-sm-10
+					input(type="text" class="form-control" id="user" name="user" placeholder="usuario")
+			.form-group.row
+				label(for="pass" class="col-form-label col-sm-2") Contrasena:
+				.col-sm-10
+					input(type="text" class="form-control" id="pass" name="pass" placeholder="contrasena") 
 			button(type="submit" value="guardar" class="btn btn-success") guardar
 			

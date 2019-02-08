@@ -80,6 +80,50 @@ gestion	int(10),
 PRIMARY KEY (id_imparte)
 );
 
+CREATE TABLE calificaciones(
+id_calificacion int AUTO_INCREMENT,
+nota		int(5),
+bimestre	int(10),
+id_materia	int(10),
+id_gestion	int(10),
+id_estudiante	int(10),
+PRIMARY KEY (id_calificacion),
+FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
+FOREIGN KEY (id_gestion) REFERENCES gestion(id_gestion),
+FOREIGN KEY (id_materia) REFERENCES materias(id_materia)
+);
+
+
+CREATE TABLE horario(
+id_horario int AUTO_INCREMENT,
+dia			VARCHAR(10),
+hora_inicio	VARCHAR(10),
+hora_fin	VARCHAR(10),
+id_materia	INT(10),
+gestion 	INT(10),
+id_curso	INT(10),
+PRIMARY KEY (id_horario),
+FOREIGN KEY (id_materia) REFERENCES materias(id_materia),
+FOREIGN KEY (gestion) REFERENCES gestion(id_gestion),
+FOREIGN KEY (id_curso) REFERENCES cursos(id_curso)
+);
+
+CREATE TABLE conducta(
+id_horario int AUTO_INCREMENT,
+descripcion VARCHAR(50),
+id_estudiante  int(10),
+id_docente 		int(10),
+PRIMARY KEY (id_horario),
+FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
+FOREIGN KEY (id_docente) REFERENCES docentes(id_docente)
+);
+
+CREATE TABLE tutoria(
+id_tutor	int(10),
+id_estudiante int(10),
+FOREIGN KEY (id_tutor) REFERENCES tutor(id_tutor),
+FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante)
+);
 INSERT INTO roles (rol) VALUES ('director');
 INSERT INTO roles (rol) VALUES ('administrador') ;
 
@@ -88,3 +132,4 @@ INSERT INTO cursos (nivel,paralelo) VALUES ('primero','A') ;
 INSERT INTO gestion (year) VALUES ('2018') ;
 
 SELECT id_persona,nombres,paterno,materno,id_administrador FROM personas,administrador where personas.ci=administrador.ci
+ALTER TABLE calificaciones ADD 
