@@ -170,4 +170,4 @@ INSERT INTO administrador (ci) VALUES
 -- Consultas de prueba
 SELECT '***************';
 SELECT id_administrador,id_persona,nombres,paterno,materno FROM personas p,administrador a where p.ci=a.ci;
---ALTER TABLE calificaciones ADD
+-- ALTER TABLE calificaciones ADD
