@@ -4,7 +4,20 @@
   "description": "hola mundo con express",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "startdev": "nodemon app.js",
+    "create-database": "mysql -u root -h localhost -p < scripts/sql/create-database.sql"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "*.*"
+    ],
+    "ext": "json,js,pug",
+    "ignore": [
+      "*.test.ts"
+    ],
+    "delay": "3"
   },
   "author": "MiguelC",
   "license": "ISC",
@@ -16,6 +29,7 @@
     "jade": "^1.11.0",
     "method-override": "^2.3.10",
     "mysql": "^2.16.0",
+    "nodemon": "^1.18.10",
     "pug": "^2.0.3"
   }
 }
