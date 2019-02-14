@@ -1,7 +1,7 @@
 extends ../home.pug
 block contenido
-		h1 asignar materia a docente
 
+		h1 asignar materia a docente
 		.table-responsive
 
 			table.table-bordered
@@ -35,13 +35,24 @@ block contenido
 							else
 								if (docente[0].genero==0)
 									td femenino
-
+		h4 MATERIAS ASIGNADAS
+		for mat in materias
+			for imp in imparte
+				if (mat.id_materia==imp.materia)
+					.checkbox
+						label
+							input(type='checkbox', name='selec[]' value=mat.id_materia ,checked='1')
+							| #{mat.area}
 		h4 SELECCIONE LAS MATERIAS PARA ASIGNAR A DOCENTE
 
 		form(action='/home/asigdoc/'+docente[0].id_persona+'/save', class="",method="POST")
+			
 			for mat in materias
 				.checkbox
 					label
 						input(type='checkbox', name='selec[]' value=mat.id_materia)
 						| #{mat.area}
+			//- for (i=0; i<imparte.length;i++)
+			//- 	|#{imparte[i].materia}
 			input(type="submit", value="Asignar" class="btn btn-primary")
+		

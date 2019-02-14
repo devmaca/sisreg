@@ -34,6 +34,8 @@ CREATE TABLE personas(
  users			VARCHAR(10),
  pass			VARCHAR(10),
  rol			VARCHAR(20),
+ estado			CHAR(1),
+ fechareg timestamp default current_timestamp,
  PRIMARY KEY (id_persona)
 );
 
@@ -71,13 +73,12 @@ PRIMARY KEY (id_docente)
 CREATE TABLE imparte(
 id_imparte int AUTO_INCREMENT,
 id_docente int(10),
-materia1	int(10),
-materia2	int(10),
-materia3	int(10),
-materia4 	int(10),
-materia5 	int(10),
+materia	int(10),
+fechareg timestamp default current_timestamp,
 gestion	int(10),
-PRIMARY KEY (id_imparte)
+PRIMARY KEY (id_imparte),
+FOREIGN KEY (materia) REFERENCES materias(id_materia),
+FOREIGN KEY (id_docente) REFERENCES docentes(id_docente)
 );
 
 CREATE TABLE calificaciones(
@@ -132,4 +133,8 @@ INSERT INTO cursos (nivel,paralelo) VALUES ('primero','A') ;
 INSERT INTO gestion (year) VALUES ('2018') ;
 
 SELECT id_persona,nombres,paterno,materno,id_administrador FROM personas,administrador where personas.ci=administrador.ci
-ALTER TABLE calificaciones ADD 
+
+
+ALTER TABLE `personas` ADD `rol` VARCHAR( 50 ) NOT NULL ,
+ADD `estado` CHAR( 1 ) NOT NULL ,
+ADD `fechareg` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP 

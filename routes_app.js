@@ -7,12 +7,16 @@ var fs=require('fs');//nos permitira mover el archivo
 // 	console.log('conectado a Mysql! a routes');
 // 	});
 
-//sisreg.edu/home2/
+//regaroma.com/home2/
 
 router.get("/", function(req,res){
 	res.render('home');
 })
 var idPer;
+var rol1='ESTUDIANTE';
+var rol2='DOCENTE';
+var rol3='TUTOR';
+var rol4='ADMINISTRADOR';
 //registrar estudiante
 router.route("/estudiante")
 	.get(function(req,res){
@@ -52,14 +56,16 @@ router.route("/estudiante")
 		res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home/estudiante"><<--volver atras</a></h1>'+req.body.curso)
 	})
 //registrar docentes
+
 router.route("/docente")
 	.get(function(req,res){
 		res.render('persona/docente')
 	})
 	.post(function(req,res){
-		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass) VALUE(?,?,?,?,?,?,?,?,?,?)"
+		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)"
 		var sql2="INSERT INTO docentes (id_docente) VALUES(?)"
-		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass],function(err,result){
+		var staet='1';
+		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass,rol2,staet],function(err,result){
 			if(err){ throw err;}
 			idPer=result.insertId;
 			console.log('number of record table persona...'+result.affectedRows);
@@ -80,13 +86,13 @@ router.route("/tutor")
 	})
 	.post(function(req,res){
 		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass) VALUE(?,?,?,?,?,?,?,?,?,?)"
-		var sql2="INSERT INTO tutor (id_tutor) VALUES(?)"
+		var sql2="INSERT INTO tutor (id_tutor,ci) VALUES(??)"
 		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass],function(err,result){
 			if(err){ throw err;}
 			idPer=result.insertId;
 			console.log('number of record table persona...'+result.affectedRows);
 
-			con.query(sql2,[idPer],function(err,result){
+			con.query(sql2,[idPer,req.body.ci],function(err,result){
 			if(err){ throw err;}
 			console.log('number of record table tutor...'+result.affectedRows+' Id asignada :'
 				+idPer);
@@ -267,6 +273,7 @@ router.route("/asigdoc")
 router.get("/asigdoc/ci", function(req,res){
 		var sql='Select * from personas where ci=?';
 		var sql2='Select * from materias';
+		var sql3='Select materia from imparte where id_docente=?'
 		var mate;
 		var valor=req.query.doc;
 		con.query(sql2, function(err,result2){
@@ -274,23 +281,42 @@ router.get("/asigdoc/ci", function(req,res){
 		mate=result2;
 			con.query(sql,[valor], function(err,result){
 				if(err){ throw err;}
-				res.render('asignacion/asignardoc',{docente:result,materias:mate});
+				var id_persona=result[0].id_persona;
+				con.query(sql3,[id_persona], function(err,result3){
+					//console.log(result3);
+					for (i=0;i<result3.length;i++){
+						console.log(result3[i]);
+					}  
+					console.log(result3.length);
+					res.render('asignacion/asignardoc',{docente:result,materias:mate,imparte:result3});
+
+				})
 			})
+
 		})
-		
+		//falta
+		// con.query(sql3,[id_persona], function(err,result3){
+
+		// })
 })
 //aqui se guardan los datos de las asignaciones de materias a docentes
 router.post("/asigdoc/:id/save", function(req,res){
 	
-	var sql='INSERT INTO imparte (id_docente,materia1,materia2,materia3,materia4,materia5) VALUE(?,?,?,?,?,?)'
+	var sql='INSERT INTO imparte (id_docente,materia) VALUE(?,?)'
 	var mat=req.body.selec;
+	console.log(req.body.selec);
 
-	con.query(sql,[req.params.id,req.body.selec[0],req.body.selec[1],req.body.selec[2],req.body.selec[3],req.body.selec[4]] ,function(err,result){
+	for (const its of req.body.selec){
+		console.log("valores de variable selec :"+its)
+	
+	con.query(sql,[req.params.id,its] ,function(err,result){
 		if(err){ throw err;}
-		console.log(result);
+		//console.log(result);
 	})
+	}
 	res.send('fue asignado exitosamente!...');
-	console.log(mat);
+	for (const lib of mat){
+		console.log(lib);}
 
 })
 

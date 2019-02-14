@@ -4,8 +4,12 @@ var con= require('./conectiondb/connection.js');
 var bodyParser=require('body-parser');
 var session=require('express-session');
 var session_middleware=require('./middlewares/sessions')
+var session_doce=require('./middlewares/sessiondoce')
+
 var router_app =require('./routes_app');
+var routes_doce=require('./ruta/routes_doce');
 var methodOverride = require("method-override");
+var moment = require('moment');//manejador de fechas y horas
 var app=express();
 var publicDir = `${__dirname}/public`
 
@@ -33,6 +37,13 @@ app.use(session({
 //  	// console.log("1 record inserted");
 //  	// });	
 // 	});
+var usuario={
+			admin:'ADMINISTRADOR',
+			docente:'DOCENTE',
+			tutor:'TUTOR',
+			estudiante:'ESTUDIANTE',
+			director:'DIRECTOR'
+			}
 
 	app.get("/", function (req,res) {
 	//res.write('jdsklfjdslkfjldsfjl');
@@ -55,7 +66,7 @@ app.use(session({
 	})
 	//ruta para sesion
 	app.post("/session", function(req,res){
-		var sql = 'Select id_persona,user,pass from personas where user=? and pass=?';
+		var sql = 'Select id_persona,user,pass,rol from personas where user=? and pass=?';
 		//req.session.usuario="i can't get no satisfaction";
 		con.query(sql,[req.body.user,req.body.password], function(err, result){
 			if(err){ throw err;}
@@ -63,17 +74,40 @@ app.use(session({
 			//verificar si esta el usuario registrado en el sistema
 			if(!result[0]){//si no hay valor 
 				req.session.usuario=null;//agregar valor nulo
+				res.redirect("/home");
 			}
 			else{//si existe valor en la consulta
-			req.session.usuario=result[0].id_persona;//agregar valor de consulta
+				req.session.usuario=result[0].id_persona;//agregar valor de consulta
+				
+				if(result[0].rol==usuario.admin){
+					console.log('Un '+usuario.admin+' quiere ingresar al sistema...');
+					res.redirect("/home")
+				}
+				else{
+					if(result[0].rol==usuario.docente){
+						console.log('Un '+usuario.docente+' quiere ingresar al sistema...');
+						res.redirect("/doce")
+					}
+					else{
+						if(result[0].rol==usuario.tutor){
+							console.log('Un '+usuario.tutor+' quiere ingresar al sistema...');
+							res.redirect("/home")
+						}
+						else{
+							if(result[0].rol==usuario.estudiante){
+								console.log('Un '+usuario.estudiante+' quiere ingresar al sistema...');
+								res.redirect("/home")
+							}
+						}
+					}
+			
+				}
 			}
-			res.redirect("/home")
-		
 		});
 		
 	})
 		
-	
+
 	app.post("/registro", function(req,res){
 		var sql2 = 'INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol) VALUES (?,?,?,?,?,?,?,?,?,?,?) ';
 		var sql3 = 'INSERT INTO administrador (ci) VALUES(?)';
@@ -153,6 +187,11 @@ app.use(session({
 //app.use('/home2',router_app);
 app.use('/home', session_middleware);
 app.use('/home', router_app);
+app.use('/doce', session_doce);
+app.use('/doce', routes_doce)
 app.use('/static', express.static('node_modules'));
 app.listen(3000,'localhost');
 console.log('el servidor esta corriendo en localhost puerto 3000');
+var fecha=moment().format('LTS');
+console.log(fecha);
+//console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
