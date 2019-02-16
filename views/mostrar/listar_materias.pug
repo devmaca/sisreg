@@ -1,0 +1,5 @@
+extends ../doce.pug
+block contenido
+		h2 Mis materias 
+		for mat in materias
+			a.btn.btn-outline-info.btn-sm(href='/doce/mostrar/'+mat.id_materia) #{mat.area}

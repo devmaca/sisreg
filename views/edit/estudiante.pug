@@ -1,0 +1,52 @@
+extends ../home.pug
+block contenido
+	div(class="col-md-6 remove-float center-block big-top-space")
+		h2 editar datos de estudiante
+		form(action="/home/lisest/"+estudiante[0].id_persona+"?_method=PUT", method="post")
+			.form-group.row
+				label(for="nom" class="col-form-label col-sm-2") Nombres:
+				.col-sm-5
+					input(type="text" class="form-control" id="nom" name="nomb" value=estudiante[0].nombres)
+			.form-group.row
+				label(for="apep" class="col-form-label col-sm-2") Apellido Pat:
+				.col-sm-5
+					input(type="text" class="form-control" id="apep" name="apep" value=estudiante[0].paterno)
+			.form-group.row
+				label(for="apem" class="col-form-label col-sm-2") Apellido Mat:
+				.col-sm-5
+					input(type="text" class="form-control" id="apem" name="apem"
+					value=estudiante[0].materno)
+			.form-group.row
+				label(for="ci" class="col-form-label col-sm-2") Cedula Identidad:
+				.col-sm-5
+					input(type="text" class="form-control " id="ci" name="ci" value=estudiante[0].ci, disabled)
+
+			.form-group.row
+				label(for="dir" class="col-form-label col-sm-2") Direccion:
+				.col-sm-5
+					input(type="text" class="form-control"  id="dir" name="dir" value=estudiante[0].direccion)
+			
+			.form-group.row
+				label(for="tel" class="col-form-label col-sm-2") Telefono:
+				.col-sm-5
+					input(type="text" class="form-control" id="tel" name="tel" value=estudiante[0].telefono)
+			
+			.form-group.row
+				label(for="gen" class="col-sm-2") Genero:
+				.col-sm-2
+					input(type="text" class="form-control" id="gen" name="gen" value=estudiante[0].genero)
+			.form-group.row
+				label(for="fecha" class="col-form-label col-sm-2") Fecha Nacimiento:
+				.col-sm-4
+					input(type="text" class="form-control" id="fecha" name="fecha" value=estudiante[0].fecha_nac)
+			.form-group.row
+				label(for='curso' class="col-form-label col-sm-2")  Curso: 
+				.col-sm-5
+					input(type="text" class="form-control" id="curso" name="curso" value=curso[0].curso,disabled)
+			.form-group.row
+				label(for='estado' class="col-form-label col-sm-2")  Estado: 
+				.col-sm-2
+					input(type="text" class="form-control" id="estado" name="estado" value=estudiante[0].estado, disabled)
+			
+			input(type="submit" value="guardar" class="btn btn-info")
+				

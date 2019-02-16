@@ -2,57 +2,68 @@ extends ../home.pug
 block contenido
 
 		h1 asignar materia a docente
-		.table-responsive
+		.row
+			.col-sm-5
+				.table-responsive
 
-			table.table-bordered
-				
-				tbody
-						tr
-							td Nombre :
-							td #{docente[0].nombres}
-						tr
-							td Paterno :
-							td #{docente[0].paterno}
-						tr
-							td Materno :
-							td #{docente[0].materno}
-						tr
-							td Direccion :
-							td #{docente[0].direccion}
-						tr
-							td CI :
-							td #{docente[0].ci}
-						tr
-							td Telefono :
-							td #{docente[0].telefono}
-						tr
-							td Fecha Nac :
-							td #{docente[0].fecha_nac}
-						tr
-							td Genero : 
-							if (docente[0].genero==1)
-								td masculino
-							else
-								if (docente[0].genero==0)
-									td femenino
-		h4 MATERIAS ASIGNADAS
-		for mat in materias
-			for imp in imparte
-				if (mat.id_materia==imp.materia)
-					.checkbox
-						label
-							input(type='checkbox', name='selec[]' value=mat.id_materia ,checked='1')
-							| #{mat.area}
-		h4 SELECCIONE LAS MATERIAS PARA ASIGNAR A DOCENTE
+					table.table-bordered
+						
+						tbody
+								tr
+									th Nombre :
+									td #{docente[0].nombres}
+									th Direccion :
+									td #{docente[0].direccion}
+								tr
+									th Paterno :
+									td #{docente[0].paterno}
+									th Telefono :
+									td #{docente[0].telefono}
+								tr
+									th Materno :
+									td #{docente[0].materno}
+									th Fecha Nac :
+									td #{docente[0].fecha_nac}
+								tr
+									th CI :
+									td #{docente[0].ci}
+									th Genero : 
+									if (docente[0].genero==1)
+										td masculino
+									else
+										if (docente[0].genero==0)
+											td femenino
+	
+			.col-sm-3.color
+				h6 MATERIAS ASIGNADAS
+				if (!imparte[0])
+					p no tiene materias asignadas
+				for imp in imparte
+					li #{imp.area}
 
-		form(action='/home/asigdoc/'+docente[0].id_persona+'/save', class="",method="POST")
-			
-			for mat in materias
-				.checkbox
-					label
-						input(type='checkbox', name='selec[]' value=mat.id_materia)
-						| #{mat.area}
-			//- for (i=0; i<imparte.length;i++)
-			//- 	|#{imparte[i].materia}
-			input(type="submit", value="Asignar" class="btn btn-primary")
-		
+			.col-sm-3.color2
+				h6 CURSOS ASIGNADOS
+				if (!docur[0])
+					p no tiene cursos asignadas
+				for imp in docur
+					li #{imp.curso}
+		.row
+			.col-sm-7.color3
+				h4 SELECCIONE LAS MATERIAS PARA ASIGNAR A DOCENTE
+
+				form(action='/home/asigdoc/'+docente[0].id_persona+'/save', class="",method="POST")
+					for mat in materias
+						.checkbox
+							label
+								input(type='checkbox', name='selec[]' value=mat.id_materia)
+								| #{mat.area}
+					input(type="submit", value="Asignar Materia" class="btn btn-primary")
+			.col-sm-5.color4
+				h4 SELECIONE LOS CURSOS PARA ASIGNAR
+				form(action='/home/asigdoc/'+docente[0].id_persona+'/savecurso', method="POST")
+					for curso in cursos
+						.checkbox
+								label
+									input(type='checkbox', name='selec2[]' value=curso.id_curso)
+									| #{curso.curso}
+					input(type="submit", value="Asignar Curso" class="btn btn-primary")

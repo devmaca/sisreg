@@ -58,11 +58,19 @@ var usuario={
 		//SELECT nombres,administrador.ci FROM personas,administrador WHERE personas.ci=administrador.ci;
 		//select nombres,paterno, from personas
 		console.log("ruta /login...");
+		console.log(req.session)
 		con.query('SELECT nombres,administrador.id_administrador FROM personas,administrador WHERE personas.ci=administrador.ci',function(err,result){
 			console.log(result);
 		})
 		//res.sendFile(`${publicDir}/login.html`);
 		res.render('login');
+	})
+
+	app.get("/logout", function(req,res){
+		console.log("cerrando sesion");
+		req.session.destroy();
+				//res.sendFile(`${publicDir}/login.html`);
+		res.redirect('/login');
 	})
 	//ruta para sesion
 	app.post("/session", function(req,res){
@@ -194,4 +202,5 @@ app.listen(3000,'localhost');
 console.log('el servidor esta corriendo en localhost puerto 3000');
 var fecha=moment().format('LTS');
 console.log(fecha);
+console.log(moment().format('YYYY'));
 //console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));

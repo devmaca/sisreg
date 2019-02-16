@@ -131,11 +131,9 @@ block contenido
 						for lista in cursos
 							option(value=lista.id_curso) #{lista.curso}
 			.form-group.row
-				label(for="ges" class="col-form-label col-sm-2") Gestion
+				label(for="rude" class="col-form-label col-sm-2") RUDE
 				.col-sm-2
-					select(id="ges" class="form-control" name="ges")
-						for lista2 in gestion
-							option(value=lista2.year) #{lista2.year}
+					input(type="text" class="form-control" id="rude" name="rude" placeholder="RUDE")
 			//- linea divisora para asignar usuario y pasword
 			
 			.form-group.row

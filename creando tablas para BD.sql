@@ -1,10 +1,6 @@
 CREATE DATABASE Limon;
 
-CREATE TABLE roles(
-id_rol		int AUTO_INCREMENT,
-rol			VARCHAR(20),
-PRIMARY KEY (id_rol)
- );
+
 CREATE TABLE director(
 id_director int AUTO_INCREMENT,
 ci			int(12),
@@ -12,7 +8,7 @@ PRIMARY KEY (id_director)
  );
 CREATE TABLE administrador(
 id_administrador	int AUTO_INCREMENT,
-ci			int(50),
+RDA			int(50),
 PRIMARY KEY (id_administrador)
  );
 CREATE TABLE tutor(
@@ -61,7 +57,7 @@ PRIMARY KEY (id_materia)
 CREATE TABLE estudiantes(
 id_persona	int(10),
 rude		int(10),
-id_curso	int(12),
+ci_tutor	int(15),
 PRIMARY KEY (id_estudiante)
  );
 CREATE TABLE docentes(
@@ -119,18 +115,34 @@ FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
 FOREIGN KEY (id_docente) REFERENCES docentes(id_docente)
 );
 
-CREATE TABLE tutoria(
-id_tutor	int(10),
-id_estudiante int(10),
-FOREIGN KEY (id_tutor) REFERENCES tutor(id_tutor),
-FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante)
+
+
+CREATE TABLE estudiantecurso(
+id_estudiante  int(10),
+id_curso		int(10),
+fecha_reg	timestamp default current_timestamp,
+FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
+FOREIGN KEY (id_curso) REFERENCES cursos(id_curso)
 );
+
+CREATE TABLE docentecurso(
+id_docente  int(10),
+id_curso		int(10),
+fecha_reg	timestamp default current_timestamp,
+FOREIGN KEY (id_docente) REFERENCES docentes(id_docente),
+FOREIGN KEY (id_curso) REFERENCES cursos(id_curso)
+);
+
 INSERT INTO roles (rol) VALUES ('director');
 INSERT INTO roles (rol) VALUES ('administrador') ;
 
 
 INSERT INTO cursos (nivel,paralelo) VALUES ('primero','A') ;
 INSERT INTO gestion (year) VALUES ('2018') ;
+
+INSERT INTO estudiantecurso (id_estudiante,id_curso) VALUES(25,1);
+INSERT INTO estudiantecurso (id_estudiante,id_curso) VALUES(26,1);
+INSERT INTO estudiantecurso (id_estudiante,id_curso) VALUES(27,2);
 
 SELECT id_persona,nombres,paterno,materno,id_administrador FROM personas,administrador where personas.ci=administrador.ci
 
