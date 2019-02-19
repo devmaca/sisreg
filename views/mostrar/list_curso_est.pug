@@ -1,6 +1,17 @@
 extends ../doce.pug
+
+
 block contenido
-		h2 Estudiantes  
+		script(type='text/javascript').
+			var piedra={peso:50,tamano:"grande",cantidad:40};
+			var mat=JSON.stringify(materia)
+			var es=!{JSON.stringify(estudiante)}
+			console.log(piedra);
+			console.log(mat);
+			console.log(es);
+			//- localStorage.setItem('piedra',JSON.stringify(piedra));
+		h2 Estudiantes
+		h3= es
 		.form-group.row
 			label(for="mat" class="col-form-label col-sm-2") Materia:
 			.col-sm-2
@@ -9,4 +20,30 @@ block contenido
 			label(for="cur" class="col-form-label col-sm-2") Curso :
 			.col-sm-2
 				input(type="text" class="form-control" id="cur" name="curso" value=curso[0].curso, disabled)
-		
+		.table-responsive
+			table.table.table-bordered
+				thead
+					tr
+						th nombre
+						th paterno
+						th materno
+						th ci
+						th nota
+
+				tbody
+					for per in estudiante
+
+						tr
+							form(action="/doce/mostrar/"+materia[0].id_materia+"/"+curso[0].id_curso+"/", class="",method="POST")
+								td #{per.nombres}
+								td #{per.paterno}
+								td #{per.materno}
+								td #{per.ci}
+								td 
+									input(type="text" class="form-control" id="nota"	 name="nota" value=per.nota)
+								td
+									input(type="submit", value="Insertar" class="btn 	btn-outline-primary btn-sm")
+								td
+									form(action="/doce/mostrar/"+materia[0].id_materia	+"/"+curso[0].id_curso+"?_method=PUT", class="",method="POST")
+									input(type="submit", value="Modificar" class="btn btn-outline-warning btn-sm")
+

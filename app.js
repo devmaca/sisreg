@@ -28,6 +28,8 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false
 }));
+// parse various different custom JSON types as JSON
+app.use(bodyParser.json({ type: 'application/*+json' }))
 // con.connect(function(err){
 // 	if (err) console.log(err) ;
 // 	console.log('conectado a Mysql!');
@@ -44,7 +46,11 @@ var usuario={
 			estudiante:'ESTUDIANTE',
 			director:'DIRECTOR'
 			}
-
+app.get("/prueba", function(req,res){
+	res.setHeader('Content-Type', 'text/plain')
+  res.write('you posted:\n')
+  res.end(JSON.stringify(req.body, null, 2))
+})
 	app.get("/", function (req,res) {
 	//res.write('jdsklfjdslkfjldsfjl');
 	//res.send('hola mundo con express');

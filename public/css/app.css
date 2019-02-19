@@ -65,6 +65,20 @@ nav li a:hover{
 /*.tr:nth-of-type(odd){
 	background-color: #eee;
 }*/
+
+/*esto es para el login*/
+.remove-float{
+	float:none;
+}
+.center-block {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+.big-top-space{
+	margin-top: 100px;
+}
+/*hasta aqui estilos de login y centrado*/
 form.link{
 	display:inline-block;
 }
