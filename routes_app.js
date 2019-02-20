@@ -28,14 +28,14 @@ var estado={
 //registrar estudiante
 router.route("/estudiante")
 	.get(function(req,res){
-		
+
 		con.query('SELECT * FROM cursos',function(err,result){
 			if(err){ throw err;}
 			console.log('cursos :');
 			console.log(result);
 			res.render('persona/estudiante',{cursos:result})
 		})
-		
+
 	})
 	.post(function(req,res){
 		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)"
@@ -59,8 +59,8 @@ router.route("/estudiante")
 			console.log('asignado a curso '+req.body.curso);
 			})
 		})
-		
-		
+
+
 		res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home/estudiante"><<--volver atras</a></h1>'+req.body.curso)
 	})
 //registrar docentes
@@ -83,7 +83,7 @@ router.route("/docente")
 				+idPer);
 		})
 		})
-		
+
 		res.send('<h1>docente registrado exitosamente!</h1> <h1><a href="/home"><<--volver atras</a></h1>')
 	})
 //registrar  tutores
@@ -105,7 +105,7 @@ router.route("/tutor")
 				+idPer);
 			})
 		})
-		
+
 		res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home"><<--volver atras</a></h1>')
 	})
 //registrar cursos
@@ -116,7 +116,7 @@ router.route("/curso")
 			if(err){ throw err;}
 			res.render('curso',{cursos:result})
 		})
-		
+
 	})
 	.post(function(req,res){
 		var sql="INSERT INTO cursos (curso) VALUE(?)";
@@ -130,15 +130,15 @@ router.route("/curso")
 		})
 
 	})
-		
-	
+
+
 router.get("/materias/:id/edit", function (req,res) {
 	console.log(" la id extraida de la url es :"+req.params.id);
 	var sqlid="SELECT * FROM materias WHERE id_materia=?";
 	con.query(sqlid,[req.params.id], function(err,result){
 		if(err){ throw err;}
 		console.log(result);
-		res.render('materia/edit',{materia:result});	
+		res.render('materia/edit',{materia:result});
 	})
 })
 
@@ -175,7 +175,7 @@ router.route("/materias")
 			 res.render('materias',{materias:result});
 
 			});
-		
+
 	})
 	.post(function(req,res){
 		var sql = 'INSERT INTO materias (area) VALUES(?)';
@@ -184,8 +184,8 @@ router.route("/materias")
 			else{
 			console.log(result);
 			console.log('number of record...'+result.affectedRows);
-			res.redirect('materias');	
-			}		
+			res.redirect('materias');
+			}
 			});
 	})
 	//registrar gestion
@@ -203,8 +203,8 @@ router.route("/gestion")
 			if(err){ throw err;}
 			else{
 			console.log('number of record...'+result.affectedRows);
-			res.redirect('gestion');	
-			}		
+			res.redirect('gestion');
+			}
 			});
 	})
 
@@ -213,7 +213,7 @@ router.route("/gestion")
 // 		con.query('SELECT nombres,paterno,materno,direccion,telefono,genero,fecha_nac,administrador.id_administrador,administrador.ci FROM personas,administrador WHERE personas.ci=administrador.ci', function(err, result){
 // 			if(err){ throw err;}
 // 			console.log(result);
-// 			res.render('mostrar/listar',{personas:result});			
+// 			res.render('mostrar/listar',{personas:result});
 // 			});
 // })
 /*REST*/
@@ -224,7 +224,7 @@ router.route("/lisadm")
 			if(err){ throw err;}
 			console.log('*** lista administrador ***:');
 			console.log(result);
-			res.render('mostrar/listar',{personas:result});			
+			res.render('mostrar/listar',{personas:result});
 			});
 	})
 	.post(function (req,res) {
@@ -244,7 +244,7 @@ router.get("/lisest", function(req,res){
 			if(err){ throw err;}
 			console.log('*** lista estudiante ***:');
 			console.log(result.length);
-			res.render('mostrar/listar_estud',{personas:result});			
+			res.render('mostrar/listar_estud',{personas:result});
 			// res.send({estudiante:result})
 			});
 	//res.send("aqui se visualisara la lista de estudiantees registradors en el sistema");
@@ -255,13 +255,13 @@ router.get("/lisest/:id/edit", function(req,res){
 	var sql2='SELECT * FROM personas WHERE id_persona=?';
 	con.query(sql,[req.params.id], function(err, result){
 			if(err){ throw err;}
-			//res.render('mostrar/listar_estud',{personas:result});			
+			//res.render('mostrar/listar_estud',{personas:result});
 		con.query(sql2,[req.params.id], function(err, result2){
 		if(err){ throw err;}
-		res.render('edit/estudiante',{curso:result,estudiante:result2});			
+		res.render('edit/estudiante',{curso:result,estudiante:result2});
 		//res.send({curso:result,estudiante:result2});
 		});
-		
+
 	});
 	//res.send("aqui se visualisara la lista de estudiantees registradors en el sistema");
 })
@@ -299,7 +299,7 @@ router.get("/lisdoc", function(req,res){
 			if(err){ throw err;}
 			console.log('*** lista docente ***:');
 			console.log(result);
-			res.render('mostrar/listar_doc',{personas:result});			
+			res.render('mostrar/listar_doc',{personas:result});
 			});
 	//res.send("aqui se visualisara la lista de estudiantees registradors en el sistema");
 })
@@ -310,7 +310,7 @@ router.get("/listut", function(req,res){
 			if(err){ throw err;}
 			console.log('***lista tutor *** :');
 			console.log(result);
-			res.render('mostrar/listar_tut',{personas:result});			
+			res.render('mostrar/listar_tut',{personas:result});
 			});
 	//res.send("aqui se visualisara la lista de estudiantees registradors en el sistema");
 })
@@ -320,9 +320,9 @@ router.route("/asigdoc")
 		res.render('asignacion/buscardoc');
 	})
 	.post(function(req,res){
-	
+
 	})
-/*en esta ruta realiza la busqueda de usuario docente registrados 
+/*en esta ruta realiza la busqueda de usuario docente registrados
 donde:
 - comprueba si el valor insertado en el campo de texto es un docente
 - comprueba si el usuario docente tiene materias asignadas
@@ -338,9 +338,9 @@ router.get("/asigdoc/ci", function(req,res){
 		var mate;
 		var cur;
 		var valor=req.query.doc;
-		
+
 		con.query(sql2, function(err,result2){
-		if(err){ throw err;} 
+		if(err){ throw err;}
 		mate=result2;
 		con.query(sql4, function(err,result4){
 			cur=result4;
@@ -354,7 +354,7 @@ router.get("/asigdoc/ci", function(req,res){
 					//console.log(result3);
 					for (i=0;i<result3.length;i++){
 						console.log(result3[i]);
-					}  
+					}
 					console.log(result3.length);
 					con.query(sql5,[id_persona], function(err,result5){
 						res.render('asignacion/asignardoc',{docente:result,materias:mate,imparte:result3,cursos:cur,docur:result5});
@@ -372,7 +372,7 @@ router.get("/asigdoc/ci", function(req,res){
 })
 //aqui se guardan los datos de las asignaciones de materias a docentes
 router.post("/asigdoc/:id/save", function(req,res){
-	
+
 	var sql='INSERT INTO imparte (id_docente,materia,gestion) VALUE(?,?,?)'
 	var mat=req.body.selec;
 	var gestion=moment().format('YYYY');
@@ -380,7 +380,7 @@ router.post("/asigdoc/:id/save", function(req,res){
 
 	for (const its of req.body.selec){
 		console.log("valores de variable selec :"+its)
-	
+
 	con.query(sql,[req.params.id,its,gestion] ,function(err,result){
 		if(err){ throw err;}
 		//console.log(result);
@@ -392,13 +392,13 @@ router.post("/asigdoc/:id/save", function(req,res){
 
 })
 router.post("/asigdoc/:id/savecurso", function(req,res){
-	
+
 	var sql='INSERT INTO docentecurso (id_docente,id_curso) VALUE(?,?)'
 	console.log(req.body.selec2);
 
 	for (const its of req.body.selec2){
 		console.log("valores de variable selec :"+its)
-	
+
 	con.query(sql,[req.params.id,its] ,function(err,result){
 		if(err){ throw err;}
 		//console.log(result);
