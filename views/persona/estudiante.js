@@ -23,6 +23,7 @@ function enviarFormGet(idform) {
   }).done(function(resp) {
     // la peticion api se realizo correctamente
     console.log(1, "success", resp);
+    $(`#datorecibido`).val(resp.mensaje);
   }).fail(function(error) {
     // la peticion api fallo
     console.log(2, "error", error.status, error.statusText);
@@ -54,6 +55,7 @@ function enviarFormPost(idform) {
   }).done(function(resp) {
     // la peticion api se realizo correctamente
     console.log(1, "success", resp);
+    $(`#datorecibido`).val(resp.mensaje);
   }).fail(function(error) {
     // la peticion api fallo
     console.log(2, "error", error.status, error.statusText);
@@ -85,6 +87,7 @@ function enviarFormGetId(idform, idregistro) {
   }).done(function(resp) {
     // la peticion api se realizo correctamente
     console.log(1, "success", resp);
+    $(`#datorecibido`).val(resp.mensaje);
   }).fail(function(error) {
     // la peticion api fallo
     console.log(2, "error", error.status, error.statusText);
@@ -116,6 +119,7 @@ function enviarFormPut(idform, idregistro) {
   }).done(function(resp) {
     // la peticion api se realizo correctamente
     console.log(1, "success", resp);
+    $(`#datorecibido`).val(resp.mensaje);
   }).fail(function(error) {
     // la peticion api fallo
     console.log(2, "error", error.status, error.statusText);
@@ -147,6 +151,7 @@ function enviarFormDelete(idform, idregistro) {
   }).done(function(resp) {
     // la peticion api se realizo correctamente
     console.log(1, "success", resp);
+    $(`#datorecibido`).val(resp.mensaje);
   }).fail(function(error) {
     // la peticion api fallo
     console.log(2, "error", error.status, error.statusText);
