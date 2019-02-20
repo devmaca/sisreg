@@ -1,9 +1,9 @@
 extends ../home.pug
 block contenido
-		
+
 
 		h1 Registrar Nuevo Estudiante
-		form(class="" action="/home/estudiante", method="post")
+		form(id="form" class="" action="/home/estudiante", method="post")
 			.form-group.row
 				label(for="nom" class="col-form-label col-sm-2") Nombres:
 				.col-sm-10
@@ -149,4 +149,12 @@ block contenido
 				.col-sm-10
 					input(type="text" class="form-control" id="citut" name="citut" placeholder="ci de padre/madre o tutor") 
 			button(type="submit" value="guardar" class="btn btn-success") guardar
-			
+		.apirest
+			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormGet('form')") Enviar get
+			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormPost('form')") Enviar post
+			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormGetId('form',1)") Enviar getId
+			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormPut('form',4)") Enviar putId
+			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormDelete('form',6)") Enviar deleteId
+
+		script
+			include estudiante.js

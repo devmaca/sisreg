@@ -7,6 +7,7 @@ var fs=require('fs');//nos permitira mover el archivo
 // 	if (err) console.log(err) ;
 // 	console.log('conectado a Mysql! a routes');
 // 	});
+let homeapi = require('./src/homeapi/estudiantes.js');
 
 //regaroma.com/home2/
 
@@ -63,6 +64,16 @@ router.route("/estudiante")
 
 		res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home/estudiante"><<--volver atras</a></h1>'+req.body.curso)
 	})
+
+	// Rutas apiRest
+	router.route("/api/estudiantes")
+		.get(homeapi.estudiantes.estGet)
+		.post(homeapi.estudiantes.estPost)
+	router.route("/api/estudiantes/:id")
+		.get(homeapi.estudiantes.estGetId)
+		.put(homeapi.estudiantes.estPutId)
+		.delete(homeapi.estudiantes.estDeleteId)
+
 //registrar docentes
 
 router.route("/docente")
