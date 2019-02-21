@@ -1,0 +1,17 @@
+extends ../doce.pug
+block contenido
+	
+	div(class="col-md-6 remove-float ")
+		h3 CONDUCTAS
+		form(class="" action="/doce/conductas", method="post")
+			
+			.form-group.row
+				label(for='curso' class="col-form-label col-sm-2")  CURSOS:
+				.col-sm-5
+					select(id="curso" class="form-control " name="curso")
+						for curso in cursos
+							option(value=curso.id_curso) #{curso.curso}
+
+			button(type="submit" value="guardar" class="btn btn-success") IR
+
+		

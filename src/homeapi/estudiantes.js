@@ -41,6 +41,7 @@ function estPost(req, res, next) {
     console.log('apiREST body', req.body);
 
     let sql = 'SELECT * FROM personas';
+    //let sql = 'INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)'
     let a = con.query(sql,[], function(err,result) {
 			if(err) {
         // Enviar error SQL
@@ -54,7 +55,7 @@ function estPost(req, res, next) {
         res.status(200).send({
           finalizado: true,
           mensaje: 'post OK',
-          datos: result,
+          datos: result
         });
       }
 
@@ -73,8 +74,8 @@ function estGetId(req, res, next) {
   try {
     console.log('apiREST params', req.params);
     console.log('apiREST query', req.query);
-    let sql = 'SELECT * FROM personas';
-    con.query(sql,[], function(err,result) {
+    let sql = 'SELECT * FROM personas WHERE id_persona=?';
+    con.query(sql,[req.params.id], function(err,result) {
       if(err) {
         // Enviar error SQL
         console.error('ERR',err.message);

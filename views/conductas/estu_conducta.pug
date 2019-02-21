@@ -1,0 +1,18 @@
+extends ../doce.pug
+block contenido
+	
+	div(class="col-md-6 remove-float ")
+		h3 Estudiantes-Conducta
+		.table-responsive
+
+			table.table-bordered
+				thead
+					tr
+						th Nombre
+						th Registrar
+				tbody
+					for est in estudiantescurso
+						tr
+							td #{est.nombres}
+							td 
+								a(href= '/doce/conductas/'+est.id_persona, class="btn btn-outline-info btn-sm") registrar

@@ -1,7 +1,7 @@
 var express=require('express');
 var con= require('../conectiondb/connection.js');
 var router=express.Router();
-
+var moment = require('moment');//manejador de fechas y horas
 //regaroma.com/doce
 router.get('/', function(req,res){
 	res.render('doce');
@@ -47,26 +47,63 @@ router.get("/ver/:id/edit", function (req,res) {
 
 router.route("/conductas")
 	.get(function(req,res){
-		// con.query('Select * from materias', function(err, result){
-		// 	if(err){ throw err;}
-		// 	console.log(result);
-		// 	 res.render('materias',{materias:result});
+		let sql2="SELECT cursos.* FROM cursos,docentecurso WHERE docentecurso.id_curso=cursos.id_curso && docentecurso.id_docente=?"
+		con.query(sql2,[req.session.usuario], function(err, result2){
+			if(err){ throw err;}
+			res.render("conductas/seleccionar",{cursos:result2})
+		});
+	})
+	.post(function(req,res){
+		let sql= 'SELECT personas.* FROM estudiantecurso, personas WHERE estudiantecurso.id_estudiante=personas.id_persona && estudiantecurso.id_curso=?';
+		con.query(sql,[req.body.curso], function(err, result){
+			if(err){ throw err;}
+			else{
+				res.render("conductas/estu_conducta",{estudiantescurso:result,curso:req.body.curso})
+				// res.send({estudiantescurso:result,curso:req.body.curso});	
+			}	
+			});
+	})
 
-		// 	});
-		res.render("conductas/ver_conducta")
+router.route("/conductas/:id")
+	.get(function(req,res){
+		var r1;//datos_de_estudiante
+		var r2;//conducta_de_estudiante
+		let sql="SELECT personas.nombres FROM personas WHERE id_persona=? "
+		let sql2="SELECT * FROM conducta WHERE id_estudiante=? "
+		con.query(sql,[req.params.id], function(err,result){
+			r1=result;
+			con.query(sql2,[req.params.id], function(err,result2){
+				if(!result2){
+					r2=null;
+				}else{
+					r2=result2;
+				}
+				res.render("conductas/registrar",{r1:r1,r2:r2,est:req.params.id})
+			})
+			
+		})
 		
 	})
 	.post(function(req,res){
-		// var sql = 'INSERT INTO materias (area) VALUES(?)';
-		// con.query(sql,[req.body.area], function(err, result){
-		// 	if(err){ throw err;}
-		// 	else{
-		// 	console.log(result);
-		// 	console.log('number of record...'+result.affectedRows);
-		// 	res.redirect('materias');	
-		// 	}		
-		// 	});
+		var fecha=moment().format('L');
+		let sql="INSERT INTO conducta (descripcion,id_estudiante,fecha) VALUES(?,?,?)"
+		con.query(sql,[req.body.conducta,req.params.id,fecha], function(err,result){
+			res.redirect("/doce/conductas/"+req.params.id)
+		})
+		// res.send({conducta:req.body.conducta,fecha:fecha,id_estudiante:req.params.id})
 	})
+
+router.route("/conductas/:id/:id2")
+	.delete(function(req,res){
+		let sql="DELETE FROM conducta WHERE id_conducta=?"
+		con.query(sql,[req.params.id2],function(err,result){
+			if(err){ throw err;}
+			console.log("Numeros de registros borrados: " + result.affectedRows);
+			res.redirect('/doce/conductas/'+req.params.id);
+		})
+		//res.send("se borrara la materia con id: "+req.params.id);
+	})
+
 router.route("/horarios")
 	.get(function(req,res){
 		// con.query('Select * from materias', function(err, result){

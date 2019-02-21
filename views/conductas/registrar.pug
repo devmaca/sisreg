@@ -1,0 +1,32 @@
+extends ../doce.pug
+block contenido
+		h1 Registrar conduta
+		form(class="" action="/doce/conductas/"+est, method="post")
+			.form-group.row
+				label(for="nombre" class="col-form-label col-sm-2") ESTUDIANTE:
+				.col-sm-2
+					input(type="text" class="form-control" id="nombre" name="nombre" value=r1[0].nombres, disabled)
+			.form-group.row
+				label(for="conducta" class="col-form-label col-sm-2") COnducta:
+				.col-sm-5
+					input(type="text" class="form-control" id="conducta" name="conducta" placeholder=" Ingrese la conducta de estudiante")
+			
+			button(type="submit" value="guardar" class="btn btn-success") Agregar
+		
+		.table-responsive
+			table.table.table-bordered
+				thead
+					tr
+						th id_conducta
+						th Conductas
+						th fecha
+						th del
+				tbody
+					for lista in r2
+						tr
+							td #{lista.id_conducta}
+							td #{lista.descripcion}
+							td #{lista.fecha}
+							td 
+								form(action="/doce/conductas/"+est+"/"+lista.id_conducta+"?_method=DELETE", class="",method="POST")
+									input(type="submit", value="Eliminar" class="btn btn-outline-danger btn-sm")

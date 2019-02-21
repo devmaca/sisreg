@@ -42,6 +42,7 @@ function enviarFormPost(idform) {
     formObj[input.name] = input.value;
   });
   console.log('JSON', formObj);
+
   $.ajax({
     url: `api/estudiantes`,
     method: 'post', // get | post | put | delete
@@ -56,6 +57,7 @@ function enviarFormPost(idform) {
     // la peticion api se realizo correctamente
     console.log(1, "success", resp);
     $(`#datorecibido`).val(resp.mensaje);
+    $(`#elnombre`).val(resp.nomb);
   }).fail(function(error) {
     // la peticion api fallo
     console.log(2, "error", error.status, error.statusText);

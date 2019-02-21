@@ -3,11 +3,15 @@ var express=require('express');
 var con= require('./conectiondb/connection.js');
 var bodyParser=require('body-parser');
 var session=require('express-session');
-var session_middleware=require('./middlewares/sessions')
-var session_doce=require('./middlewares/sessiondoce')
+
+var session_middleware=require('./middlewares/sessions');
+var session_doce=require('./middlewares/sessiondoce');
+var session_tutor=require('./middlewares/sessiontutor');
 
 var router_app =require('./routes_app');
 var routes_doce=require('./ruta/routes_doce');
+var routes_tut=require('./ruta/routes_tut');
+
 var methodOverride = require("method-override");
 var moment = require('moment');//manejador de fechas y horas
 var app=express();
@@ -105,7 +109,7 @@ app.get("/prueba", function(req,res){
 					else{
 						if(result[0].rol==usuario.tutor){
 							console.log('Un '+usuario.tutor+' quiere ingresar al sistema...');
-							res.redirect("/home")
+							res.redirect("/tut")
 						}
 						else{
 							if(result[0].rol==usuario.estudiante){
@@ -121,7 +125,6 @@ app.get("/prueba", function(req,res){
 		
 	})
 		
-
 	app.post("/registro", function(req,res){
 		var sql2 = 'INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol) VALUES (?,?,?,?,?,?,?,?,?,?,?) ';
 		var sql3 = 'INSERT INTO administrador (ci) VALUES(?)';
@@ -202,7 +205,9 @@ app.get("/prueba", function(req,res){
 app.use('/home', session_middleware);
 app.use('/home', router_app);
 app.use('/doce', session_doce);
-app.use('/doce', routes_doce)
+app.use('/doce', routes_doce);
+app.use('/tut', session_tutor);
+app.use('/tut', routes_tut);
 app.use('/static', express.static('node_modules'));
 app.listen(3000,'localhost');
 console.log('el servidor esta corriendo en localhost puerto 3000');

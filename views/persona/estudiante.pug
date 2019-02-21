@@ -157,5 +157,15 @@ block contenido
 			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormDelete('form',6)") Enviar deleteId
 			input(type="text" id="datorecibido")
 
+		h3 registro
+		table.table.table-bordered
+				thead
+					tr
+						th nombre
+				tbody
+					//- for per in datos
+					//- 	tr
+					//- 		td #{per.id_persona}
+					//- 		td #{per.nombre}
 		script
 			include estudiante.js
