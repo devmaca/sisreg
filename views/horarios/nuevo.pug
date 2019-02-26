@@ -1,0 +1,7 @@
+extends ../home.pug
+block contenido
+		h2 Nuevo horario
+		h5 Seleccione un curso 
+		.form-group.row
+			for cur in curso
+				a.btn.btn-outline-info.btn-sm(href='/home/horario/new/'+cur.id_curso) #{cur.curso}

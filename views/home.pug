@@ -21,17 +21,17 @@ html
 					a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
 						| Registrar
 					.dropdown-menu
-						a.dropdown-item(href='/home/estudiante') Estudiante
-						a.dropdown-item(href='/home/docente') Docente
-						a.dropdown-item(href='/home/tutor') Tutor
-				li.nav-item
-					a.nav-link(href='/home/lisadm') Ver Admi
-				li.nav-item
-					a.nav-link(href='/home/lisest') Ver estu
-				li.nav-item
-					a.nav-link(href='/home/lisdoc') Ver doce
-				li.nav-item
-					a.nav-link(href='/home/listut') Ver tut
+						a.dropdown-item(href='/home/estudiante') Nuevo Estudiante
+						a.dropdown-item(href='/home/docente') Nuevo Docente
+						a.dropdown-item(href='/home/tutor') Nuevo Tutor
+				li.nav-item.dropdown
+					a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
+						| Ver Lista
+					.dropdown-menu
+						a.dropdown-item(href='/home/lisadm') Ver administradores
+						a.dropdown-item(href='/home/lisest') Ver Estudiantes
+						a.dropdown-item(href='/home/lisdoc') Ver Docentes
+						a.dropdown-item(href='/home/listut') Ver tutor
 				li.nav-item
 					a.nav-link(href='/home/materias') Materias
 				// Dropdown
@@ -39,7 +39,6 @@ html
 					a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
 						| ASIGNACIONES
 					.dropdown-menu
-						a.dropdown-item(href='/home/asigtut') asignacion de tutores
 						a.dropdown-item(href='/home/asigdoc') asignacion docentes
 				li.nav-item.dropdown
 					a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
@@ -47,7 +46,6 @@ html
 					.dropdown-menu
 						a.dropdown-item(href
 						='/home/curso') Agregar curso
-						a.dropdown-item(href='#') Ver cursos
 				li.nav-item.dropdown
 					a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
 						| Calificaciones
@@ -55,6 +53,12 @@ html
 						a.dropdown-item(href='#') todo
 						a.dropdown-item(href='/calificacion') ver por materias
 						a.dropdown-item(href='#') ver por alumno
+				li.nav-item.dropdown
+					a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
+						| HORARIOS
+					.dropdown-menu
+						a.dropdown-item(href='/home/horario') Crear Horario
+						a.dropdown-item(href='#') Ver Horario
 				li.nav-item.dropdown
 					a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
 						| Gestion

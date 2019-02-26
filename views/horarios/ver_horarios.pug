@@ -1,9 +1,22 @@
 extends ../doce.pug
 block contenido
 	
-	div(class="col-md-6 remove-float center-block big-top-space")
+	div(class="col-md-6 remove-float")
 		h3 Horarios
-
+		.table-responsive
+			table.table.table-bordered
+				thead
+					tr
+						th Materias
+						th Lunes
+						th Martes
+						th Miercoles
+						th Jueves
+						th Viernes
+				tbody
+					for lista in materias
+						tr
+							td #{lista.area}
 		//- form(action="/doce/ver/"+persona+"?_method=PUT", method="post")
 			
 			div(class="form-group")

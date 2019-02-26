@@ -1,7 +1,7 @@
 extends ../home.pug
 block contenido
 
-		h1 asignar materia a docente
+		h1 Asignar Materia a Docente
 		.row
 			.col-sm-5
 				.table-responsive
@@ -48,23 +48,43 @@ block contenido
 				for imp in docur
 					li #{imp.curso}
 		.row
-			.col-sm-7.color3
-				h4 SELECCIONE LAS MATERIAS PARA ASIGNAR A DOCENTE
-
-				form(action='/home/asigdoc/'+docente[0].id_persona+'/save', class="",method="POST")
-					for mat in materias
-						.checkbox
-							label
-								input(type='checkbox', name='selec[]' value=mat.id_materia)
-								| #{mat.area}
-					input(type="submit", value="Asignar Materia" class="btn btn-primary")
-			.col-sm-5.color4
-				h4 SELECIONE LOS CURSOS PARA ASIGNAR
-				form(action='/home/asigdoc/'+docente[0].id_persona+'/savecurso', method="POST")
-					for curso in cursos
-						.checkbox
+			//- si docente es primario
+			if (tipo==1)
+				.col-sm-7.color3
+					h6 Tipo Docente  : Docente primaria
+					h4 SELECCIONE LAS MATERIAS PARA ASIGNAR A DOCENTE
+					form(action='/home/asigdoc/'+docente[0].id_persona+'/save', class="",method="POST")
+						for mat in materias
+							.checkbox
 								label
-									input(type='checkbox', name='selec2[]' value=curso.id_curso)
-									| #{curso.curso}
-					input(type="submit", value="Asignar Curso" class="btn btn-primary")
-			dfdf
+									input(type='checkbox', name='selec[]' value=mat.id_materia)
+									| #{mat.area}
+						input(type="submit", value="Asignar Materia" class="btn btn-primary")
+				.col-sm-5.color4
+					h4 SELECIONE LOS CURSOS PARA ASIGNAR
+					form(action='/home/asigdoc/'+docente[0].id_persona+'/savecurso', method="POST")
+						select(class="form-control" name="selec2[]")
+							for curso in cursos
+								option(value=curso.id_curso) #{curso.curso}
+						input(type="submit", value="Asignar Curso" class="btn btn-primary")
+			else
+				//- si docente es de especialidad
+				if (tipo==2)
+					
+					.col-sm-6.color3
+						h6 Tipo docente : Docente de especialidad
+						h4 SELECCIONE LAS MATERIAS PARA ASIGNAR A DOCENTE
+						form(action='/home/asigdoc/'+docente[0].id_persona+'/save', class="",method="POST")
+							select(class="form-control " name="selec[]")
+								for mat in materias
+									option(value=mat.id_materia) #{mat.area}
+							input(type="submit", value="Asignar Materia" class="btn btn-primary")
+					.col-sm-5.color4
+						h4 SELECIONE LOS CURSOS PARA ASIGNAR
+						form(action='/home/asigdoc/'+docente[0].id_persona+'/savecurso', method="POST")
+							for curso in cursos
+								.checkbox
+										label
+											input(type='checkbox', name='selec2[]' value=curso.id_curso)
+											| #{curso.curso}
+							input(type="submit", value="Asignar Curso" class="btn btn-primary")

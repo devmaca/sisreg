@@ -106,13 +106,16 @@ router.route("/conductas/:id/:id2")
 
 router.route("/horarios")
 	.get(function(req,res){
+		var sql='select materias.* from imparte,materias where imparte.id_docente=? && materias.id_materia=imparte.materia'
+		con.query(sql,[req.session.usuario], function(err,result){
+			res.render('horarios/ver_horarios',{materias:result})
+		})
 		// con.query('Select * from materias', function(err, result){
 		// 	if(err){ throw err;}
 		// 	console.log(result);
 		// 	 res.render('materias',{materias:result});
 
 		// 	});
-		res.render("horarios/ver_horarios")
 		
 	})
 	.post(function(req,res){
@@ -134,6 +137,7 @@ router.get('/mismaterias', function(req,res){
 	})
 })
 /*mostrar materias del docente*/
+var bim=[1,2,3,4];// bimestres
 router.get("/mostrar/:id", function (req,res) {
 	
 	var sql='SELECT * FROM materias WHERE id_materia=?';
@@ -144,69 +148,107 @@ router.get("/mostrar/:id", function (req,res) {
 		con.query(sqlid,[req.session.usuario], function(err,result2){
 			if(err){ throw err;}
 			console.log(result);
-			res.render('mostrar/list_curso_doc',{curso:result2,materia:result});	
+			res.render('mostrar/list_curso_doc',{curso:result2,materia:result,bim:bim});	
 		})
 
 	})
 })
 /*mostrar estudiantes de cursos
 	el parametro :id es la id de la materia
-	el parametro :id2 es la id del curso*/
-const arr=[];	
-router.route("/mostrar/:id/:id2")
+*/
+router.route("/notas/:id")
 	.get(function (req,res) {
 		var sql="SELECT * FROM materias WHERE id_materia=?"
 		var sql2="SELECT * FROM cursos WHERE id_curso=?";
-		var sql3='SELECT personas.* FROM estudiantecurso, personas WHERE estudiantecurso.id_estudiante=personas.id_persona && estudiantecurso.id_curso=?';
-		//var sql4='SELECT nota FROM `calificaciones` WHERE id_estudiante=? && bimestre=? && id_materia=?';
+		var sql3='SELECT personas.* FROM estudiantes, personas WHERE estudiantes.id_estudiante=personas.id_persona && estudiantes.id_curso=?';
+		var sql4='SELECT id_calificacion,id_estudiante,nota FROM `calificaciones` WHERE bimestre=? && id_materia=?';
+		console.log("bimestre : "+req.query.bim)
+		var bimestre=req.query.bim;
 		con.query(sql,[req.params.id], function(err,result){
 			if(err){ throw err;}
 			console.log(result);
-			con.query(sql2,[req.params.id2], function(err,result2){
+			con.query(sql2,[req.query.cur], function(err,result2){
 				if(err){ throw err;}
 				console.log(result2);
-				con.query(sql3,[req.params.id2], function(err,result3){
+				con.query(sql3,[req.query.cur], function(err,result3){
 					if(err){ throw err;}
-					console.log(result.nombres);
-					arr.push(result);
-					arr.push(result2);
-					arr.push(result3);
-
-					 res.render('mostrar/list_curso_est',{materia:result,curso:result2,estudiante:result3});
-					// res.send({materia:result,curso:result2,estu:result3})
+					con.query(sql4,[bimestre,req.params.id], function(err,result4){
+						if(err){ throw err;}
+						var boletin=[];
+						for (var i=0;i<result3.length;i++){
+							var b=0;
+							var b2={
+									nota:0,
+									descripcion:'no tiene nota aun'}
+							var aux={};
+							for (var j=0; j<result4.length; j++){
+								if(result4[j].id_estudiante==result3[i].id_persona){
+									b=1;
+									aux=result4[j];
+								}
+							}
+							if(b==0){
+								console.log(b2)
+								boletin[i]= Object.assign(result3[i],b2)
+							}
+							if(b==1){
+								boletin[i]= Object.assign(result3[i],aux)
+							}
+								
+						}
+							// res.send({bole:boletin});
+							res.render('mostrar/list_curso_est',{materia:result,curso:result2,bimestre:bimestre,est:boletin})
+						})
+						
+						// var c=0;
+						// var boletin=[];
+						// for (const ob1 of result4){
+						// 	for (const ob2 of result3){
+						// 		if(ob1.id_estudiante==ob2.id_persona){
+						// 			boletin[c]= Object.assign(ob1,ob2);
+						// 			c++;
+						// 		}
+						// 	}
+						// }
+						// res.render('mostrar/list_curso_est',{materia:result,curso:result2,estu:result3,bimestre:bimestre,notas:result4})
+					})
+					
+					// res.render('mostrar/list_curso_est',{materia:result,curso:result2,estudiante:result3,bimestre:bimestre});
+					// res.send({materia:result,curso:result2,estu:result3,bimestre:bimestre})
 				})
 			})
 
 		})
-	})
 	.post(function (req,res){
-		// var sql="INSERT INTO calificaciones (nota,bimestre,id_materia,id_estudiante,gestion) VALUES(?,?,?,?,?)"
-		// con.query(sql,[nota,req.params.id,req,params.id2], function(err,result){
-		// 	res.send({nota:result});
-		//})
-		
-		console.log(req.body.nota);
-		console.log(req.body)
-		console.log(req.params)
-		console.log(req.query)
-		console.log(req.json)
-		res.send(arr)
+		var fecha=moment().format('YYYY');
+		var cal={
+			id_est:req.body.id_est,
+			nota:req.body.nota,
+			bimestre:req.body.bim,
+			id_mat:req.params.id,
+			id_cur:req.body.cur
+		}
+		var sql="INSERT INTO calificaciones (nota,bimestre,id_materia,id_estudiante,gestion) VALUES(?,?,?,?,?)"
+		con.query(sql,[cal.nota,cal.bimestre,cal.id_mat,cal.id_est,fecha], function(err,result){
+			// res.send({nota:result});
+			res.redirect('/doce/notas/'+req.params.id+'?cur='+cal.id_cur+'&bim='+cal.bimestre);
+		})
+	})
+	.put(function (req,res){
+		let sql='UPDATE calificaciones SET nota=? WHERE id_calificacion=?'
+		con.query(sql,[req.body.nota,req.params.id], function(err,result){
+			res.redirect('/doce/notas/'+req.body.mat+'?cur='+req.body.cur+'&bim='+req.body.bim);
+		})
 	})
 
-
-// router.get("/mostrar/:id/:id2/edit", function(req,res){
+/*el parametro :id es la id de la calificacion*/
+router.get("/notas/:cal/:curso/edit", function(req,res){
+	var sql='SELECT calificaciones.* FROM calificaciones WHERE id_calificacion=? '
+	con.query(sql,[req.params.cal], function(err, result){
+			if(err){ throw err;}
+			
+		res.render('edit/nota',{cal:result,curso:req.params.curso});
+	});
 	
-// 	var sql4='SELECT nota FROM `calificaciones` WHERE id_estudiante=? && bimestre=? && id_materia=?'
-// 	con.query(sql,[req.params.id], function(err, result){
-// 			if(err){ throw err;}
-// 			//res.render('mostrar/listar_estud',{personas:result});			
-// 		con.query(sql2,[req.params.id], function(err, result2){
-// 		if(err){ throw err;}
-// 		res.render('edit/estudiante',{curso:result,estudiante:result2});			
-// 		//res.send({curso:result,estudiante:result2});
-// 		});
-		
-// 	});
-// 	//res.send("aqui se visualisara la lista de estudiantees registradors en el sistema");
-// })
+})
 module.exports=router;

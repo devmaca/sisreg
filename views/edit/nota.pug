@@ -1,0 +1,41 @@
+doctype html
+html
+	head
+		title doce
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		link(href='/static/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
+		//- link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css')
+		//- script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+		script(src='/public/jquery-3.3.1.js')
+		//- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js')
+		script(src='/static/bootstrap/dist/js/bootstrap.min.js')
+		link(href="/public/css/app.css" rel="stylesheet")
+	body
+		.container
+			h1 Modificar Nota
+			form(action="/doce/notas/"+cal[0].id_calificacion+"?_method=PUT", class="",method="POST")
+				.form-group.row
+					label(for="mat" class="col-form-label col-sm-2") Materia:
+					.col-sm-2
+						h5(class="form-control") #{cal[0].id_materia}
+						input(type="hidden" class="form-control" id="mat" name="mat" value=cal[0].id_materia)
+				.form-group.row
+					label(for="cur" class="col-form-label col-sm-2") Curso:
+					.col-sm-2
+						h5(class="form-control") #{curso}
+						input(type="hidden" clas="form-control" id="cur" name="cur" value=curso)
+				.form-group.row
+					label(for="id_est" class="col-form-label col-sm-2") Id_estudiante :
+					.col-sm-2
+						h5(class="form-control") #{cal[0].id_estudiante}
+				.form-group.row
+					label(for="bimestre" class="col-form-label col-sm-2") Bimestre :
+					.col-sm-2
+						h5(class="form-control") #{cal[0].bimestre}
+						input(type="hidden" class="form-control" id="bim" name="bim" value=cal[0].bimestre)
+				.form-group.row
+					label(for="nota" class="col-form-label col-sm-2") Nota :
+					.col-sm-2
+						input(type="text" class="form-control" id="nota" name="nota" value=cal[0].nota)
+				input(type="submit", value="Guardar" class="btn btn-outline-info btn-sm")

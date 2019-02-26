@@ -1,0 +1,47 @@
+extends ../home.pug
+block contenido
+		h1 Crear horario
+		h5 Curso : #{curso[0].curso}
+		form(class="" action="/home/horario/new/"+curso[0].id_curso, method="post")
+			.form-group.row
+				input(type="hidden" class="form-control" id="curso" name="curso" value=curso[0].curso)
+			.form-group.row
+				label(for='materia' class="col-form-label col-sm-2")  MATERIA: 
+				.col-sm-2
+					select(id="materia" class="form-control " name="materia")
+						for lista in materia
+							option(value=lista.id_materia) #{lista.area}
+			.form-group.row
+				label(for="hora" class="col-form-label col-sm-2") HORA INICIO:
+				.col-sm-5
+					input(type="text" class="form-control" id="hora" name="hora" placeholder=" hora inicio")
+
+			.form-group.row
+				label(for="hora2" class="col-form-label col-sm-2") HORA FIN:
+				.col-sm-5
+					input(type="text" class="form-control" id="hora2" name="hora2" placeholder=" hora fin")
+
+			.form-group.row
+				label(for="dias" class="col-form-label col-sm-2") DIAS:
+				.col-sm-5
+					for dia in dias
+						.checkbox
+							label
+								input(type='checkbox', name='day[]' value=dia)
+								| #{dia}
+			
+			button(type="submit" value="guardar" class="btn btn-success") Agregar
+
+		.table-responsive
+			table.table.table-bordered
+				thead
+					tr
+						th Materias
+						th Hora
+						th dia
+				tbody
+					for h in hor
+						tr
+							td #{h.area}
+							td #{h.hora_inicio} - #{h.hora_fin}
+							td #{h.dia}
