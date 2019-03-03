@@ -1,0 +1,19 @@
+extends ../doce.pug
+block contenido
+		h2 Seleccionar boletin por curso y materia
+		form(action='/doce/bol/', class="",method="POST")
+			.form-group.row
+				label(for="mat" class="col-form-label col-sm-2") Materia
+				.col-sm-2
+					select(id="mat" class="form-control " name="mat")
+						for m in materia
+							option(value=m.id_materia) #{m.area}
+			.form-group.row
+				label(for="cur" class="col-form-label col-sm-2") Curso
+				.col-sm-4
+					select(id="cur" class="form-control " name="cur")
+						for c in curso
+							option(value=c.id_curso) #{c.curso}
+
+			
+				input(type="submit", value="ENTRAR" class="btn btn-primary")

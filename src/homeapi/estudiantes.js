@@ -39,7 +39,10 @@ function estPost(req, res, next) {
     console.log('apiREST params', req.params);
     console.log('apiREST query', req.query);
     console.log('apiREST body', req.body);
-
+    var msg = ""
+    if(req.body.nomb==""){
+        msg = "no dejar en blanco";
+      }
     let sql = 'SELECT * FROM personas';
     //let sql = 'INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)'
     let a = con.query(sql,[], function(err,result) {
@@ -55,6 +58,7 @@ function estPost(req, res, next) {
         res.status(200).send({
           finalizado: true,
           mensaje: 'post OK',
+          ms:msg,
           datos: result
         });
       }

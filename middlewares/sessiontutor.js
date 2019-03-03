@@ -15,6 +15,7 @@ module.exports = function(req,res,next){
 				res.send("nooooo puede entrar aqui");
 			}else{
 			tutor=result[0].id_tutor;
+			res.locals={user:req.session.usuario};
 			console.log("usuario "+req.session.usuario+" inicio sesion...");
 			next();
 			}

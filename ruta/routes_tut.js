@@ -4,9 +4,9 @@ var router=express.Router();
 
 //regaroma.com/tut
 router.get('/', function(req,res){
-	// res.render('tutor');
-	var usuario=req.session.usuario
-	res.send("scandal");
+
+	res.render('tuto')
+	// res.send("scandal");
 })
 // para ver datos personales del usuario
 router.get('/ver', function(req,res){

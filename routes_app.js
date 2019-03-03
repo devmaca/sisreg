@@ -25,7 +25,47 @@ var estado={
 		a:'1',
 		i:'0'
 }
-
+function valEst(a){
+	var ok = true;
+  	var msg = "Debes escribir algo en los campos:\n";
+  	var error=[];
+	if(a.nombre==""){
+		msg += "- nombre\n";
+		error.push({text:'Porfavor escribe un nombre'})
+		ok=false;
+	}
+	if(a.apat==""){
+		msg += "- apellido\n";
+		error.push({text:'Por favor escribe un apellido'})
+		ok = false;
+	}
+	if(a.amat==""){
+		msg += "- apellido\n";
+		error.push({text:'Porfavor escribe un apellido'})
+		ok=false;
+	}
+	if(a.ci==""){
+		msg += "- ci\n";
+		error.push({text:'Porfavor escriba numero de carnet'})
+		ok=false;
+	}
+	if(a.direccion==""){
+		msg += "- direccion\n";
+		error.push({text:'Porfavor escriba una direccion'})
+		ok=false;
+	}
+	if(a.tel==""){
+		msg += "- telefono\n";
+		error.push({text:'Porfavor escribe un telefono'})
+		ok=false;
+	}
+	if(ok == false){
+    	// console.log(msg)
+    	// console.log(ok);
+    	return a=error;
+	}
+  	
+}
 //registrar estudiante
 router.route("/estudiante")
 	.get(function(req,res){
@@ -64,24 +104,45 @@ router.route("/estudiante")
 	.post(function(req,res){
 		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)"
 		var sql2="INSERT INTO estudiantes (id_estudiante,rude,ci_tutor,id_curso) VALUES(?,?,?,?)"
+		let sql3='SELECT * FROM cursos'
 		var gestion=moment().format('YYYY');
-		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass,rol.estud,estado.a],function(err,result){
-			if(err){ throw err;}
-			//console.log('number of record table persona...'+result.affectedRows);
-			idPer=result.insertId;
-			console.log('id asignado a la persona :'+idPer);
 
-			con.query(sql2,[idPer,req.body.rude,req.body.citut,req.body.curso],function(err,result){
-			if(err){ throw err;}
-			//console.log('number of record table estudiantes...'+result.affectedRows);
-			console.log('number of record table estudiantes...'+result.affectedRows+'Id asignada :'
-				+idPer);
+		var alumno={
+			nombre:req.body.nomb,
+			apat:req.body.apep,
+			amat:req.body.apem,
+			ci:req.body.ci,
+			direccion:req.body.dir,
+			tel:req.body.tel
+		}
+		var error=valEst(alumno);
+		console.log(error);
+		if(error){
+			con.query(sql3,[], function(err,result){
+				res.render("persona/estudiante",{mensaje:error,cursos:result})
 			})
 			
-		})
+		}else{
+			res.send("todo correcto")
+		}
+		
+		// con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass,rol.estud,estado.a],function(err,result){
+		// 	if(err){ throw err;}
+		// 	//console.log('number of record table persona...'+result.affectedRows);
+		// 	idPer=result.insertId;
+		// 	console.log('id asignado a la persona :'+idPer);
+
+		// 	con.query(sql2,[idPer,req.body.rude,req.body.citut,req.body.curso],function(err,result){
+		// 	if(err){ throw err;}
+		// 	//console.log('number of record table estudiantes...'+result.affectedRows);
+		// 	console.log('number of record table estudiantes...'+result.affectedRows+'Id asignada :'
+		// 		+idPer);
+		// 	})
+			
+		// })
 
 
-		res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home/estudiante"><<--volver atras</a></h1>'+req.body.curso)
+		// res.send('<h1>registrado exitosamente!</h1> <h1><a href="/home/estudiante"><<--volver atras</a></h1>'+req.body.curso)
 	})
 
 	// Rutas apiRest

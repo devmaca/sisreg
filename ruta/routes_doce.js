@@ -4,6 +4,7 @@ var router=express.Router();
 var moment = require('moment');//manejador de fechas y horas
 //regaroma.com/doce
 router.get('/', function(req,res){
+	// res.send({user:req.session.usuario})
 	res.render('doce');
 })
 // para ver datos personales del usuario
@@ -36,13 +37,6 @@ router.route("/ver/:id")
 		})
 		// res.send(req.params.id)
 	})
-
-router.get("/ver/:id/edit", function (req,res) {
-
-	res.render('usuario/edit',{persona:req.params.id});
-	// res.send({persona:req.params.id})	
-	
-})
 // conductas
 
 router.route("/conductas")
@@ -187,18 +181,18 @@ router.route("/notas/:id")
 									aux=result4[j];
 								}
 							}
-							if(b==0){
+							if(b==0){//no tiene nota
 								console.log(b2)
 								boletin[i]= Object.assign(result3[i],b2)
 							}
-							if(b==1){
+							if(b==1){//si tiene nota
 								boletin[i]= Object.assign(result3[i],aux)
 							}
 								
 						}
 							// res.send({bole:boletin});
 							res.render('mostrar/list_curso_est',{materia:result,curso:result2,bimestre:bimestre,est:boletin})
-						})
+					})
 						
 						// var c=0;
 						// var boletin=[];
@@ -211,14 +205,14 @@ router.route("/notas/:id")
 						// 	}
 						// }
 						// res.render('mostrar/list_curso_est',{materia:result,curso:result2,estu:result3,bimestre:bimestre,notas:result4})
-					})
+				})
 					
 					// res.render('mostrar/list_curso_est',{materia:result,curso:result2,estudiante:result3,bimestre:bimestre});
 					// res.send({materia:result,curso:result2,estu:result3,bimestre:bimestre})
-				})
 			})
-
 		})
+
+	})
 	.post(function (req,res){
 		var fecha=moment().format('YYYY');
 		var cal={
@@ -237,6 +231,7 @@ router.route("/notas/:id")
 	.put(function (req,res){
 		let sql='UPDATE calificaciones SET nota=? WHERE id_calificacion=?'
 		con.query(sql,[req.body.nota,req.params.id], function(err,result){
+			console.log(result.affectedRows + " record(s) updated");
 			res.redirect('/doce/notas/'+req.body.mat+'?cur='+req.body.cur+'&bim='+req.body.bim);
 		})
 	})
@@ -251,4 +246,49 @@ router.get("/notas/:cal/:curso/edit", function(req,res){
 	});
 	
 })
+
+router.route('/bol')
+	.get(function(req,res){
+		//let sql='SELECT * FROM `calificaciones` WHERE  id_materia=?'
+		let sql2='SELECT * FROM cursos,docentecurso WHERE docentecurso.id_curso=cursos.id_curso && docentecurso.id_docente=?';
+		let sql3= 'SELECT materias.* FROM imparte,materias where imparte.id_docente=? && materias.id_materia=imparte.materia'
+		con.query(sql2,[req.session.usuario], function(err,result){
+			if(err){ throw err;}
+			con.query(sql3,[req.session.usuario], function(err,result2){
+				if(err){ throw err;}
+				res.render('boletin/seleccionar', {curso:result,materia:result2})
+				// res.send({curso:result,materia:result2})
+			})
+		})
+	})
+	.post(function(req,res){
+		let sql='SELECT * FROM `calificaciones` WHERE id_materia=?';
+		let sql2='SELECT personas.* FROM estudiantes, personas WHERE estudiantes.id_estudiante=personas.id_persona && estudiantes.id_curso=?'
+		con.query(sql,[req.body.mat], function(err,result){
+			if(err){ throw err;}
+			if(result==0){console.log("no hay notas en esta materia")
+				res.send('no hay notas')}
+			else{
+			con.query(sql2,[req.body.cur], function(err,result2){
+				if(err){ throw err;}
+				var bolet=[];
+				for(var i=0;i<result2.length;i++){//iterar objeto estudiantes
+					var arr=[];
+					
+					for(var j=0;j<result.length;j++){
+						if(result[j].id_estudiante==result2[i].id_persona){
+							arr.push(result[j]);
+						}
+					}
+					// console.log(arr);
+					var b={boletin:arr};
+					bolet[i]=Object.assign(result2[i],b);
+					// bolet[i]= Object.assign(result2[i],b3[i])
+				}
+				console.log(bolet);
+				res.send({boletin:bolet});
+			})  }//fin else
+		})
+		
+	})
 module.exports=router;

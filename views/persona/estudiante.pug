@@ -3,7 +3,13 @@ block contenido
 
 
 		h1 Registrar Nuevo Estudiante
-		form(id="form" class="" action="/home/estudiante", method="post" onsubmit="return validarest(this)")
+		form(id="form" class="" action="/home/estudiante", method="post")
+			if (mensaje)
+				for msj in mensaje
+					.alert.alert-warning.alert-dismissible.fade.show(role='alert')
+						| #{msj.text}
+						button.close(type='button', data-dismiss='alert', aria-label='Close')
+							span(aria-hidden='true') ×
 			.form-group.row
 				label(for="nom" class="col-form-label col-sm-2") Nombres:
 				.col-sm-10
@@ -156,17 +162,10 @@ block contenido
 			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormPut('form',4)") Enviar putId
 			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormDelete('form',6)") Enviar deleteId
 			input(type="text" id="datorecibido")
-
-		h3 registro
-		table.table.table-bordered
-				thead
-					tr
-						th nombre
-				tbody
-					//- for per in datos
-					//- 	tr
-					//- 		td #{per.id_persona}
-					//- 		td #{per.nombre}
+			h2
+		.alert.alert-danger(role='alert')
+			| This is a danger alert—check it out!
+		
 		script
 			include estudiante.js
 		script

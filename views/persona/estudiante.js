@@ -57,7 +57,7 @@ function enviarFormPost(idform) {
     // la peticion api se realizo correctamente
     console.log(1, "success", resp);
     $(`#datorecibido`).val(resp.mensaje);
-    $(`#elnombre`).val(resp.nomb);
+    $( "<h2>" ).text( resp.ms ).appendTo( "body" );
   }).fail(function(error) {
     // la peticion api fallo
     console.log(2, "error", error.status, error.statusText);

@@ -1,7 +1,7 @@
 doctype html
 html
 	head
-		title doce
+		title Tutor
 		meta(charset='utf-8')
 		meta(name='viewport', content='width=device-width, initial-scale=1')
 		link(href='/static/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
@@ -21,19 +21,17 @@ html
 					a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
 						| Datos Personales
 					.dropdown-menu
-						a.dropdown-item(href='/doce/ver') Ver datos
+						a.dropdown-item(href='/tut/ver') Ver datos
 						
 				li.nav-item
-					a.nav-link(href='/doce/mismaterias') Mis materias
+					a.nav-link(href='#') Estudiantes
 				li.nav-item
-					a.nav-link(href='/doce/horarios') Horarios
+					a.nav-link(href='#') Horarios
 				li.nav-item
-					a.nav-link(href='/doce/conductas') Conductas
-				li.nav-item
-					a.nav-link(href='/doce/bol') Boletin
+					a.nav-link(href='#') Conductas
 				li.nav-item
 					a.navbar-brand(class="btn.btn-outline-success" href='/logout') Logout
-		h6 Usuario Docente: #{user}  Nombre : #{nom} #{ape}
+		h6 Usuario Tutor: #{user}  Nombre : #{nom} #{ape}
 		.container
 			block contenido
 			
