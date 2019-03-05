@@ -10,50 +10,62 @@ console.log(0, $); //  jQuery
 */
 function showMensaje(elemento, mensaje, tipo, noCerrar) {
   tipo = tipo || 'success';
-  let alert = document.createElement('DIV');
-  alert.innerHTML = mensaje;
-  alert.setAttribute('class','alert alert-'+tipo+' ' + (!noCerrar?'alert-dismissible':'') + ' fade show');
-  alert.setAttribute('role','alert');
-  if (!noCerrar) {
-    let button = document.createElement('BUTTON');
-    button.setAttribute('class','close');
-    button.setAttribute('type','button');
-    button.setAttribute('data-dismiss','alert');
-    button.innerHTML = '<span aria-hidden="true">×</span>';
-    alert.append(button);
+  let alertas = elemento.getElementsByClassName('alert alert-'+tipo);
+  if (alertas.length<1) {
+    let alert = document.createElement('DIV');
+    alert.innerHTML = mensaje;
+    alert.setAttribute('id',elemento.name);
+    alert.setAttribute('style','position:absolute; width:75%; left:23%; top:0;');
+    alert.setAttribute('class','alert alert-'+tipo+' ' + (!noCerrar?'alert-dismissible':'') + ' fade show');
+    alert.setAttribute('role','alert');
+    if (!noCerrar) {
+      let button = document.createElement('BUTTON');
+      button.setAttribute('class','close');
+      button.setAttribute('type','button');
+      button.setAttribute('data-dismiss','alert');
+      button.innerHTML = '<span aria-hidden="true">×</span>';
+      alert.append(button);
+    }
+    elemento.parentNode.append(alert);
+    elemento.setAttribute('onClick',`borrarAlertas(this,'${tipo}')`);
   }
-  elemento.append(alert);
+}
+
+function borrarAlertas(elemento, tipo) {
+  let alertas = elemento.parentNode.getElementsByClassName('alert alert-'+tipo);
+  for (let i=0;i<alertas.length;i++) {
+    elemento.parentNode.removeChild(alertas[i]);
+  }
 }
 
 // Funcion para validar campos del formulario
 function validarCampos(form) {
   // la variable form es el objeto formulario (nativo)
   let formValido = true;
-  console.log(form.nomb.parentNode);
   if (!form.nomb.value) {
     formValido = false;
-    showMensaje(form.nomb.parentNode, 'Debes escribir un nombre.','warning');
+    showMensaje(form.nomb, 'Debes escribir un nombre.','warning');
   }
   if (!form.apep.value && !form.apem.value) {
     formValido = false;
-    showMensaje(form.apep.parentNode, 'Debes escribir por lo menos un apellido.','warning');
-    showMensaje(form.apem.parentNode, 'Debes escribir por lo menos un apellido.','warning');
+    showMensaje(form.apep, 'Debes escribir por lo menos un apellido.','warning');
+    showMensaje(form.apem, 'Debes escribir por lo menos un apellido.','warning');
   }
   if (!form.ci.value) {
     formValido = false;
-    showMensaje(form.ci.parentNode, 'Debes escribir el numero cedula de identidad.','warning');
+    showMensaje(form.ci, 'Debes escribir el numero cedula de identidad.','warning');
   }
   if (!form.tel.value) {
     formValido = false;
-    showMensaje(form.tel.parentNode, 'Debes escribir el numero de telefono.','warning');
+    showMensaje(form.tel, 'Debes escribir el numero de telefono.','warning');
   }
   if (!form.user.value) {
     formValido = false;
-    showMensaje(form.user.parentNode, 'Debes escribir el nombre de usuario.','danger');
+    showMensaje(form.user, 'Debes escribir el nombre de usuario.','danger');
   }
   if (!form.pass.value) {
     formValido = false;
-    showMensaje(form.pass.parentNode, 'Debes escribir una contraseña segura!.','danger', true);
+    showMensaje(form.pass, 'Debes escribir una contraseña segura!.','danger', true);
   }
   return formValido;
 }
