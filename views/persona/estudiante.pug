@@ -3,7 +3,7 @@ block contenido
 
 
 		h1 Registrar Nuevo Estudiante
-		form(id="form" class="" action="/home/estudiante", method="post")
+		form(id="form" class="" action="/home/estudiante" onsubmit="return validarCampos(this);", method="post")
 			if (mensaje)
 				for msj in mensaje
 					.alert.alert-warning.alert-dismissible.fade.show(role='alert')

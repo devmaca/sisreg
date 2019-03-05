@@ -2,6 +2,63 @@
 
 console.log(0, $); //  jQuery
 
+/* Funcion para generar HTML de alertas
+* elemento: Elemento HTML padre
+* mensaje: Mensaje a mostrarse
+* tipo: info, warning, danger, success. (success por defecto)
+* noCerrar: true, false. NO mostrar boton ocultar mensaje. (false por defecto)
+*/
+function showMensaje(elemento, mensaje, tipo, noCerrar) {
+  tipo = tipo || 'success';
+  let alert = document.createElement('DIV');
+  alert.innerHTML = mensaje;
+  alert.setAttribute('class','alert alert-'+tipo+' ' + (!noCerrar?'alert-dismissible':'') + ' fade show');
+  alert.setAttribute('role','alert');
+  if (!noCerrar) {
+    let button = document.createElement('BUTTON');
+    button.setAttribute('class','close');
+    button.setAttribute('type','button');
+    button.setAttribute('data-dismiss','alert');
+    button.innerHTML = '<span aria-hidden="true">×</span>';
+    alert.append(button);
+  }
+  elemento.append(alert);
+}
+
+// Funcion para validar campos del formulario
+function validarCampos(form) {
+  // la variable form es el objeto formulario (nativo)
+  let formValido = true;
+  console.log(form.nomb.parentNode);
+  if (!form.nomb.value) {
+    formValido = false;
+    showMensaje(form.nomb.parentNode, 'Debes escribir un nombre.','warning');
+  }
+  if (!form.apep.value && !form.apem.value) {
+    formValido = false;
+    showMensaje(form.apep.parentNode, 'Debes escribir por lo menos un apellido.','warning');
+    showMensaje(form.apem.parentNode, 'Debes escribir por lo menos un apellido.','warning');
+  }
+  if (!form.ci.value) {
+    formValido = false;
+    showMensaje(form.ci.parentNode, 'Debes escribir el numero cedula de identidad.','warning');
+  }
+  if (!form.tel.value) {
+    formValido = false;
+    showMensaje(form.tel.parentNode, 'Debes escribir el numero de telefono.','warning');
+  }
+  if (!form.user.value) {
+    formValido = false;
+    showMensaje(form.user.parentNode, 'Debes escribir el nombre de usuario.','danger');
+  }
+  if (!form.pass.value) {
+    formValido = false;
+    showMensaje(form.pass.parentNode, 'Debes escribir una contraseña segura!.','danger', true);
+  }
+  return formValido;
+}
+
+
 // Enviar por get
 function enviarFormGet(idform) {
   let formObj = {};
