@@ -8,7 +8,7 @@ console.log(0, $); //  jQuery
 * tipo: info, warning, danger, success. (success por defecto)
 * noCerrar: true, false. NO mostrar boton ocultar mensaje. (false por defecto)
 */
-function showMensaje(elemento, mensaje, tipo, noCerrar) {
+function mostrarAlerta(elemento, mensaje, tipo, noCerrar) {
   tipo = tipo || 'success';
   let alertas = elemento.getElementsByClassName('alert alert-'+tipo);
   if (alertas.length<1) {
@@ -44,28 +44,28 @@ function validarCampos(form) {
   let formValido = true;
   if (!form.nomb.value) {
     formValido = false;
-    showMensaje(form.nomb, 'Debes escribir un nombre.','warning');
+    mostrarAlerta(form.nomb, 'Debes escribir un nombre.','warning');
   }
   if (!form.apep.value && !form.apem.value) {
     formValido = false;
-    showMensaje(form.apep, 'Debes escribir por lo menos un apellido.','warning');
-    showMensaje(form.apem, 'Debes escribir por lo menos un apellido.','warning');
+    mostrarAlerta(form.apep, 'Debes escribir por lo menos un apellido.','warning');
+    mostrarAlerta(form.apem, 'Debes escribir por lo menos un apellido.','warning');
   }
   if (!form.ci.value) {
     formValido = false;
-    showMensaje(form.ci, 'Debes escribir el numero cedula de identidad.','warning');
+    mostrarAlerta(form.ci, 'Debes escribir el numero cedula de identidad.','warning');
   }
   if (!form.tel.value) {
     formValido = false;
-    showMensaje(form.tel, 'Debes escribir el numero de telefono.','warning');
+    mostrarAlerta(form.tel, 'Debes escribir el numero de telefono.','warning');
   }
   if (!form.user.value) {
     formValido = false;
-    showMensaje(form.user, 'Debes escribir el nombre de usuario.','danger');
+    mostrarAlerta(form.user, 'Debes escribir el nombre de usuario.','danger');
   }
   if (!form.pass.value) {
     formValido = false;
-    showMensaje(form.pass, 'Debes escribir una contraseña segura!.','danger', true);
+    mostrarAlerta(form.pass, 'Debes escribir una contraseña segura!.','danger', true);
   }
   return formValido;
 }
