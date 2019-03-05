@@ -31,6 +31,28 @@ function mostrarAlerta(elemento, mensaje, tipo, noCerrar) {
   }
 }
 
+function mostrarAlertaMultiple(elemento, mensaje, tipo, noCerrar) {
+  tipo = tipo || 'success';
+  //let alertas = elemento.getElementsByClassName('alert alert-'+tipo);
+  //if (alertas.length<1) {
+    let alert = document.createElement('DIV');
+    alert.innerHTML = mensaje;
+    alert.setAttribute('id',elemento.name);
+    alert.setAttribute('style','position:relative; width:75%; left:0;');
+    alert.setAttribute('class','alert alert-'+tipo+' ' + (!noCerrar?'alert-dismissible':'') + ' fade show');
+    alert.setAttribute('role','alert');
+    if (!noCerrar) {
+      let button = document.createElement('BUTTON');
+      button.setAttribute('class','close');
+      button.setAttribute('type','button');
+      button.setAttribute('data-dismiss','alert');
+      button.innerHTML = '<span aria-hidden="true">×</span>';
+      alert.append(button);
+    }
+    elemento.append(alert);
+  //}
+}
+
 function borrarAlertas(elemento, tipo) {
   let alertas = elemento.parentNode.getElementsByClassName('alert alert-'+tipo);
   for (let i=0;i<alertas.length;i++) {
@@ -69,6 +91,52 @@ function validarCampos(form) {
   }
   return formValido;
 }
+
+
+// Enviar por post y mostrar alerta
+function enviarFormPostAlertas(idform) {
+  let formObj = {};
+  let form = jQuery(`#${idform}`);
+  $.each(form.serializeArray(), function (i, input) {
+    formObj[input.name] = input.value;
+  });
+  console.log('JSON', formObj);
+
+  $.ajax({
+    url: `api/estudiantes`,
+    method: 'post', // get | post | put | delete
+    data: formObj,
+    headers: {
+      authorization: 'JWT eyqweqweqweqweoqwiepiqwe='
+    },
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(resp) {
+    // la peticion api se realizo correctamente
+    console.log(1, "success", resp);
+
+  }).fail(function(error) {
+    // la peticion api fallo
+    console.log(2, "error", error.status, error.responseJSON);
+    let contenedorAlerta = document.getElementById('alertas-api');
+    if (contenedorAlerta) {
+      if (error.responseJSON && error.responseJSON.mensaje) {
+        mostrarAlertaMultiple(contenedorAlerta, error.responseJSON.mensaje, 'info');
+      }
+      if (error.responseJSON && error.responseJSON.error && error.responseJSON.error.length) {
+        error = error.responseJSON.error;
+        for (let i=0; i<error.length; i++) {
+          mostrarAlertaMultiple(contenedorAlerta, error[i].text, 'warning');
+        }
+      }
+    }
+  }).always(function() {
+    console.log(3, "complete");
+  });
+
+}
+
 
 
 // Enviar por get

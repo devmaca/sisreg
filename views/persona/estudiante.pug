@@ -3,6 +3,7 @@ block contenido
 
 
 		h1 Registrar Nuevo Estudiante
+		.alertas-api(id="alertas-api") &nbsp;
 		form(id="form" class="" action="/home/estudiante" onsubmit="return validarCampos(this);", method="post")
 			if (mensaje)
 				for msj in mensaje
@@ -149,12 +150,13 @@ block contenido
 			.form-group.row
 				label(for="pass" class="col-form-label col-sm-2") Contrasena:
 				.col-sm-10
-					input(type="text" class="form-control" id="pass" name="pass" placeholder="contrasena") 
+					input(type="text" class="form-control" id="pass" name="pass" placeholder="contrasena")
 			.form-group.row
 				label(for="citut" class="col-form-label col-sm-2") CI Padre/Madre/Tutor:
 				.col-sm-10
-					input(type="text" class="form-control" id="citut" name="citut" placeholder="ci de padre/madre o tutor") 
+					input(type="text" class="form-control" id="citut" name="citut" placeholder="ci de padre/madre o tutor")
 			button(type="submit" value="guardar" class="btn btn-success") guardar
+			button(type="button" value="guardar" class="btn btn-success" onclick="enviarFormPostAlertas('form')") Guardar con API
 		.apirest
 			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormGet('form')") Enviar get
 			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormPost('form')") Enviar post
