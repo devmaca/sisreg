@@ -43,7 +43,19 @@ function estPost(req, res, next) {
     if(req.body.nomb==""){
         msg = "no dejar en blanco";
       }
-    let sql = 'SELECT * FROM personas';
+    let error = valEst(req.body);
+    if (error) {
+      res.status(422).send({
+        finalizado: true,
+        mensaje: 'Campos imcompletos',
+        error: error,
+      });
+      return;
+    }
+    // Si no hay errores se puede insertar los datos
+    let sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)"
+		let sql2="INSERT INTO estudiantes (id_estudiante,rude,ci_tutor,id_curso) VALUES(?,?,?,?)"
+    sql = 'SELECT * FROM personas';
     //let sql = 'INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)'
     let a = con.query(sql,[], function(err,result) {
 			if(err) {
@@ -175,6 +187,51 @@ function estDeleteId(req, res, next) {
     });
   }
 }
+
+
+// Funciones utiles
+function valEst(a){
+	var ok = true;
+  var msg = "Debes escribir algo en los campos:\n";
+  var error=[];
+	if(a.nomb==""){
+		msg += "- nombre\n";
+		error.push({text:'Porfavor escribe un nombre'})
+		ok=false;
+	}
+	if(a.apep==""){
+		msg += "- apellido\n";
+		error.push({text:'Por favor escribe un apellido'})
+		ok = false;
+	}
+	if(a.apem==""){
+		msg += "- apellido\n";
+		error.push({text:'Porfavor escribe un apellido'})
+		ok=false;
+	}
+	if(a.ci==""){
+		msg += "- ci\n";
+		error.push({text:'Porfavor escriba numero de carnet'})
+		ok=false;
+	}
+	if(a.dir==""){
+		msg += "- direccion\n";
+		error.push({text:'Porfavor escriba una direccion'})
+		ok=false;
+	}
+	if(a.tel==""){
+		msg += "- telefono\n";
+		error.push({text:'Porfavor escribe un telefono'})
+		ok=false;
+	}
+	if(ok == false){
+    // console.log(msg)
+    // console.log(ok);
+    return a=error;
+	}
+
+}
+
 
 module.exports.estudiantes = {
   estGet,
