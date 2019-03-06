@@ -88,7 +88,7 @@ router.route("/estudiante")
 			while(i<result.length){
 				var count=0;
 				while(j<r2.length){
-					if(result[i].id_curso==r2[j].id_curso){
+					if(result[j].id_curso==r2[i].id_curso){
 						count=count+1;
 					}
 					j++;
@@ -115,6 +115,8 @@ router.route("/estudiante")
 			direccion:req.body.dir,
 			tel:req.body.tel
 		}
+		let fecha=req.body.dia+"-"+req.body.mes+"-"+req.body.aa;
+		console.log("Fecha "+fecha)
 		var error=valEst(alumno);
 		console.log(error);
 		if(error){
@@ -126,7 +128,7 @@ router.route("/estudiante")
 			res.send("todo correcto")
 		}
 		
-		// con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass,rol.estud,estado.a],function(err,result){
+		// con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,fecha,req.body.user,req.body.pass,rol.estud,estado.a],function(err,result){
 		// 	if(err){ throw err;}
 		// 	//console.log('number of record table persona...'+result.affectedRows);
 		// 	idPer=result.insertId;
@@ -178,14 +180,23 @@ router.route("/docente")
 		res.send('<h1>docente registrado exitosamente!</h1> <h1><a href="/home"><<--volver atras</a></h1>')
 	})
 //registrar  tutores
+function abc(){
+	var year=[];
+	for(var i=1900; i<2020; i++){
+		year.push(i);
+	}
+	return year;
+}
 router.route("/tutor")
 	.get(function(req,res){
-		res.render('persona/tutor')
+		res.render('persona/tutor',{year:abc()});
+
 	})
 	.post(function(req,res){
 		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)"
 		var sql2="INSERT INTO tutor (id_tutor,ci) VALUES(?,?)"
-		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass,rol.tutor,estado.a],function(err,result){
+		let fecha=req.body.dia+"-"+req.body.mes+"-"+req.body.aa;
+		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,fecha,req.body.user,req.body.pass,rol.tutor,estado.a],function(err,result){
 			if(err){ throw err;}
 			idPer=result.insertId;
 			console.log('number of record table persona...'+result.affectedRows);
