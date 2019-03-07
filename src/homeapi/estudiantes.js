@@ -1,5 +1,18 @@
 let con= require('../../conectiondb/connection.js');
 
+
+// objetos necesarios para  guardar datos
+var rol={
+  estud:'ESTUDIANTE',
+  docen:'DOCENTE',
+  tutor:'TUTOR',
+  admin:'DIRECTOR'
+}
+var estado={
+    a:'1',
+    i:'0'
+}
+
 // get, se utiliza para obtener lista de registros
 function estGet(req, res, next) {
   try {
@@ -39,13 +52,28 @@ function estPost(req, res, next) {
     console.log('apiREST params', req.params);
     console.log('apiREST query', req.query);
     console.log('apiREST body', req.body);
-    var msg = ""
+    var msg = "SE REGISTRO EXITOSAMENTE!"
     if(req.body.nomb==""){
         msg = "no dejar en blanco";
       }
-    let sql = 'SELECT * FROM personas';
+    let error = valEst(req.body);
+    if (error) {
+      console.log ("MENSAJES DE VALIDACIONES:");
+      console.log(error)
+      res.status(422).send({
+        finalizado: true,
+        mensaje: 'Campos imcompletos',
+        error: error,
+      });
+      return;
+    }
+    // Si no hay errores se puede insertar los datos
+    let sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)"
+		let sql2="INSERT INTO estudiantes (id_estudiante,rude,ci_tutor,id_curso) VALUES(?,?,?,?)"
+    // sql = 'SELECT * FROM personas';
+    let fecha=req.body.dia+"-"+req.body.mes+"-"+req.body.aa;
     //let sql = 'INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)'
-    let a = con.query(sql,[], function(err,result) {
+    let a = con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,fecha,req.body.user,req.body.pass,rol.estud,estado.a], function(err,result) {
 			if(err) {
         // Enviar error SQL
         console.error('ERR',err.message);
@@ -55,12 +83,21 @@ function estPost(req, res, next) {
         });
       } else {
         // Manipular resultados
-        res.status(200).send({
-          finalizado: true,
-          mensaje: 'post OK',
-          ms:msg,
-          datos: result
-        });
+        let idPer=result.insertId;
+        console.log('id asignado a la persona :'+idPer);
+        con.query(sql2,[idPer,req.body.rude,req.body.citut,req.body.curso],function(err,result2){
+          if(err){ throw err;}
+          //console.log('number of record table estudiantes...'+result.affectedRows);
+          console.log('number of record table estudiantes...'+result.affectedRows+'Id asignada :'
+          +idPer);
+        
+          res.status(200).send({
+            finalizado: true,
+            mensaje: 'post OK',
+            ms:msg,
+            datos: result
+          });
+        })
       }
 
 		});
@@ -175,6 +212,92 @@ function estDeleteId(req, res, next) {
     });
   }
 }
+//para validar solo letras
+function validarTexto(parametro){
+  var patron = /^[a-zA-Z\s]*$/;
+  if(parametro.search(patron)){
+    return false;
+  } else{
+    return true;
+  }
+}
+// Funciones utiles
+function valEst(a){
+	var ok = true;
+  var msg = "Debes escribir algo en los campos:\n";
+  var error=[];
+	if(a.nomb==""){
+		msg += "- nombre\n";
+		error.push({text:'Porfavor escribe un nombre'})
+		ok=false;
+	} else if(validarTexto(a.nomb)== false){
+    msg += "- nombre\n";
+    error.push({text:'No se permiten numeros en el nombre del estudiante'})
+    ok=false
+  }
+	if(a.apep==""){
+		msg += "- apellido\n";
+		error.push({text:'Por favor escribe un apellido'})
+		ok = false;
+	} else if(validarTexto(a.apep)== false){
+    msg += "- nombre\n";
+    error.push({text:'No se permiten numeros en el apellido paterno del estudiante'})
+    ok=false
+  }
+	if(a.apem==""){
+		msg += "- apellido\n";
+		error.push({text:'Porfavor escribe un apellido'})
+		ok=false;
+	} else if(validarTexto(a.apem)== false){
+    msg += "- nombre\n";
+    error.push({text:'No se permiten numeros en el apellido materno del estudiante'})
+    ok=false
+  }
+	if(a.ci==""){
+		msg += "- ci\n";
+		error.push({text:'Porfavor escriba numero de carnet'})
+		ok=false;
+	}
+	if(a.dir==""){
+		msg += "- direccion\n";
+		error.push({text:'Porfavor escriba una direccion'})
+		ok=false;
+	}
+	if(a.tel==""){
+		msg += "- telefono\n";
+		error.push({text:'Porfavor escribe un telefono'})
+		ok=false;
+	}
+  if(a.optradio==null){
+    msg += "- genero\n";
+    error.push({text:'Seleccione una opcion en el campo genero'})
+    ok=false;
+  }
+  if(a.rude==""){
+    msg += "- RUDE\n";
+    error.push({text:'Porfavor rellenar el campo RUDE del estudiante'})
+    ok=false;
+  }
+  if(a.user==""){
+    msg += "- User\n";
+    error.push({text:'Porfavor escriba un nombre de usuario para el usuario'})
+    ok=false;
+  }
+  if(a.pass==""){
+    msg += "- Pass\n";
+    error.push({text:'Porfavor escriba unnombre deusuario para el usuario'})
+    ok=false;
+  }
+	if(ok == false){
+    // console.log(msg)
+    // console.log(ok);
+    return a=error;
+	}
+
+}
+
+
+
 
 module.exports.estudiantes = {
   estGet,

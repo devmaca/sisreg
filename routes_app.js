@@ -134,12 +134,12 @@ router.route("/estudiante")
 		// 	idPer=result.insertId;
 		// 	console.log('id asignado a la persona :'+idPer);
 
-		// 	con.query(sql2,[idPer,req.body.rude,req.body.citut,req.body.curso],function(err,result){
-		// 	if(err){ throw err;}
-		// 	//console.log('number of record table estudiantes...'+result.affectedRows);
-		// 	console.log('number of record table estudiantes...'+result.affectedRows+'Id asignada :'
-		// 		+idPer);
-		// 	})
+			// con.query(sql2,[idPer,req.body.rude,req.body.citut,req.body.curso],function(err,result){
+			// if(err){ throw err;}
+			// //console.log('number of record table estudiantes...'+result.affectedRows);
+			// console.log('number of record table estudiantes...'+result.affectedRows+'Id asignada :'
+			// 	+idPer);
+			// })
 			
 		// })
 

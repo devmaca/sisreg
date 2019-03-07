@@ -1,15 +1,17 @@
 extends ../home.pug
 block contenido
-
 	
+		//- onkeyup="javascript:this.value=this.value.toUpperCase();" -- para convertir letras minusculas a mayusculas  por si acaso
+
 		h1 Registrar Nuevo Estudiante
-		if (mensaje)
-			for msj in mensaje
-				.alert.alert-warning.alert-dismissible.fade.show.col-sm-5(role='alert')
-					| #{msj.text}
-					button.close(type='button', data-dismiss='alert', aria-label='Close')
-							span(aria-hidden='true') ×
-		form(id="form" class="" action="/home/estudiante", method="post")
+		.alertas-api(id="alertas-api") &nbsp;
+		form(id="form" class="" action="/home/estudiante" onsubmit="return validarCampos(this);", method="post")
+			//- if (mensaje)
+			//- 	for msj in mensaje
+			//- 		.alert.alert-warning.alert-dismissible.fade.show(role='alert')
+			//- 			| #{msj.text}
+			//- 			button.close(type='button', data-dismiss='alert', aria-label='Close')
+			//- 				span(aria-hidden='true') ×
 			.form-group.row
 				label(for="nom" class="col-form-label col-sm-2") Nombres:
 				.col-sm-auto
@@ -24,7 +26,7 @@ block contenido
 					input(type="text" class="form-control" id="apem" name="apem" placeholder="Apellido Materno")
 				label(for="ci" class="col-form-label col-sm-2") C.I:
 				.col-sm-auto
-					input(type="text" class="form-control " id="ci" name="ci" placeholder="CI")
+					input(type="text" class="form-control " id="id_ci" name="ci" placeholder="CI" onkeypress="ValidaSoloNumeros();")
 			.form-group.row
 				label(for="dir" class="col-form-label col-sm-2") Direccion:
 				.col-sm-auto
@@ -153,7 +155,11 @@ block contenido
 				label(for="citut" class="col-form-label col-sm-2") CI Padre/Madre/Tutor:
 				.col-sm-auto
 					input(type="text" class="form-control" id="citut" name="citut" placeholder="ci de padre/madre o tutor") 
+
+
 			button(type="submit" value="guardar" class="btn btn-success") guardar
+			button(type="button" value="guardar" class="btn btn-success" onclick="enviarFormPostAlertas('form')") Guardar con API
+			a(href= '/home/estudiante' class="btn btn-warning ") NUEVO REGISTRO
 		.apirest
 			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormGet('form')") Enviar get
 			button(type="button" value="guardar" class="btn btn-primary" onclick="enviarFormPost('form')") Enviar post
