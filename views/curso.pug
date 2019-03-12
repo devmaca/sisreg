@@ -3,10 +3,23 @@ block contenido
 		h1 Agregar curso
 		form(class="form-inline" action="/home/curso", method="post")
 			label(for="nivel" class="mr-sm-2") Nivel:
-			input(type="text" class="form-control mb-2 mr-sm-2" id="nivel" name="nivel"
-			placeholder="nivel")
+			//- input(type="text" class="form-control mb-2 mr-sm-2" id="nivel" name="nivel"
+			//- placeholder="nivel")
+			.col-sm-aut
+				select(id="nivel" class="form-control " name="nivel")
+					option(value="PRIMERO") PRIMERO
+					option(value="SEGUNDO") SEGUNDO
+					option(value="TERCERO") TERCERO
+					option(value="CUARTO") CUARTO
+					option(value="QUINTO") QUINTO
+					option(value="SEXTO") SEXTO
 			label(for="para" class="mr-sm-2") Paralelo
-			input(type="text" class="form-control mb-2 mr-sm-2" id="para" name="para" placeholder="Paralelo")
+			.col-sm-aut
+				select(id="para" class="form-control " name="para")
+					option(value="A") A
+					option(value="B") B
+					option(value="C") C
+			//- input(type="text" class="form-control mb-2 mr-sm-2" id="para" name="para" placeholder="Paralelo")
 			
 			button(type="submit" value="" class="btn btn-success") guardar
 		

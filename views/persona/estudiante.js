@@ -128,7 +128,7 @@ function enviarFormPostAlertas(idform) {
       if (error.responseJSON && error.responseJSON.error && error.responseJSON.error.length) {
         error = error.responseJSON.error;
         for (let i=0; i<error.length; i++) {
-          mostrarAlertaMultiple(contenedorAlerta, error[i].text, 'warning');
+          mostrarAlertaMultiple(contenedorAlerta, error[i].text, 'danger');
         }
       }
     }

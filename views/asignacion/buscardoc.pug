@@ -1,14 +1,17 @@
 extends ../home.pug
 block contenido
 		h1 Asignar Materia a Docente
-
-		h5 Ingrese el ci del docente para asignar materia
+		hr.bg-info
+		h5
+			p.text-info.small.pt-0.mt-0 Ingrese el ci del docente para asignar materia
+		
 		form(action='/home/asigdoc/ci', class="",method="GET")
 			.form-group.row
 				label(for="doc" class="col-form-label col-sm-2") Nombres:
 				.col-sm-3
 					input(type="text" class="form-control" id="doc" name="doc" placeholder="CI DOCENTE")
-			h5 Seleccione el tipo de docente...
+			h5
+				p.text-info.small.pt-0.mt-0 Seleccione el tipo de docente...
 			.form-group.row
 				label(for='tipo' class="col-form-label col-sm-2") Tipo de docente
 				.col-sm-3

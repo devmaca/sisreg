@@ -1,5 +1,9 @@
 extends ../doce.pug
 block contenido
-		h2 Mis materias 
-		for mat in materias
-			a.btn.btn-outline-info.btn-sm(href='/doce/mostrar/'+mat.id_materia) #{mat.area}
+		h3 Materias 
+		hr.bg-primary
+		p.text-danger.pt-0.mt-0 *Seleccione una materia
+		.row
+			for mat in materias
+				.col-sm-3
+					a.btn.btn-info.btn-block(href='/doce/mostrar/'+mat.id_materia) #{mat.area}

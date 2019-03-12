@@ -66,6 +66,16 @@ router.route("/horarios")
 		
 	})
 
+	//en progreso
+router.route("/estudiantes")
+	.get(function(req,res){
+		let sql="SELECT * FROM personas,estudiantes WHERE personas.ci==estudiantes.ci_tutor";
+		res.render("horarios/ver_horarios")
+		
+	})
+	.post(function(req,res){
+		
+	})
 router.get('/notas', function(req,res){
 	var sql='select materias.* from imparte,materias where imparte.id_docente=? && materias.id_materia=imparte.materia'
 	con.query(sql,[req.session.usuario], function(err,result){

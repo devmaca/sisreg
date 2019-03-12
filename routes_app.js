@@ -70,6 +70,7 @@ function valEst(a){
 router.route("/estudiante")
 	.get(function(req,res){
 		let sql="Select id_estudiante,id_curso from estudiantecurso";
+		let sql2="SELECT * FROM personas WHERE rol='TUTOR'"
 		var r2;
 		con.query(sql,[], function(err,result2){
 			if(!result2){
@@ -96,8 +97,12 @@ router.route("/estudiante")
 				arr.push(count);
 				i++;
 			}
-			console.log("nros de alumnos en cursos "+arr);
-			res.render('persona/estudiante',{cursos:result})
+
+			con.query(sql2,[], function(err,result3){
+				console.log("nros de alumnos en cursos "+arr);
+				res.render('persona/estudiante',{cursos:result,tutor:result3})
+			})
+			
 		})
 
 	})
@@ -221,15 +226,23 @@ router.route("/curso")
 
 	})
 	.post(function(req,res){
-		var sql="INSERT INTO cursos (curso) VALUE(?)";
+		let sql="INSERT INTO cursos (curso) VALUE(?)";
+		let sql2 = 'SELECT * FROM cursos WHERE curso=?';//consulta para verificar si hay un curso con el mismo nombre
 		var unir= req.body.nivel+" "+req.body.para;
-		con.query(sql,[unir],function(err,result){
-			if(err){throw err;}
-			else{
-				console.log('number of record in table cursos...'+result.affectedRows);
-				res.redirect('/home/curso');
-				}
+		con.query(sql2,[unir], function(err,result2){
+			if(result2[0]==null){//No existe un curso con ese nombre
+				con.query(sql,[unir],function(err,result){
+					if(err){throw err;}
+					else{
+						console.log('number of record in table cursos...'+result.affectedRows);
+						res.redirect('/home/curso');
+						}
+				})
+			}else{//si existe, no se puede registrar porque ya existe!
+				res.send("<script>alert('YA EXISTE')</script>")				
+			}
 		})
+		
 
 	})
 
@@ -280,15 +293,24 @@ router.route("/materias")
 
 	})
 	.post(function(req,res){
-		var sql = 'INSERT INTO materias (area) VALUES(?)';
-		con.query(sql,[req.body.area], function(err, result){
-			if(err){ throw err;}
-			else{
-			console.log(result);
-			console.log('number of record...'+result.affectedRows);
-			res.redirect('materias');
+		let sql = 'INSERT INTO materias (area) VALUES(?)';
+		let sql2 = 'SELECT * FROM materias WHERE area=?'
+		con.query(sql2,[req.body.area], function(err,result2){
+			if(result2[0]==null){//No existe una materia con ese nombre
+				con.query(sql,[req.body.area], function(err, result){
+					if(err){ throw err;}
+					else{
+					console.log(result);
+					console.log('number of record...'+result.affectedRows);
+					res.redirect('materias');
+					}
+				});
+				res.send("<script>alert('NO existe otra materia con el mismo nombre')</script>")
+			}else{//Ya existe la materia
+				res.send('<h4>YA EXISTE!</h4> <h1><a href="/home/materias"><<--volver atras</a></h1>');				
 			}
-			});
+		})
+	
 	})
 	//registrar gestion
 router.route("/gestion")
@@ -418,9 +440,9 @@ router.get("/asigdoc/ci", function(req,res){
 		var sql2='Select * from materias';
 		var sql3='SELECT imparte.materia,materias.area FROM imparte,materias WHERE imparte.id_docente=? && materias.id_materia=imparte.materia'
 		var sql4='SELECT * FROM cursos';
-		var sql5='SELECT cursos.*,docentecurso.* FROM cursos,docentecurso WHERE cursos.id_curso=docentecurso.id_curso && docentecurso.id_docente=?'
+		var sql5='SELECT cursos.* ,docentecurso.*,docentecurso.id_curso as IDC FROM cursos,docentecurso WHERE cursos.id_curso=docentecurso.id_curso && docentecurso.id_docente=?'
 		var mate;
-		var cur;
+		var cur;var arr=[];var arr2=[];
 		var valor=req.query.doc;
 		var tipo=req.query.tipo;
 		con.query(sql2, function(err,result2){
@@ -431,18 +453,37 @@ router.get("/asigdoc/ci", function(req,res){
 		})
 			con.query(sql,[valor], function(err,result){
 				if(err){ throw err;}
-				if(!result[0]){ 
+				if(!result[0]){//si no  es docente 
 					res.send('<h1>Este usario no es docente!</h1> <h1><a href="/home/asigdoc/"><<--volver atras</a></h1>')
 				}else{
 				var id_persona=result[0].id_persona;
 				con.query(sql3,[id_persona], function(err,result3){
-					//console.log(result3);
-					for (i=0;i<result3.length;i++){
-						console.log(result3[i]);
-					}
-					console.log(result3.length);
+					for(var i=0; i<mate.length; i++){//recorrer objeto materia
+							let b=false;
+							for(var j=0; j<result3.length; j++){//recorrer objeto de imparte
+								if(mate[i].id_materia==result3[j].materia){
+									b=true;
+								}
+							}
+							if(b==false){arr.push(mate[i])}
+						}
+					console.log("---- Materias no asignadas")
+					console.log(arr)
 					con.query(sql5,[id_persona], function(err,result5){
-						res.render('asignacion/asignardoc',{docente:result,materias:mate,imparte:result3,cursos:cur,docur:result5,tipo:tipo});
+						console.log("longitud de cursos asignados "+result5.length);
+						for(var i=0; i<cur.length; i++){//recorrer objeto curso
+							let ban=false;
+							for(var j=0; j<result5.length; j++){//recorrer objeto de docentecurso
+								if(cur[i].id_curso==result5[j].id_curso){
+									ban=true;
+								}
+							}
+							if(ban==false){arr2.push(cur[i])}
+						}
+						
+						console.log("---- Cursos no asignados")
+						console.log(arr2)
+						res.render('asignacion/asignardoc',{docente:result,materias:arr,imparte:result3,cursos:arr2,docur:result5,tipo:tipo});
 						// res.send({docente:result,materias:mate,imparte:result3,cursos:cur,docur:result5,tipo:tipo})
 					})
 				})
@@ -470,7 +511,8 @@ router.post("/asigdoc/:id/save", function(req,res){
 		//console.log(result);
 	})
 	}
-	res.send('<h1>fue asignado exitosamente!...!</h1> <h1><a href="/home"><<--volver atras</a></h1>');
+	res.redirect('/home/asigdoc/ci?doc='+req.body.ci+'&tipo='+req.body.tipo)
+	// res.send('<h1>fue asignado exitosamente!...!</h1> <h1><a href="/home"><<--volver atras</a></h1>');
 	for (const lib of mat){
 		console.log(lib);}
 
@@ -480,6 +522,7 @@ router.post("/asigdoc/:id/savecurso", function(req,res){
 
 	var sql='INSERT INTO docentecurso (id_docente,id_curso) VALUE(?,?)'
 	console.log(req.body.selec2);
+	console.log(req.body.ci)
 
 	for (const its of req.body.selec2){
 		console.log("valores de variable selec :"+its)
@@ -489,7 +532,8 @@ router.post("/asigdoc/:id/savecurso", function(req,res){
 		//console.log(result);
 	})
 	}
-	res.send('<h1>fue asignado exitosamente!...!</h1> <h1><a href="/home"><<--volver atras</a></h1>');
+	res.redirect('/home/asigdoc/ci?doc='+req.body.ci+'&tipo='+req.body.tipo)
+	//res.send('<h1>fue asignado exitosamente!...!</h1> <h1><a href="/home"><<--volver atras</a></h1>');
 
 })
 /*ruta horario*/

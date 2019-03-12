@@ -54,6 +54,8 @@ block contenido
 					h6 Tipo Docente  : Docente primaria
 					h4 SELECCIONE LAS MATERIAS PARA ASIGNAR A DOCENTE
 					form(action='/home/asigdoc/'+docente[0].id_persona+'/save', class="",method="POST")
+						input(type="hidden" class="form-control" id="ci" name="ci" value=docente[0].ci)
+						input(type="hidden" class="form-control" id="tipo" name="tipo" value=1)
 						for mat in materias
 							.checkbox
 								label
@@ -63,6 +65,8 @@ block contenido
 				.col-sm-5.color4
 					h4 SELECIONE LOS CURSOS PARA ASIGNAR
 					form(action='/home/asigdoc/'+docente[0].id_persona+'/savecurso', method="POST")
+						input(type="hidden" class="form-control" id="ci" name="ci" value=docente[0].ci)
+						input(type="hidden" class="form-control" id="tipo" name="tipo" value=1)
 						select(class="form-control" name="selec2[]")
 							for curso in cursos
 								option(value=curso.id_curso) #{curso.curso}
@@ -75,6 +79,8 @@ block contenido
 						h6 Tipo docente : Docente de especialidad
 						h4 SELECCIONE LAS MATERIAS PARA ASIGNAR A DOCENTE
 						form(action='/home/asigdoc/'+docente[0].id_persona+'/save', class="",method="POST")
+							input(type="hidden" class="form-control" id="ci" name="ci" value=docente[0].ci)
+							input(type="hidden" class="form-control" id="tipo" name="tipo" value=1)
 							select(class="form-control " name="selec[]")
 								for mat in materias
 									option(value=mat.id_materia) #{mat.area}
@@ -82,9 +88,11 @@ block contenido
 					.col-sm-5.color4
 						h4 SELECIONE LOS CURSOS PARA ASIGNAR
 						form(action='/home/asigdoc/'+docente[0].id_persona+'/savecurso', method="POST")
+							input(type="hidden" class="form-control" id="ci" name="ci" value=docente[0].ci)
+							input(type="hidden" class="form-control" id="tipo" name="tipo" value=1)
 							for curso in cursos
 								.checkbox
-										label
-											input(type='checkbox', name='selec2[]' value=curso.id_curso)
-											| #{curso.curso}
+									label
+										input(type='checkbox', name='selec2[]' value=curso.id_curso)
+										| #{curso.curso}
 							input(type="submit", value="Asignar Curso" class="btn btn-primary")

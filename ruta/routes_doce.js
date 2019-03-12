@@ -272,21 +272,30 @@ router.route('/bol')
 			con.query(sql2,[req.body.cur], function(err,result2){
 				if(err){ throw err;}
 				var bolet=[];
-				for(var i=0;i<result2.length;i++){//iterar objeto estudiantes
-					var arr=[];
-					
-					for(var j=0;j<result.length;j++){
-						if(result[j].id_estudiante==result2[i].id_persona){
-							arr.push(result[j]);
-						}
-					}
-					// console.log(arr);
-					var b={boletin:arr};
-					bolet[i]=Object.assign(result2[i],b);
-					// bolet[i]= Object.assign(result2[i],b3[i])
+				if(result2==0){console.log("no hay alumnos en este curso seleccionado")
+				// res.send({bol:bolet})
+					res.render('boletin/ver_boletin',{bol:bolet})
 				}
-				console.log(bolet);
-				res.send({boletin:bolet});
+				else{
+					
+					for(var i=0;i<result2.length;i++){//iterar objeto estudiantes
+						var arr=[];
+						
+						for(var j=0;j<result.length;j++){
+							if(result[j].id_estudiante==result2[i].id_persona){
+								arr.push(result[j]);
+							}
+						}
+						// console.log(arr);
+						var b={boletin:arr};
+						bolet[i]=Object.assign(result2[i],b);
+						// bolet[i]= Object.assign(result2[i],b3[i])
+					}
+					console.log(bolet);
+					console.log(bolet[0].boletin[1].nota);
+					// res.send({bol:bolet});
+					res.render('boletin/ver_boletin',{bol:bolet,curso:req.body.cur,materia:req.body.mat})
+					}
 			})  }//fin else
 		})
 		
