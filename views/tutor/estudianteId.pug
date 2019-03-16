@@ -1,0 +1,31 @@
+extends ../tuto.pug
+block contenido
+		h1 Calificaciones
+		hr.bg-info
+		.form-group.row
+			label(for="est" class="col-form-label col-sm-2") Nombre:
+			.col-sm-2
+				input(type="text" class="form-control" id="est" name="est" value=personas[0].nombres, disabled)
+			label(for="ap" class="col-form-label col-sm-2") Apellido:
+			.col-sm-2
+				input(type="text" class="form-control" id="ap" name="ap" value=personas[0].paterno, disabled)
+			label(for="cur" class="col-form-label col-sm-2") Curso :
+			.col-sm-2
+				input(type="text" class="form-control" id="cur" name="curso" value=curso[0].curso, disabled)
+			
+		hr.bg-info
+		.row
+			.col-sm-3
+				a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/1') PRIMER BIMESTRE
+		.row
+			.col-sm-3
+				a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/2') SEGUNDO BIMESTRE
+		.row
+			.col-sm-3
+				a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/3') TERCER BIMESTRE
+		.row
+			.col-sm-3
+				a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/4') CUARTO BIMESTRE
+		.row
+			.col-sm-3
+				a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/5') BOLETIN ANUAL

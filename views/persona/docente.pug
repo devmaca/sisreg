@@ -40,9 +40,66 @@ block contenido
 							input.form-check-input(name='optradio', type='radio' value="0")
 							| Femenino
 			.form-group.row
+				label(for="rda" class="col-form-label col-sm-2") RDA
+				.col-sm-auto
+					input(type="text" class="form-control" id="rda" name="rda" placeholder="RDA")
+			.form-group.row
+				
 				label(for="fecha" class="col-form-label col-sm-2") Fecha Nacimiento:
-				.col-sm-2
-					input(type="text" class="form-control" id="fecha" name="fecha" placeholder="fecha Nacimiento")
+				.col-sm-auto
+					|Fecha
+					select(id="dia" class="form-control " name="dia")
+						option(value="01") 1
+						option(value="02") 2 
+						option(value="03") 3 
+						option(value="04") 4 
+						option(value="05") 5 
+						option(value="06") 6 
+						option(value="07") 7 
+						option(value="08") 8 
+						option(value="09") 9 
+						option(value="10") 10 
+						option(value="11") 11
+						option(value="12") 12 
+						option(value="13") 13
+						option(value="14") 14
+						option(value="15") 15
+						option(value="16") 16
+						option(value="17") 17
+						option(value="18") 18
+						option(value="19") 19
+						option(value="20") 20
+						option(value="21") 21 
+						option(value="22") 22 
+						option(value="23") 23 
+						option(value="24") 24
+						option(value="25") 25
+						option(value="26") 26
+						option(value="27") 27
+						option(value="28") 28
+						option(value="29") 29
+						option(value="30") 30
+						option(value="31") 31
+				.col-sm-auto
+					|Mes
+					select(id="mes" class="form-control " name="mes")
+						option(value="01") Enero
+						option(value="02") Febrero
+						option(value="03") Marzo
+						option(value="04") Abril 
+						option(value="05") Mayo
+						option(value="06") Junio
+						option(value="07") Julio
+						option(value="08") Agosto
+						option(value="09") Septiembre
+						option(value="10") Octubre
+						option(value="11") Noviembre
+						option(value="12") Diciembre
+				.col-sm-auto
+					|Año
+					select(id="aa" class="form-control " name="aa")
+						for y in year
+							option(value=y) #{y}
 			
 			
 			//- linea divisora para asignar usuario y pasword

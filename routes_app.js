@@ -8,7 +8,7 @@ var fs=require('fs');//nos permitira mover el archivo
 // 	console.log('conectado a Mysql! a routes');
 // 	});
 let homeapi = require('./src/homeapi/estudiantes.js');
-
+let apidoce = require('./src/homeapi/docentes.js');
 //regaroma.com/home2/
 
 router.get("/", function(req,res){
@@ -162,15 +162,23 @@ router.route("/estudiante")
 		.delete(homeapi.estudiantes.estDeleteId)
 
 //registrar docentes
+router.route("/api/docentes")
+		.get(apidoce.docentes.docGet)
+		.post(apidoce.docentes.docPost)
+	router.route("/api/docentes/:id")
+		.get(apidoce.docentes.docGetId)
+		.put(apidoce.docentes.docPutId)
+		.delete(apidoce.docentes.docDeleteId)
 
 router.route("/docente")
 	.get(function(req,res){
-		res.render('persona/docente')
+		res.render('persona/docente',{year:abc()})
 	})
 	.post(function(req,res){
 		var sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)"
 		var sql2="INSERT INTO docentes (id_docente) VALUES(?)"
-		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,req.body.fecha,req.body.user,req.body.pass,rol.docen,estado.a],function(err,result){
+		let fecha=req.body.dia+"-"+req.body.mes+"-"+req.body.aa;
+		con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,fecha,req.body.user,req.body.pass,rol.docen,estado.a],function(err,result){
 			if(err){ throw err;}
 			idPer=result.insertId;
 			console.log('number of record table persona...'+result.affectedRows);
@@ -192,9 +200,9 @@ function abc(){
 	}
 	return year;
 }
-router.route("/tutor")
+router.route("/tutor/:ci")
 	.get(function(req,res){
-		res.render('persona/tutor',{year:abc()});
+		res.render('persona/tutor',{year:abc(), ct:req.params.ci});
 
 	})
 	.post(function(req,res){

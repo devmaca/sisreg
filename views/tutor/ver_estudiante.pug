@@ -1,0 +1,33 @@
+extends ../tuto.pug
+block contenido
+		h1 ESTUDIANTE
+		.table-responsive
+
+			table.table.table-bordered
+				thead
+					tr
+						th nombre
+						th paterno
+						th materno
+						th genero
+						th id estudiante
+						th ci
+						th estado
+						th curso
+				tbody
+					for per in personas
+						tr
+							td #{per.nombres}
+							td #{per.paterno}
+							td #{per.materno}
+							if (per.genero==1)
+								td masculino
+							else
+								if (per.genero==0)
+									td femenino
+							td #{per.id_estudiante}
+							td #{per.ci}
+							td #{per.estado}
+							td #{per.id_curso}
+							td 
+								a(href= '/tut/estudiante/'+per.id_persona+'' class="btn btn-outline-info btn-sm") VER

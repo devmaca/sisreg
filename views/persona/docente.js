@@ -113,7 +113,14 @@ function validarCampos(form) {
     formValido = false;
     mostrarAlerta(form.rude, 'Debes escribir un numero.','warning');
   }
-
+  if (!form.user.value) {
+    formValido = false;
+    mostrarAlerta(form.user, 'Debes escribir el nombre de usuario.','danger');
+  }
+  if (!form.pass.value) {
+    formValido = false;
+    mostrarAlerta(form.pass, 'Debes escribir una contraseña segura!.','danger', true);
+  }
   return formValido;
 }
 
@@ -128,7 +135,7 @@ function enviarFormPostAlertas(idform) {
   console.log('JSON', formObj);
 
   $.ajax({
-    url: `api/estudiantes`,
+    url: `api/docentes`,
     method: 'post', // get | post | put | delete
     data: formObj,
     headers: {
@@ -141,15 +148,6 @@ function enviarFormPostAlertas(idform) {
     // la peticion api se realizo correctamente
     console.log(1, "success", resp);
     alert(resp.ms)
-    alert(resp.mensaje)
-    if(!resp.datos){
-      console.log('no existe tutor')
-      console.log(resp.dato2)
-      window.location.replace('http://localhost:3000/home/tutor/'+resp.dato2)
-
-    }else{
-    console.log(resp.datos.ci);
-    }
 
   }).fail(function(error) {
     // la peticion api fallo
@@ -213,38 +211,38 @@ function enviarFormGet(idform) {
 }
 
 // Enviar por post
-// function enviarFormPost(idform) {
-//   let formObj = {};
-//   let form = jQuery(`#${idform}`);
-//   $.each(form.serializeArray(), function (i, input) {
-//     formObj[input.name] = input.value;
-//   });
-//   console.log('JSON', formObj);
+function enviarFormPost(idform) {
+  let formObj = {};
+  let form = jQuery(`#${idform}`);
+  $.each(form.serializeArray(), function (i, input) {
+    formObj[input.name] = input.value;
+  });
+  console.log('JSON', formObj);
 
-//   $.ajax({
-//     url: `api/estudiantes`,
-//     method: 'post', // get | post | put | delete
-//     data: formObj,
-//     headers: {
-//       authorization: 'JWT eyqweqweqweqweoqwiepiqwe='
-//     },
-//     xhrFields: {
-//       withCredentials: true
-//     }
-//   }).done(function(resp) {
-//     // la peticion api se realizo correctamente
-//     console.log(1, "success", resp);
-//     $(`#datorecibido`).val(resp.mensaje);
-//     $( "<h2>" ).text( resp.ms ).appendTo( "body" );
-//   }).fail(function(error) {
-//     // la peticion api fallo
-//     console.log(2, "error", error.status, error.statusText);
-//     alert(`Error ${error.status} ${error.statusText}`)
-//   }).always(function() {
-//     console.log(3, "complete");
-//   });
+  $.ajax({
+    url: `api/estudiantes`,
+    method: 'post', // get | post | put | delete
+    data: formObj,
+    headers: {
+      authorization: 'JWT eyqweqweqweqweoqwiepiqwe='
+    },
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(resp) {
+    // la peticion api se realizo correctamente
+    console.log(1, "success", resp);
+    $(`#datorecibido`).val(resp.mensaje);
+    $( "<h2>" ).text( resp.ms ).appendTo( "body" );
+  }).fail(function(error) {
+    // la peticion api fallo
+    console.log(2, "error", error.status, error.statusText);
+    alert(`Error ${error.status} ${error.statusText}`)
+  }).always(function() {
+    console.log(3, "complete");
+  });
 
-// }
+}
 
 // Enviar por get con id
 function enviarFormGetId(idform, idregistro) {

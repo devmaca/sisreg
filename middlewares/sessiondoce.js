@@ -17,7 +17,10 @@ module.exports = function(req,res,next){
 			}else{
 			docente=result[0].id_docente;
 			console.log("usuario "+req.session.usuario+" inicio sesion...");
-			res.locals={user:req.session.usuario,nom:result[0].nombres,ape:result[0].paterno};
+			res.locals={user:req.session.usuario,
+							nom:result[0].nombres,
+							ape:result[0].paterno
+							};
 			next();
 			}
 			

@@ -8,6 +8,19 @@ router.get('/', function(req,res){
 	res.render('tuto')
 	// res.send("scandal");
 })
+
+router.get('/inicio', function(req,res){
+	var sql='SELECT ci FROM personas WHERE id_persona=?'
+		let citut;
+		con.query(sql,[req.session.usuario], function(err,result){
+			citut=result[0].ci;
+		
+			let sql2="SELECT estudiantes.*,personas.* FROM estudiantes,personas WHERE estudiantes.ci_tutor=? && personas.id_persona=estudiantes.id_estudiante";
+			con.query(sql2,[citut], function(err,result2){
+				res.render('tutor/ver_estudiante',{personas:result2})
+			})
+		})
+})
 // para ver datos personales del usuario
 router.get('/ver', function(req,res){
 	var sql='SELECT * FROM personas WHERE id_persona=?'
@@ -39,12 +52,6 @@ router.route("/ver/:id")
 		// res.send(req.params.id)
 	})
 
-router.get("/ver/:id/edit", function (req,res) {
-
-	res.render('usuario/edit',{persona:req.params.id});
-	// res.send({persona:req.params.id})	
-	
-})
 // conductas
 
 router.route("/conductas")
@@ -69,17 +76,47 @@ router.route("/horarios")
 	//en progreso
 router.route("/estudiantes")
 	.get(function(req,res){
-		let sql="SELECT * FROM personas,estudiantes WHERE personas.ci==estudiantes.ci_tutor";
-		res.render("horarios/ver_horarios")
+		var sql='SELECT ci FROM personas WHERE id_persona=?'
+		let citut;
+		con.query(sql,[req.session.usuario], function(err,result){
+			citut=result[0].ci;
+		
+			let sql2="SELECT estudiantes.*,personas.* FROM estudiantes,personas WHERE estudiantes.ci_tutor=? && personas.id_persona=estudiantes.id_estudiante";
+			con.query(sql2,[citut], function(err,result2){
+				res.render('tutor/ver_estudiante',{personas:result2})
+			})
+		})
+		
 		
 	})
 	.post(function(req,res){
 		
 	})
-router.get('/notas', function(req,res){
-	var sql='select materias.* from imparte,materias where imparte.id_docente=? && materias.id_materia=imparte.materia'
-	con.query(sql,[req.session.usuario], function(err,result){
-		res.render('mostrar/listar_materias',{materias:result})
+//estudiante nro id
+router.route("/estudiante/:id")
+	.get(function(req,res){
+		var sql='SELECT * FROM personas WHERE id_persona=?'
+		let sql2='SELECT cursos.curso FROM cursos,estudiantes WHERE estudiantes.id_curso=cursos.id_curso && estudiantes.id_estudiante=?'
+		let per;
+		con.query(sql,[req.params.id], function(err,result){
+			con.query(sql2,[req.params.id], function(err,result2){
+			res.render('tutor/estudianteId',{personas:result,curso:result2})	
+			})
+		})
+		
+		
+	})
+router.get('/notas/:idEst/:bim', function(req,res){
+	var sql='SELECT * FROM calificaciones WHERE id_estudiante=? && bimestre=?'
+	con.query(sql,[req.params.idEst,req.params.bim], function(err,result){
+		if(result[0]==null){
+			// res.send({msg:'NO HAY NOTAS'})
+			res.render('tutor/ver_notaidEst',{msg:'TODAVIA NO TIENE NOTAS'})
+		}else{
+			console.log(result)
+			res.render('tutor/ver_notaidEst',{nota:result})
+		}
+		
 	})
 })
 

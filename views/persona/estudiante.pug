@@ -1,19 +1,15 @@
 extends ../home.pug
 block contenido
-		//- .card.bg-dark.text-white
+		
 		//- onkeyup="javascript:this.value=this.value.toUpperCase();" -- para convertir letras minusculas a mayusculas  por si acaso
-
-		h3 Registrar Nuevo Estudiante
+		
+		h1 Registro-Estudiante
+		
 		hr.bg-info
 		p.text-danger.small.pt-0.mt-0 *Todos los campos son obligatorios
 		.alertas-api(id="alertas-api") &nbsp;
 		form(id="form" class="" action="/home/estudiante" onsubmit="return validarCampos(this);", method="post")
-			//- if (mensaje)
-			//- 	for msj in mensaje
-			//- 		.alert.alert-warning.alert-dismissible.fade.show(role='alert')
-			//- 			| #{msj.text}
-			//- 			button.close(type='button', data-dismiss='alert', aria-label='Close')
-			//- 				span(aria-hidden='true') ×
+
 			.form-group.row
 				label(for="nom" class="col-form-label col-sm-2") Nombres:
 				.col-sm-auto
@@ -28,7 +24,7 @@ block contenido
 					input(type="text" class="form-control" id="apem" name="apem" placeholder="Apellido Materno")
 				label(for="ci" class="col-form-label col-sm-2") C.I:
 				.col-sm-auto
-					input(type="text" class="form-control " id="id_ci" name="ci" placeholder="CI" onkeypress="ValidaSoloNumeros();")
+					input(type="text" class="form-control " id="id_ci" name="ci" placeholder="CI" )
 			.form-group.row
 				label(for="dir" class="col-form-label col-sm-2") Direccion:
 				.col-sm-auto
@@ -131,8 +127,7 @@ block contenido
 						option(value="2017") 2017
 						option(value="2018") 2018
 						option(value="2019") 2019 
-				//- .col-sm-2
-				//- 	input(type="text" class="form-control" id="fecha" name="fecha" placeholder="fecha Nacimiento")
+				
 			.form-group.row
 				label(for='curso' class="col-form-label col-sm-2")  Curso: 
 				.col-sm-auto
@@ -145,19 +140,12 @@ block contenido
 					input(type="text" class="form-control" id="rude" name="rude" placeholder="RUDE")
 			//- linea divisora para asignar usuario y pasword
 			hr.bg-info
-			p.text-danger.small.pt-0.mt-0 *Usuario y contrasena para acceder al sistema
-			.form-group.row
-				label(for="user" class="col-form-label col-sm-2") Usuario
-				.col-sm-auto
-					input(type="text" class="form-control" id="user" name="user" placeholder="usuario")
-				label(for="pass" class="col-form-label col-sm-2") Contrasena:
-				.col-sm-auto
-					input(type="text" class="form-control" id="pass" name="pass" placeholder="contrasena")
-
+			
 			.form-group.row
 				label(for="citut" class="col-form-label col-sm-2") CI Padre/Madre/Tutor:
 				.col-sm-auto
 					input(type="text" class="form-control" id="citut" name="citut" placeholder="ci de padre/madre o tutor") 
+			
 				//- .col-sm-aut
 				//- 	select(id="tutor" class="form-control " name="citut")
 				//- 		for lista in tutor

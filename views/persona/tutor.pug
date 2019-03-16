@@ -1,7 +1,7 @@
 extends ../home.pug
 block contenido
 		h1 Registrar Tutor
-		form(class="" action="/home/tutor", method="post")
+		form(class="" action="/home/tutor/"+ct, method="post")
 			.form-group.row
 				label(for="nom" class="col-form-label col-sm-2") Nombres:
 				.col-sm-auto
@@ -15,7 +15,7 @@ block contenido
 					input(type="text" class="form-control" id="apem" name="apem" placeholder="Materno")
 				label(for="ci" class="col-form-label") C.I:
 				.col-sm-auto
-					input(type="text" class="form-control color3" id="ci" name="ci" placeholder="CI")
+					input(type="text" class="form-control color3" id="ci" name="ci" placeholder="CI" value=ct)
 			.form-group.row
 				
 				label(for="dir" class="col-form-label col-sm-2") Direccion:

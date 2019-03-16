@@ -1,0 +1,38 @@
+extends ../tuto.pug
+block contenido
+		if (!nota)
+			h1 #{msg}
+		else
+			h1 Boletin #{nota[0].bimestre} er Bimestre
+
+			hr.bg-info
+			//- .form-group.row
+			//- 	label(for="est" class="col-form-label col-sm-2") Nombre:
+			//- 	.col-sm-2
+			//- 		input(type="text" class="form-control" id="est" name="est" value=personas[0].nombres, disabled)
+			//- 	label(for="ap" class="col-form-label col-sm-2") Apellido:
+			//- 	.col-sm-2
+			//- 		input(type="text" class="form-control" id="ap" name="ap" value=personas[0].paterno, disabled)
+			//- 	label(for="cur" class="col-form-label col-sm-2") Curso :
+			//- 	.col-sm-2
+			//- 		input(type="text" class="form-control" id="cur" name="curso" value=curso[0].curso, disabled)
+			hr.bg-info
+
+
+			table.table.table-bordered.table-sm
+				thead
+					tr
+						th(scope='col' rowspan='2') Materias
+						th(scope='col' colspan='5') Notas
+					tr
+						
+						th(scope='col') 1B
+						th(scope='col') 2B
+						th(scope='col') 3B
+						th(scope='col') 4B
+						th(scope='col') PT
+				tbody
+					for not in nota
+						tr
+							th(scope='row') #{not.id_materia}
+							td #{not.nota}

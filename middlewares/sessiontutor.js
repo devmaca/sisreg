@@ -1,6 +1,6 @@
 var con= require('../conectiondb/connection.js');
 module.exports = function(req,res,next){
-	var sql='Select * from tutor where id_tutor=?'
+	var sql='SELECT tutor.*,personas.nombres, personas.paterno FROM tutor, personas WHERE tutor.id_tutor = personas.id_persona && personas.id_persona =?'
 	console.log('aqui es el midleware. id de persona nro: '+req.session.usuario);
 	var tutor;
 	if(!req.session.usuario){ //si no existe valor no hay usuario
@@ -15,8 +15,11 @@ module.exports = function(req,res,next){
 				res.send("nooooo puede entrar aqui");
 			}else{
 			tutor=result[0].id_tutor;
-			res.locals={user:req.session.usuario};
 			console.log("usuario "+req.session.usuario+" inicio sesion...");
+			res.locals={user:req.session.usuario,
+							nom:result[0].nombres,
+							ape:result[0].paterno
+							};
 			next();
 			}
 			

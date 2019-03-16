@@ -109,7 +109,7 @@ app.get("/prueba", function(req,res){
 					else{
 						if(result[0].rol==usuario.tutor){
 							console.log('Un '+usuario.tutor+' quiere ingresar al sistema...');
-							res.redirect("/tut")
+							res.redirect("/tut/inicio")
 						}
 						else{
 							if(result[0].rol==usuario.estudiante){

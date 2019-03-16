@@ -14,7 +14,7 @@ var estado={
 }
 
 // get, se utiliza para obtener lista de registros
-function estGet(req, res, next) {
+function docGet(req, res, next) {
   try {
     console.log('apiREST params', req.params);
     console.log('apiREST query', req.query);
@@ -47,12 +47,12 @@ function estGet(req, res, next) {
 }
 
 // post, se utiliza para insertar nuevo registro
-function estPost(req, res, next) {
+function docPost(req, res, next) {
   try {
     console.log('apiREST params', req.params);
     console.log('apiREST query', req.query);
     console.log('apiREST body', req.body);
-    var msg = "ESTUDIANTE REGISTRADO EXITOSAMENTE!"
+    var msg = "SE REGISTRO UN DOCENTE EXITOSAMENTE!"
     if(req.body.nomb==""){
         msg = "no dejar en blanco";
       }
@@ -62,71 +62,45 @@ function estPost(req, res, next) {
       console.log(error)
       res.status(422).send({
         finalizado: true,
-        mensaje: 'Campos imcompletos',
-        error: error,
+        mensaje: 'Campos imcompletos'
+        // error: error,
       });
       return;
     }
     // Si no hay errores se puede insertar los datos
-    let sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?)"
-		let sql2="INSERT INTO estudiantes (id_estudiante,rude,ci_tutor,id_curso) VALUES(?,?,?,?)"
+    let sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)"
+		let sql2="INSERT INTO docentes (id_docente) VALUES(?)"
     // sql = 'SELECT * FROM personas';
-    let sql3="SELECT * FROM tutor WHERE ci=?"
     let fecha=req.body.dia+"-"+req.body.mes+"-"+req.body.aa;
-    
-    
-    con.query(sql3,[req.body.citut], function(err,result){ 
-            if(err){throw err;}
-            if(!result[0]){//no existe
-              console.log('no existe')
-              res.status(200).send({
-                finalizado: true,
-                mensaje: 'no existe tutor',
-                datos: result[0],
-                dato2: req.body.citut,
-                ms:msg
-              });
-            }else{//si existe
-              console.log(result[0])
-              res.status(200).send({
-                finalizado: true,
-                mensaje: 'si existe tutor',
-                datos: result[0],
-                ms:msg
-              });
-            }
-          })
-  //   let a = con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,fecha,rol.estud,estado.a], function(err,result) {
-		// 	if(err) {
-  //       // Enviar error SQL
-  //       console.error('ERR',err.message);
-  //       res.status(500).send({
-  //         finalizado: true,
-  //         mensaje: 'post Error SQL',
-  //       });
-  //     } else {
-  //       // Manipular resultados
-  //       let idPer=result.insertId;
-  //       console.log('id asignado a la persona :'+idPer);
-
+    //let sql = 'INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)'
+    let a = con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,fecha,req.body.user,req.body.pass,rol.docen,estado.a], function(err,result) {
+			if(err) {
+        // Enviar error SQL
+        console.error('ERR',err.message);
+        res.status(500).send({
+          finalizado: true,
+          mensaje: 'post Error SQL',
+        });
+      } else {
+        // Manipular resultados
+        let idPer=result.insertId;
+        console.log('id asignado a la persona :'+idPer);
+        con.query(sql2,[idPer,req.body.rude,req.body.citut,req.body.curso],function(err,result2){
+          if(err){ throw err;}
+          //console.log('number of record table estudiantes...'+result.affectedRows);
+          console.log('number of record table docentes...'+result.affectedRows+'Id asignada :'
+          +idPer);
         
+          res.status(200).send({
+            finalizado: true,
+            mensaje: 'post OK',
+            ms:msg,
+            datos: result
+          });
+        })
+      }
 
-  //         con.query(sql2,[idPer,req.body.rude,req.body.citut,req.body.curso],function(err,result2){
-  //           if(err){ throw err;}
-  //           //console.log('number of record table estudiantes...'+result.affectedRows);
-  //           console.log('number of record table estudiantes...'+result.affectedRows+'Id asignada :'
-  //           +idPer);
-          
-  //           res.status(200).send({
-  //             finalizado: true,
-  //             mensaje: 'post OK',
-  //             ms:msg,
-  //             datos: result
-  //           });
-  //         })
-  //     }
-
-		// });
+		});
   } catch(e) {
     console.log('ERROR', e);
     res.status(501).send({
@@ -135,22 +109,9 @@ function estPost(req, res, next) {
     });
   }
 }
-function verificarTutor(citutor){
-var ban=1;
-let sql="SELECT * FROM tutor WHERE ci=?"
-    con.query(sql,[citutor], function(err,result){ 
-    if(err){throw err;}
-    if(!result[0]){
-      ban=0;
-    }
-      console.log(result[0])
-  });
 
-  console.log(ban);
-  return ban;
-}
 // getId, se utiliza para obtener datos de un solo registro
-function estGetId(req, res, next) {
+function docGetId(req, res, next) {
   try {
     console.log('apiREST params', req.params);
     console.log('apiREST query', req.query);
@@ -183,7 +144,7 @@ function estGetId(req, res, next) {
 }
 
 // put, se utiliza para modificar un registro
-function estPutId(req, res, next) {
+function docPutId(req, res, next) {
   try {
     console.log('apiREST params', req.params);
     console.log('apiREST query', req.query);
@@ -218,7 +179,7 @@ function estPutId(req, res, next) {
 }
 
 // delete, se utiliza para eliminar un registro
-function estDeleteId(req, res, next) {
+function docDeleteId(req, res, next) {
   try {
     console.log('apiREST params', req.params);
     console.log('apiREST query', req.query);
@@ -317,17 +278,16 @@ function valEst(a){
     error.push({text:'Porfavor rellenar el campo RUDE del estudiante'})
     ok=false;
   }
-  // if(a.user==""){
-  //   msg += "- User\n";
-  //   error.push({text:'Porfavor escriba un nombre de usuario para el usuario'})
-  //   ok=false;
-  // }
-  // if(a.pass==""){
-  //   msg += "- Pass\n";
-  //   error.push({text:'Porfavor escriba unnombre deusuario para el usuario'})
-  //   ok=false;
-  // }
-  
+  if(a.user==""){
+    msg += "- User\n";
+    error.push({text:'Porfavor escriba un nombre de usuario para el usuario'})
+    ok=false;
+  }
+  if(a.pass==""){
+    msg += "- Pass\n";
+    error.push({text:'Porfavor escriba unnombre deusuario para el usuario'})
+    ok=false;
+  }
 	if(ok == false){
     // console.log(msg)
     // console.log(ok);
@@ -339,10 +299,10 @@ function valEst(a){
 
 
 
-module.exports.estudiantes = {
-  estGet,
-  estPost,
-  estGetId,
-  estPutId,
-  estDeleteId,
+module.exports.docentes = {
+  docGet,
+  docPost,
+  docGetId,
+  docPutId,
+  docDeleteId,
 };

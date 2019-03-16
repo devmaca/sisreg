@@ -17,6 +17,8 @@ html
 			a.navbar-brand(href='/inicio') REGAROMA
 			// Links
 			ul.navbar-nav
+				li.nav-item
+					a.nav-link(href='/tut/inicio') Inicio
 				li.nav-item.dropdown
 					a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
 						| Datos Personales
@@ -24,14 +26,15 @@ html
 						a.dropdown-item(href='/tut/ver') Ver datos
 						
 				li.nav-item
-					a.nav-link(href='#') Estudiantes
+					a.nav-link(href='/tut/estudiantes') Estudiantes
 				li.nav-item
 					a.nav-link(href='#') Horarios
 				li.nav-item
 					a.nav-link(href='#') Conductas
 				li.nav-item
 					a.navbar-brand(class="btn.btn-outline-success" href='/logout') Logout
-		h6 Usuario Tutor: #{user}  Nombre : #{nom} #{ape}
+		.color
+			p Usuario Tutor: #{user}  Nombre : #{nom} Apellido : #{ape}
 		.container
 			block contenido
 			
