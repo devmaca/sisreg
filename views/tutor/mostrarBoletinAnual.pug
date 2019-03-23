@@ -3,7 +3,7 @@ block contenido
 		if (!nota)
 			h1 #{msg}
 		else
-			h1 Boletin Bimestre #{nota[0].bimestre}
+			h1 Boletin Anual
 			hr.bg-info
 			.form-group.row
 				.col-sm-4
@@ -31,15 +31,25 @@ block contenido
 			hr.bg-info
 
 
-			table.table.table-bordered.table-sm
+			table.table.table-bordered.table-sm(id="mitabla")
 				thead
 					tr
-						th(scope='col' rowspan='2') MATERIAS
+						th(scope='col' rowspan='2') AREAS
 						th(scope='col' colspan='5') NOTAS
 					tr
-						th(scope='col') Bimestre #{nota[0].bimestre}
+						th(scope='col') Bimestre 1
+						th(scope='col') Bimestre 2
+						th(scope='col') Bimestre 3
+						th(scope='col') Bimestre 4
+						th(scope='col') PROMEDIO
 				tbody
 					for not in nota
 						tr
-							th(scope='row') #{not.area}
-							td #{not.nota}
+							th(scope='row') #{not.nombre}
+							td #{not.b1}
+							td #{not.b2}
+							td #{not.b3}
+							td #{not.b4}
+							td
+		script
+			include calcular.js

@@ -32,7 +32,7 @@ html
 				.col-sm-3
 					p 2019
 			hr.bg-info
-			table.table.table-bordered.table-sm
+			table.table.table-bordered.table-sm(id="mitabla")
 				thead
 					tr
 						th(scope='col' rowspan='2') Estudiantes
@@ -42,7 +42,7 @@ html
 						th(scope='col') 2B
 						th(scope='col') 3B
 						th(scope='col') 4B
-						th(scope='col') PT
+						th(scope='col') PROM.
 				tbody
 					if (bol==0)
 						tr
@@ -68,7 +68,9 @@ html
 								td #{b.boletin[3].nota}
 							td promedio total
 				
-			
+		script
+			include boletin.js
+
 			//- h1 Modificar Nota
 			//- form(action="/doce/notas/"+cal[0].id_calificacion+"?_method=PUT", class="",method="POST")
 			//- 	.form-group.row

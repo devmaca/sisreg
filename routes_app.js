@@ -595,7 +595,80 @@ router.route("/horario/new/:id")
 			if(err){ throw err;}
 			res.redirect("/home/horario/new/"+req.params.id)
 		})
-
-
 	})
+
+//centralizador de notas por curso
+router.route("/central/:id")
+	.get(function(req,res){
+		let sq='SELECT curso FROM cursos WHERE id_curso=?'
+		let sqlmat='SELECT * FROM materias'
+		let sql="SELECT estudiantes.id_estudiante,personas.nombres,personas.paterno,personas.materno FROM personas,cursos,estudiantes WHERE estudiantes.id_curso=cursos.id_curso && personas.id_persona=estudiantes.id_estudiante && estudiantes.id_curso=?";
+		let sql2='SELECT calificaciones.*, materias.area FROM calificaciones,materias WHERE id_estudiante=? && materias.id_materia=calificaciones.id_materia'
+		con.query(sq,[req.params.id], function(err,result){
+			con.query(sqlmat,[], function(err,result4){
+				con.query(sql,[req.params.id], function(err,result2){//estudiantes de un curso
+					if(err){ throw err;}
+
+					var general=[];
+					for(let i=0; i<result2.length; i++){//estudiantes curso
+						var estu={
+							nombres:result2[i].nombres,
+							paterno:result2[i].paterno,
+							materno:result2[i].materno,
+							boletin:[]
+						}
+						var arr=[];
+						con.query(sql2,[result2[i].id_estudiante], function(err,result3){//nota de alumno
+							
+							console.log(result3.length)
+							for (let k=0; k<result4.length; k++){//recorrer objeto materias
+								var materia={
+										nombre:"",
+										b1:null,
+										b2:null,
+										b3:null,
+										b4:null,
+										gestion:null
+								};
+								materia.nombre=result4[k].area;
+								for(let j=0; j<result3.length; j++){//recorriendo notas de alumno
+									if(result4[k].id_materia==result3[j].id_materia){
+							
+										if(result3[j].bimestre==1){
+											materia.b1=result3[j].nota;
+											materia.gestion=result3[j].gestion;
+										}
+										if(result3[j].bimestre==2){
+											materia.b2=result3[j].nota;
+											materia.gestion=result3[j].gestion;
+										}
+										if(result3[j].bimestre==3){
+											materia.b3=result3[j].nota;
+											materia.gestion=result3[j].gestion;
+										}
+										if(result3[j].bimestre==4){
+											materia.b4=result3[j].nota;
+											materia.gestion=result3[j].gestion;
+										}
+									}
+								}
+								estu.boletin.push(materia);//empaquetar array
+								console.log(estu)
+							}
+						
+
+						})//fin consulta notas de alumno
+					
+					}//fin for estudiantes curso					
+						
+					// boletin[i]= Object.assign(result3[i],b2)
+					// res.send({curso:result,estudiantes:estu});
+					res.render('centralizador/notas_cursos',{materias:result4,estudiantes:result2});
+						
+				})
+			})
+		})
+		
+	})
+
 module.exports=router;

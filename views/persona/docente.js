@@ -21,16 +21,8 @@ function mostrarAlerta(elemento, mensaje, tipo, noCerrar) {
     alert.innerHTML = mensaje;
     alert.setAttribute('id',elemento.name);
     alert.setAttribute('style','position:absolute; width:150%; left:10%; top:20;');
-    alert.setAttribute('class','text-danger small pt-0 mt-0' )//+ (!noCerrar?'alert-dismissible':'') + ' fade show');
-    // alert.setAttribute('role','alert');
-    // if (!noCerrar) {
-    //   let button = document.createElement('BUTTON');
-    //   button.setAttribute('class','close');
-    //   button.setAttribute('type','button');
-    //   button.setAttribute('data-dismiss','alert');
-    //   button.innerHTML = '<span aria-hidden="true">×</span>';
-    //   alert.append(button);
-    // }
+    alert.setAttribute('class','text-danger small pt-0 mt-0' )
+    
     elemento.parentNode.append(alert);
     elemento.setAttribute('onkeydown',`borrarAlertas(this,'${tipo}')`);
   }
@@ -109,9 +101,9 @@ function validarCampos(form) {
   //   formValido = false;
   //   mostrarAlerta(form.optradio, 'Debes seleccionar una opcion.','warning');
   // }
-  if (!form.rude.value) {
+  if (!form.rda.value) {
     formValido = false;
-    mostrarAlerta(form.rude, 'Debes escribir un numero.','warning');
+    mostrarAlerta(form.rda, 'Debes escribir un numero.','warning');
   }
   if (!form.user.value) {
     formValido = false;
@@ -147,7 +139,16 @@ function enviarFormPostAlertas(idform) {
   }).done(function(resp) {
     // la peticion api se realizo correctamente
     console.log(1, "success", resp);
-    alert(resp.ms)
+    if(!resp.datos){
+      console.log("no hay duplicidad de ci");
+      alert(resp.mensaje);
+      window.location.replace('http://localhost:3000/home/docente')
+    }else{
+      console.log(resp.mensaje);
+    alert(resp.mensaje);
+    }
+    
+    
 
   }).fail(function(error) {
     // la peticion api fallo
@@ -342,7 +343,7 @@ function enviarFormDelete(idform, idregistro) {
 
 //para validar campos numeros
 document.getElementById('id_ci').addEventListener("keypress", soloNumeros, false);
-document.getElementById('rude').addEventListener("keypress", soloNumeros, false);
+document.getElementById('rda').addEventListener("keypress", soloNumeros, false);
 document.getElementById('tel').addEventListener("keypress", soloNumeros, false);
 
 

@@ -1,0 +1,28 @@
+extends ../tuto.pug
+block contenido
+		h2 Horario del Estudiante
+		hr.bg-info
+		.row
+			.col-sm-4
+				p
+					strong Curso : 
+					| #{curso[0].curso}
+			.col-sm-4
+				p
+					strong NOMBRES Y APELLIDO : 
+					| #{estudiante[0].nombres} #{estudiante[0].paterno} #{estudiante[0].materno}
+		hr.bg-info
+
+		.table-responsive
+			table.table.table-bordered
+				thead
+					tr
+						th MATERIAS
+						th HORA
+						th DIA
+				tbody
+					for h in horario
+						tr
+							td #{h.area}
+							td #{h.hora_inicio} - #{h.hora_fin}
+							td #{h.dia}

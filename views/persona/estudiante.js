@@ -140,16 +140,23 @@ function enviarFormPostAlertas(idform) {
   }).done(function(resp) {
     // la peticion api se realizo correctamente
     console.log(1, "success", resp);
-    alert(resp.ms)
-    alert(resp.mensaje)
-    if(!resp.datos){
-      console.log('no existe tutor')
-      console.log(resp.dato2)
-      window.location.replace('http://localhost:3000/home/tutor/'+resp.dato2)
+    
+    if(!resp.duplicado){//si no hay duplicado
+      alert(resp.ms)
+      if(!resp.datos){//si no hay tutor
+        console.log('no existe tutor')
+        console.log(resp.dato2)
+        alert(resp.mensaje)
+        window.location.replace('http://localhost:3000/home/tutor/'+resp.dato2)
 
-    }else{
-    console.log(resp.datos.ci);
+      }else{//si hay tutor
+       console.log(resp.datos.ci);
+       alert(resp.mensaje)
+      }
+    }else{//si hay duplicado
+      alert(resp.ms);
     }
+    
 
   }).fail(function(error) {
     // la peticion api fallo

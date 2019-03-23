@@ -52,55 +52,69 @@ function docPost(req, res, next) {
     console.log('apiREST params', req.params);
     console.log('apiREST query', req.query);
     console.log('apiREST body', req.body);
-    var msg = "SE REGISTRO UN DOCENTE EXITOSAMENTE!"
-    if(req.body.nomb==""){
-        msg = "no dejar en blanco";
-      }
+    var msg = "DOCENTE REGISTRADO!"
+    
     let error = valEst(req.body);
     if (error) {
       console.log ("MENSAJES DE VALIDACIONES:");
       console.log(error)
       res.status(422).send({
         finalizado: true,
-        mensaje: 'Campos imcompletos'
-        // error: error,
+        mensaje: 'Campos imcompletos',
+        error: error,
       });
       return;
     }
     // Si no hay errores se puede insertar los datos
     let sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)"
-		let sql2="INSERT INTO docentes (id_docente) VALUES(?)"
+		let sql2="INSERT INTO docentes (id_docente,RDA,tipo) VALUES(?,?,?)"
     // sql = 'SELECT * FROM personas';
+    let sql3="SELECT * FROM personas WHERE ci=?"
     let fecha=req.body.dia+"-"+req.body.mes+"-"+req.body.aa;
-    //let sql = 'INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,user,pass,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?,?,?)'
-    let a = con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,fecha,req.body.user,req.body.pass,rol.docen,estado.a], function(err,result) {
-			if(err) {
-        // Enviar error SQL
-        console.error('ERR',err.message);
-        res.status(500).send({
-          finalizado: true,
-          mensaje: 'post Error SQL',
-        });
-      } else {
-        // Manipular resultados
-        let idPer=result.insertId;
-        console.log('id asignado a la persona :'+idPer);
-        con.query(sql2,[idPer,req.body.rude,req.body.citut,req.body.curso],function(err,result2){
-          if(err){ throw err;}
-          //console.log('number of record table estudiantes...'+result.affectedRows);
-          console.log('number of record table docentes...'+result.affectedRows+'Id asignada :'
-          +idPer);
-        
-          res.status(200).send({
-            finalizado: true,
-            mensaje: 'post OK',
-            ms:msg,
-            datos: result
-          });
-        })
-      }
+    con.query(sql3,[req.body.ci], function(err,result){ 
+            if(err){throw err;}
+            if(!result[0]){//no existe
+              console.log('no existe')
 
-		});
+              let a = con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,fecha,req.body.user,req.body.pass,rol.docen,estado.a], function(err,result) {
+                if(err) {
+                  // Enviar error SQL
+                  console.error('ERR',err.message);
+                  res.status(500).send({
+                    finalizado: true,
+                    mensaje: 'post Error SQL',
+                  });
+                } else {
+                  // Manipular resultados
+                  let idPer=result.insertId;
+                  console.log('id asignado a la persona :'+idPer);
+                  con.query(sql2,[idPer,req.body.rda,req.body.tipo],function(err,result2){
+                    if(err){ throw err;}
+                    //console.log('number of record table docentes...'+result.affectedRows);
+                    console.log('number of record table docentes...'+result.affectedRows+'Id asignada :'
+                    +idPer);
+                               
+                    res.status(200).send({
+                      finalizado: true,
+                      mensaje: 'post OK',
+                      ms:msg,
+                      datos: result[0]
+                    });
+                  })
+                }
+
+              });
+              
+            }else{//si existe
+              console.log(result[0])
+              res.status(200).send({
+                finalizado: true,
+                mensaje: 'EXISTE UN C.I. CON EL MISMO NUMERO',
+                datos: result[0]
+              });
+            }
+          })
+    
   } catch(e) {
     console.log('ERROR', e);
     res.status(501).send({
@@ -273,9 +287,9 @@ function valEst(a){
     error.push({text:'Seleccione una opcion en el campo genero'})
     ok=false;
   }
-  if(a.rude==""){
+  if(a.rda==""){
     msg += "- RUDE\n";
-    error.push({text:'Porfavor rellenar el campo RUDE del estudiante'})
+    error.push({text:'Porfavor rellenar el campo RDA del maestro'})
     ok=false;
   }
   if(a.user==""){

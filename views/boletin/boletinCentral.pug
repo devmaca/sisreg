@@ -1,0 +1,52 @@
+extends ../doce.pug
+block contenido
+			h1 Boletin Anual
+			hr.bg-info
+			.form-group.row
+				.col-sm-4
+					p
+						strong UNIDAD EDUCATIVA : 
+						| REGIMIENTO AROMA
+				.col-sm-4
+					p
+						strong GESTION : 
+						| 2019
+			.form-group.row
+				.col-sm-4
+					p
+						strong CODIGO RUDE : 
+						| 
+				.col-sm-4
+					p
+						strong NOMBRES Y APELLIDOS : 
+						| 
+				.col-sm-2
+					p
+						strong CURSO :
+						|
+			
+			hr.bg-info
+
+
+			table.table.table-bordered.table-sm(id="mitabla")
+				thead
+					tr
+						th(scope='col' rowspan='2') AREAS
+						th(scope='col' colspan='5') NOTAS
+					tr
+						th(scope='col') Bimestre 1
+						th(scope='col') Bimestre 2
+						th(scope='col') Bimestre 3
+						th(scope='col') Bimestre 4
+						th(scope='col') PROMEDIO
+				tbody
+					for not in nota
+						tr
+							th(scope='row') #{not.nombre}
+							td #{not.b1}
+							td #{not.b2}
+							td #{not.b3}
+							td #{not.b4}
+							td
+		script
+			include calcular.js

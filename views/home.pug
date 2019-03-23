@@ -14,7 +14,9 @@ html
 	body
 		nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
 			// Brand
-			a.navbar-brand(href='/inicio') Sisreg
+			a.navbar-brand(href='#')
+				img.d-inline-block.align-top(src='/public/aromalogo4.png', width='30', height='30', alt='')
+				|AROMA
 			// Links
 			ul.navbar-nav
 				li.nav-item.dropdown
@@ -50,9 +52,8 @@ html
 					a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
 						| Calificaciones
 					.dropdown-menu
-						a.dropdown-item(href='#') todo
+						a.dropdown-item(href='#') Por cursos
 						a.dropdown-item(href='/calificacion') ver por materias
-						a.dropdown-item(href='#') ver por alumno
 				li.nav-item.dropdown
 					a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown')
 						| HORARIOS

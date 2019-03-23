@@ -1,0 +1,17 @@
+extends ../tuto.pug
+block contenido
+	
+	div(class="col-md-6 remove-float center-block big-top-space")
+		h3 EDITAR CONTRASENA
+
+		form(action="/tuto/ver/"+persona+"?_method=PUT", method="post")
+			
+			div(class="form-group")
+				label(for="pass") Nueva Contrasena 
+				input(type="text", name="pass",placeholder="nueva contrasena",id="pass",class="form-control")
+				label(for="pass2") Repetir Contrasena 
+				input(type="text", name="pass2",placeholder="repetir contrasena",id="pass2",class="form-control")
+						
+			div(class="row top-space")
+				div(class="col-xs-12 col-sm-6")
+					input(type="submit",value="guardar",class="btn btn-info")

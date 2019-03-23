@@ -1,0 +1,49 @@
+extends ../tuto.pug
+block contenido
+	div(class="col-md-10 remove-float center-block ")
+		h2 Datos Personales
+		hr.bg-info
+		.row.color2
+			.col-sm-4
+				p 
+					strong Nombres: 
+					| #{persona[0].nombres}
+			.col-sm-4
+				p
+					strong Apellido Paterno : 
+					| #{persona[0].paterno}
+			.col-sm-4
+				p
+					strong Apellido Materno : 
+					| #{persona[0].materno}
+		.row.color2
+			.col-sm-4
+				p
+					strong Nro Carnet Ident. : 
+					| #{persona[0].ci}
+			.col-sm-4
+				p
+					strong Direccion : 
+					| #{persona[0].direccion}
+			.col-sm-4
+				p
+					strong Nro Telefono: 
+					| #{persona[0].telefono}
+		.row.color2
+			.col-sm-4
+				p
+					strong  genero :
+					| #{persona[0].genero} 
+			.col-sm-4
+				p
+					strong FechaNacimiento : 
+					| #{persona[0].fecha_nac}
+			.col-sm-4
+				p
+					strong Estado : 
+					| #{persona[0].estado}
+		hr.bg-info
+		.row
+			a(href= '/tut/ver/'+persona[0].id_persona+'/edit' class="btn btn-info btn-sm") cambiar contrasena
+			
+				

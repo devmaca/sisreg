@@ -40,15 +40,15 @@ router.route("/ver/:id")
 // conductas
 
 router.route("/conductas")
-	.get(function(req,res){
+	.get(function(req,res){//seleccionar cursos docente
 		let sql2="SELECT cursos.* FROM cursos,docentecurso WHERE docentecurso.id_curso=cursos.id_curso && docentecurso.id_docente=?"
 		con.query(sql2,[req.session.usuario], function(err, result2){
 			if(err){ throw err;}
 			res.render("conductas/seleccionar",{cursos:result2})
 		});
 	})
-	.post(function(req,res){
-		let sql= 'SELECT personas.* FROM estudiantecurso, personas WHERE estudiantecurso.id_estudiante=personas.id_persona && estudiantecurso.id_curso=?';
+	.post(function(req,res){//post seleccionar estudiante
+		let sql= 'SELECT personas.* FROM estudiantes, personas WHERE estudiantes.id_estudiante=personas.id_persona && estudiantes.id_curso=?';
 		con.query(sql,[req.body.curso], function(err, result){
 			if(err){ throw err;}
 			else{
@@ -59,10 +59,10 @@ router.route("/conductas")
 	})
 
 router.route("/conductas/:id")
-	.get(function(req,res){
+	.get(function(req,res){ //mostrar conducta
 		var r1;//datos_de_estudiante
 		var r2;//conducta_de_estudiante
-		let sql="SELECT personas.nombres FROM personas WHERE id_persona=? "
+		let sql="SELECT * FROM personas WHERE id_persona=? "
 		let sql2="SELECT * FROM conducta WHERE id_estudiante=? "
 		con.query(sql,[req.params.id], function(err,result){
 			r1=result;
@@ -78,7 +78,7 @@ router.route("/conductas/:id")
 		})
 		
 	})
-	.post(function(req,res){
+	.post(function(req,res){//registrar conducta
 		var fecha=moment().format('L');
 		let sql="INSERT INTO conducta (descripcion,id_estudiante,fecha) VALUES(?,?,?)"
 		con.query(sql,[req.body.conducta,req.params.id,fecha], function(err,result){
@@ -169,7 +169,7 @@ router.route("/notas/:id")
 					con.query(sql4,[bimestre,req.params.id], function(err,result4){
 						if(err){ throw err;}
 						var boletin=[];
-						for (var i=0;i<result3.length;i++){
+						for (var i=0;i<result3.length;i++){	
 							var b=0;
 							var b2={
 									nota:0,
@@ -281,7 +281,7 @@ router.route('/bol')
 					for(var i=0;i<result2.length;i++){//iterar objeto estudiantes
 						var arr=[];
 						
-						for(var j=0;j<result.length;j++){
+						for(var j=0;j<result.length;j++){//recorrer objeto calificaciones
 							if(result[j].id_estudiante==result2[i].id_persona){
 								arr.push(result[j]);
 							}

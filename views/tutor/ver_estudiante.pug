@@ -1,6 +1,9 @@
 extends ../tuto.pug
 block contenido
-		h1 ESTUDIANTE
+	div(class="col-sm-12 remove-float center-block ")
+		h4 ESTUDIANTES A CARGO
+		p.text-info.small.pt-0.mt-0 *Seleccione a un estudiante para ver el detalle
+		hr.bg-info
 		.table-responsive
 
 			table.table.table-bordered
@@ -30,4 +33,4 @@ block contenido
 							td #{per.estado}
 							td #{per.id_curso}
 							td 
-								a(href= '/tut/estudiante/'+per.id_persona+'' class="btn btn-outline-info btn-sm") VER
+								a(href= '/tut/estudiante/'+per.id_persona+'' class="btn btn-info btn-sm") Click aqui para ver

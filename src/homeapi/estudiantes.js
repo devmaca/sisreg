@@ -70,32 +70,44 @@ function estPost(req, res, next) {
     // Si no hay errores se puede insertar los datos
     let sql="INSERT INTO personas (nombres,paterno,materno,ci,direccion,telefono,genero,fecha_nac,rol,estado) VALUE(?,?,?,?,?,?,?,?,?,?)"
 		let sql2="INSERT INTO estudiantes (id_estudiante,rude,ci_tutor,id_curso) VALUES(?,?,?,?)"
-    // sql = 'SELECT * FROM personas';
+    let sql4 = 'SELECT * FROM personas WHERE ci=?';
     let sql3="SELECT * FROM tutor WHERE ci=?"
     let fecha=req.body.dia+"-"+req.body.mes+"-"+req.body.aa;
-    
-    
-    con.query(sql3,[req.body.citut], function(err,result){ 
-            if(err){throw err;}
-            if(!result[0]){//no existe
-              console.log('no existe')
+    con.query(sql4,[req.body.ci], function(err,result2){
+      if(!result2[0]){
+        console.log('se puede guardar!!')
+        con.query(sql3,[req.body.citut], function(err,result){ 
+                if(err){throw err;}
+                if(!result[0]){//no existe tutor
+                  console.log('no existe')
+                  res.status(200).send({
+                    finalizado: true,
+                    mensaje: 'no existe tutor',
+                    datos: result[0],
+                    dato2: req.body.citut,
+                    ms:msg
+                  });
+                }else{//si existe tutor
+                  console.log(result[0])
+                  res.status(200).send({
+                    finalizado: true,
+                    mensaje: 'si existe tutor',
+                    datos: result[0],
+                    ms:msg
+                  });
+                }
+        })
+      }else{
               res.status(200).send({
                 finalizado: true,
-                mensaje: 'no existe tutor',
-                datos: result[0],
-                dato2: req.body.citut,
-                ms:msg
+                mensaje: 'post ok',
+                duplicado: result2[0],
+                ms:'YA EXISTE UN CI CON ESE NUMERO INGRESE OTRO CI'
               });
-            }else{//si existe
-              console.log(result[0])
-              res.status(200).send({
-                finalizado: true,
-                mensaje: 'si existe tutor',
-                datos: result[0],
-                ms:msg
-              });
-            }
-          })
+      }
+    })
+    
+
   //   let a = con.query(sql,[req.body.nomb,req.body.apep,req.body.apem,req.body.ci,req.body.dir,req.body.tel,req.body.optradio,fecha,rol.estud,estado.a], function(err,result) {
 		// 	if(err) {
   //       // Enviar error SQL

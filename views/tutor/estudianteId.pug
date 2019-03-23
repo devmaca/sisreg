@@ -15,17 +15,24 @@ block contenido
 			
 		hr.bg-info
 		.row
-			.col-sm-3
-				a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/1') PRIMER BIMESTRE
-		.row
-			.col-sm-3
-				a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/2') SEGUNDO BIMESTRE
-		.row
-			.col-sm-3
-				a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/3') TERCER BIMESTRE
-		.row
-			.col-sm-3
-				a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/4') CUARTO BIMESTRE
-		.row
-			.col-sm-3
-				a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/5') BOLETIN ANUAL
+			div(class="col-sm-10")
+				.form-group.row
+					.col-sm-3
+						a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/1') PRIMER BIMESTRE
+				.form-group.row
+					.col-sm-3
+						a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/2') SEGUNDO BIMESTRE
+				.form-group.row
+					.col-sm-3
+						a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/3') TERCER BIMESTRE
+				.form-group.row
+					.col-sm-3
+						a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/4') CUARTO BIMESTRE
+				.form-group.row
+					.col-sm-3
+						a.btn.btn-info.btn-block(href='/tut/notas/'+personas[0].id_persona+'/5') BOLETIN ANUAL
+			div(class="col-sm-2")
+				.form-group.row
+					a.btn.btn-danger.btn-block(href='/tut/conductas/'+personas[0].id_persona) CONDUCTAS
+				.form-group.row
+					a.btn.btn-success.btn-block(href='/tut/horarios/'+personas[0].id_persona+'/'+curso[0].id_curso) HORARIOS

@@ -1,0 +1,59 @@
+extends ../home.pug
+block contenido
+			h1 Boletin Anual
+			hr.bg-info
+			.form-group.row
+				.col-sm-4
+					p
+						strong UNIDAD EDUCATIVA : 
+						| REGIMIENTO AROMA
+				.col-sm-4
+					p
+						strong GESTION : 
+						| 2019
+			.form-group.row
+				.col-sm-4
+					p
+						strong CODIGO RUDE : 
+						| 
+				.col-sm-4
+					p
+						strong NOMBRES Y APELLIDOS : 
+						| 
+				.col-sm-2
+					p
+						strong CURSO :
+						|
+			
+			hr.bg-info
+
+
+			table(id="mitabla" border="1")
+				thead
+					tr
+						th(scope='col' rowspan='2') ESTUDIANTES
+						for mt in materias
+							th(scope='col' colspan='5') 
+								p.text-secondary.small.pt-0.mt-0 #{mt.area}
+					tr
+						for mt in materias
+							th(scope='col') B1
+							th(scope='col') B2
+							th(scope='col') B3
+							th(scope='col') B4
+							th(scope='col') PT
+						
+					
+				tbody
+					for est in estudiantes
+						tr
+							th
+								p.small.pt-0.mt-0 #{est.nombres} #{est.paterno} #{est.materno}
+							
+							td 23
+							td
+							td
+							td 
+							td
+			//- script
+			//- 	include ../tutor/calcular.js

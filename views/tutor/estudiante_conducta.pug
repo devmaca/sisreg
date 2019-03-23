@@ -1,0 +1,30 @@
+extends ../tuto.pug
+block contenido
+		h1 CONDUCTA DE ESTUDIANTE
+		hr.bg-info
+		form(class="" action="", method="post")
+			.form-group.row
+				label(for="nombre" class="col-form-label col-sm-2") NOMBRES:
+				.col-sm-2
+					input(type="text" class="form-control" id="nombre" name="nombre" value=r1[0].nombres r1[0].paterno r1[0].materno, disabled)
+				label(for="nombre" class="col-form-label col-sm-2") APELLIDO P.:
+				.col-sm-2
+					input(type="text" class="form-control" id="paterno" name="paterno" value=r1[0].paterno , disabled)
+				label(for="nombre" class="col-form-label col-sm-2") APELLIDO M.:
+				.col-sm-2
+					input(type="text" class="form-control" id="materno" name="materno" value=r1[0].materno, disabled)
+		hr.bg-info
+		.table-responsive
+			table.table.table-bordered
+				thead
+					tr
+						th id
+						th CONDUCTAS
+						th FECHA
+				tbody
+					for lista in r2
+						tr
+							td #{lista.id_conducta}
+							td #{lista.descripcion}
+							td #{lista.fecha}
+							

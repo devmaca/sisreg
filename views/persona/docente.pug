@@ -1,9 +1,10 @@
 extends ../home.pug
 block contenido
 		h3 Registrar Nuevo docente
-		form(class="" action="/home/docente", method="post")
+		.alertas-api(id="alertas-api") &nbsp;
+		form(id="form" class="" action="", method="post")
 			.form-group.row
-				label(for="nom" class="col-form-label col-sm-2") Nombres:
+				label(id="form" for="nom" class="col-form-label col-sm-2") Nombres:
 				.col-sm-5
 					input(type="text" class="form-control" id="nom" name="nomb" placeholder="Nombres")
 			.form-group.row
@@ -17,7 +18,7 @@ block contenido
 			.form-group.row
 				label(for="ci" class="col-form-label col-sm-2") Cedula Identidad:
 				.col-sm-5
-					input(type="text" class="form-control " id="ci" name="ci")
+					input(type="text" class="form-control " id="id_ci" name="ci")
 
 			.form-group.row
 				label(for="dir" class="col-form-label col-sm-2") Direccion:
@@ -101,7 +102,13 @@ block contenido
 						for y in year
 							option(value=y) #{y}
 			
-			
+			.form-group.row
+				
+				label(for="tipo" class="col-form-label col-sm-2") Tipo Maestro:
+				.col-sm-auto
+					select(id="tipo" class="form-control " name="tipo")
+						option(value="1") PRIMARIA COMUNITARIA
+						option(value="2") ESPECIALIDAD
 			//- linea divisora para asignar usuario y pasword
 			.form-group.row
 				label(for="user" class="col-form-label col-sm-2") Usuario
@@ -112,4 +119,6 @@ block contenido
 				.col-sm-5
 					input(type="text" class="form-control" id="pass" name="pass" placeholder="contrasena")
 			button(type="submit" value="guardar" class="btn btn-success") guardar
-			
+			button(type="button" value="guardar" class="btn btn-success" onclick="enviarFormPostAlertas('form')") Guardar con API
+		script
+			include docente.js	
